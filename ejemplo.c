@@ -143,8 +143,21 @@ int client(int argc, char *argv[])
 
 		t = exponential((double)SERVICE_RATE);
 
-		req->t_service = MFLOPS_BASE * t; // calculo del tiempo de servicio en funcion
-										  // de la velocidad del host del servidor
+		req->t_service = MFLOPS_BASE * t; 			// calculo del tiempo de servicio en funcion
+										  			// de la velocidad del host del servidor
+
+		if (percentageTasks != 0)					//The devices compute locally part of the tasks
+		{
+			msg_task_t taskLocally = NULL;
+			int serviceLocally = MFLOPS_BASE * t * percentageTasks;
+			taskLocally = MSG_task_create(sprint_buffer, serviceLocally, 0, NULL);
+			MSG_task_execute(taskLocally);
+			MSG_task_destroy(taskLocally);
+			req->t_service = req->t_service - taskLocally;
+		}
+
+
+		
 		
 		req->n_task = k;
 		task_comp_size = req->t_service;
@@ -474,9 +487,15 @@ int main(int argc, char *argv[])
 	double q_medio = 0.0;		   // tamaño medio de la cola (esperando a ser servidos)
 	double n_medio = 0.0;		   // número medio de tareas en el sistema (esperando y ejecutando)
 
-	if (argc < 3)
+	if (argc < 4)
 	{
-		printf("Usage: %s platform_file lambda \n", argv[0]);
+		printf("Usage: %s platform_file lambda percentageTasks \n", argv[0]);
+		exit(1);
+	}
+
+	if (atoi(argv[3]) > 1 || atoi(argv[3]) < 0)
+	{
+		printf("Percentage Tasks must be a value between 0 and 1.\n");
 		exit(1);
 	}
 
@@ -523,10 +542,6 @@ int main(int argc, char *argv[])
 		totaltasks += avServTime[i].numTasks;
 	}
 	
-	if(totaltasks == NUM_IOT_CLUSTERS*NUM_DEVICES_PER_IOT_CLUSTER*NUM_TASKS) printf("SI\n");
-
-	
-
 	printf("Simulation time %g\n",MSG_get_clock());
 
 	for(i = 0; i < NUM_DATACENTERS; i++)
