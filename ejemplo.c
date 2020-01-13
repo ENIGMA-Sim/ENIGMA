@@ -4,24 +4,25 @@
 #include "simgrid/msg.h"
 #include "xbt/synchro.h"
 #include "rand.h"
+#include "simgrid/plugins/energy.h"
 
 
 
 
-#define NUM_DATACENTERS 6
-#define NUM_SERVERS_PER_DATACENTER 6
+#define NUM_DATACENTERS 10
+#define NUM_SERVERS_PER_DATACENTER 10
 #define NUM_VM 1
-#define NUM_DISPATCHERS 6
+#define NUM_DISPATCHERS 10
 #define NUM_FOG 0
-#define NUM_IOT_CLUSTERS 50
-#define NUM_DEVICES_PER_IOT_CLUSTER 5
+#define NUM_IOT_CLUSTERS 10
+#define NUM_DEVICES_PER_IOT_CLUSTER 100
 
 #define SIZE_DATA 243 * 1024			 //KB
 #define COMPUTATIONAL_TIME 10			 //us
 #define SIZE_OUTPUT_DATA 60 * 1024		 //KB
 
 
-#define NUM_TASKS 200			 								//Tasks to generate
+#define NUM_TASKS 2000			 								//Tasks to generate
 #define MFLOPS_BASE (10 * 1000 * 1000 * 1000) 						//To compute service time for each task
 #define SERVICE_RATE 1.0				 						// Mu = 1  service time = 1 / 1; tasa de servicio de cada servidor
 
@@ -31,7 +32,7 @@ double ARRIVAL_RATE; 											//Arrival rate, argument of the program
 const long MAX_TIMEOUT_SERVER = (86400 * 10); 					//Timeout= 10 días sin actividad
 
 int computeTasks;												//Variable that determines where the tasks have to execute 0-locally, 1-fog, 2-cloud
-int percentageTasks; 											//Variable that determines which percentage of the tasks are executed on the devices
+double percentageTasks; 											//Variable that determines which percentage of the tasks are executed on the devices
 
 
 
@@ -71,10 +72,17 @@ struct ClientRequest
 	double t_service; /* tiempo de servicio asignado en FLOPS*/
 	int iot_cluster;
 	int device;
+};
+
+
+struct ServerResponse
+{
+	char id_task[30];
+	char response[30];
 	int server_cluster;
 	int server;
-	char response[30];
 };
+
 
 
 int client(int argc, char *argv[]);
@@ -106,9 +114,10 @@ int client(int argc, char *argv[])
 	double task_comp_size = 0;
 	double task_comm_size = 0;
 	char sprintf_buffer[64];
-	char mailbox[256];
+	char mailbox[256], buf[64];
 	msg_task_t task = NULL;
 	struct ClientRequest *req;
+	struct ServerResponse *resServer;
 	double t_arrival;
 	int my_iot_cluster, my_device, dispatcher;
 	double t;
@@ -117,73 +126,76 @@ int client(int argc, char *argv[])
 	my_iot_cluster = atoi(argv[0]);
 	my_device = atoi(argv[1]);
 
-	
-	char buf[64];
-
-	
 	sprintf(buf, "c-%d-%d", my_iot_cluster,my_device);
-
 	MSG_mailbox_set_async(buf); //mailbox asincrono
 	
-
-	for (k = 0; k < NUM_TASKS; k++)
+	if (percentageTasks == 1)								//If percentageTasks is equal to 1 then the tasks execute on the devices
 	{
-		req = (struct ClientRequest *)malloc(sizeof(struct ClientRequest));
-
-		t_arrival = exponential((double)ARRIVAL_RATE);
-		MSG_process_sleep(t_arrival);
-
-		sprintf(sprintf_buffer, "Task_%d_%d_%d", my_iot_cluster, my_device, k);
-		sprintf(req->id_task, "%s", sprintf_buffer);
-
-		req->t_arrival = MSG_get_clock(); // tiempo de llegada
-
-		req->iot_cluster = my_iot_cluster;
-		req->device = my_device;
-
-		t = exponential((double)SERVICE_RATE);
-
-		req->t_service = MFLOPS_BASE * t; 			// calculo del tiempo de servicio en funcion
-										  			// de la velocidad del host del servidor
-
-		if (percentageTasks != 0)					//The devices compute locally part of the tasks
+		msg_task_t taskLocally = NULL;
+		double serviceLocally = MFLOPS_BASE * t * percentageTasks;
+		taskLocally = MSG_task_create(sprintf_buffer, serviceLocally, SIZE_DATA, NULL);
+		MSG_task_execute(taskLocally);
+		MSG_task_destroy(taskLocally);
+	}
+	else 													//If not, the devices create the requests that execute the datacenters 
+	{
+		for (k = 0; k < NUM_TASKS; k++)
 		{
-			msg_task_t taskLocally = NULL;
-			int serviceLocally = MFLOPS_BASE * t * percentageTasks;
-			taskLocally = MSG_task_create(sprint_buffer, serviceLocally, 0, NULL);
-			MSG_task_execute(taskLocally);
-			MSG_task_destroy(taskLocally);
-			req->t_service = req->t_service - taskLocally;
+			req = (struct ClientRequest *)malloc(sizeof(struct ClientRequest));
+
+			t_arrival = exponential((double)ARRIVAL_RATE);
+			MSG_process_sleep(t_arrival);
+
+			sprintf(sprintf_buffer, "Task_%d_%d_%d", my_iot_cluster, my_device, k);
+			sprintf(req->id_task, "%s", sprintf_buffer);
+
+			req->t_arrival = MSG_get_clock(); // tiempo de llegada
+
+			req->iot_cluster = my_iot_cluster;
+			req->device = my_device;
+
+			t = exponential((double)SERVICE_RATE);
+
+			req->t_service = MFLOPS_BASE * t; 			// calculo del tiempo de servicio en funcion
+											  			// de la velocidad del host del servidor
+
+			if (percentageTasks != 0)					//The devices compute locally part of the tasks
+			{
+				msg_task_t taskLocally = NULL;
+				double serviceLocally = MFLOPS_BASE * t * percentageTasks;
+				taskLocally = MSG_task_create(sprintf_buffer, serviceLocally, SIZE_DATA, NULL);
+				MSG_task_execute(taskLocally);
+				MSG_task_destroy(taskLocally);
+				//printf("%g = %g - %g\n", req->t_service - serviceLocally, req->t_service, serviceLocally);
+				req->t_service = req->t_service - serviceLocally;
+				
+			}
+
+			req->n_task = k;
+			task_comp_size = req->t_service;
+			task_comm_size = 0;
+
+			task = MSG_task_create(sprintf_buffer, task_comp_size, task_comm_size, NULL);
+			MSG_task_set_data(task, (void *)req);
+
+			dispatcher = uniform_int(0, NUM_DATACENTERS-1);
+			sprintf(mailbox, "d-%d-0", dispatcher);
+			MSG_task_send(task, mailbox);
+			task = NULL;
 		}
 
+		while(1)
+		{
+			res = MSG_task_receive_with_timeout(&(task), MSG_host_get_name(MSG_host_self()), MAX_TIMEOUT_SERVER);
+			if (res != MSG_OK) break;
+			resServer = MSG_task_get_data(task);
+			//printf("%s completed on server %d-%d\n",resServer->id_task, resServer->server_cluster, resServer->server);
+			
+			free(resServer);
+			MSG_task_destroy(task);
+			task = NULL;
+		}
 
-		
-		
-		req->n_task = k;
-		task_comp_size = req->t_service;
-		task_comm_size = 0;
-
-		task = MSG_task_create(sprintf_buffer, task_comp_size, task_comm_size, NULL);
-		MSG_task_set_data(task, (void *)req);
-
-		dispatcher = uniform_int(0, NUM_DATACENTERS-1);
-		sprintf(mailbox, "d-%d-0", dispatcher);
-		MSG_task_send(task, mailbox);
-		task = NULL;
-	}
-
-
-
-	while(1)
-	{
-		res = MSG_task_receive_with_timeout(&(task), MSG_host_get_name(MSG_host_self()), MAX_TIMEOUT_SERVER);
-		if (res != MSG_OK) break;
-		req = MSG_task_get_data(task);
-
-		
-		free(req);
-		MSG_task_destroy(task);
-		task = NULL;
 	}
 
 	/* finalizar */
@@ -223,7 +235,7 @@ int dispatcher(int argc, char *argv[])
 		MSG_task_destroy(task);
 		task = NULL;
 
-		datacenter = my_d; // Datacenter 0
+		datacenter = my_d; 
 		server = uniform_int(0, NUM_SERVERS_PER_DATACENTER-1);
 
 		//printf("Tarea %s enviada al servidor s-%d-%d\n", req->id_task, datacenter, server);
@@ -263,9 +275,6 @@ int server(int argc, char *argv[])
 		if (res != MSG_OK) break;
 		req = MSG_task_get_data(task);
 
-		req->server_cluster = my_datacenter;
-		req->server = my_server;
-
 		// inserta la petición en la cola
 		xbt_mutex_acquire(tasksManagement[my_datacenter].mutex[my_server]);
 		tasksManagement[my_datacenter].Nqueue[my_server]++;  // un elemento mas en la cola
@@ -295,6 +304,7 @@ int dispatcherServer(int argc, char *argv[])
 	int res;
 	char mailbox[64];
 	struct ClientRequest *req;
+	struct ServerResponse *resServer;
 	msg_task_t task = NULL;
 	msg_task_t ans_task = NULL;
 	double Nqueue_avg = 0.0;
@@ -302,12 +312,15 @@ int dispatcherServer(int argc, char *argv[])
 	double c;
 	int n_tasks = 0;
 	int my_datacenter, my_server;
+	msg_host_t host = MSG_host_by_name(MSG_host_self());
+
 
 	my_datacenter = atoi(argv[0]);
 	my_server = atoi(argv[1]);
 
 	while (1)
 	{
+
 		xbt_mutex_acquire(tasksManagement[my_datacenter].mutex[my_server]);
 
 		while ((tasksManagement[my_datacenter].Nqueue[my_server] == 0) && (tasksManagement[my_datacenter].EmptyQueue[my_server] == 0))
@@ -333,13 +346,14 @@ int dispatcherServer(int argc, char *argv[])
 
 		// crea una tarea para su ejecución
 		task = MSG_task_create("task", req->t_service, 0, NULL);
-
-		ans_task = MSG_task_create(MSG_task_get_name(task), MSG_task_get_flops_amount(task), 0, NULL);
-		sprintf(req->response, "Task finished on %d-%d", req->server_cluster, req->server);
-		sprintf(mailbox, "c-%d-%d", req->iot_cluster, req->device);
-		MSG_task_set_data(ans_task, (void *)req);
-		
 		MSG_task_execute(task);
+
+
+		printf("Task done (duration: %.2f s). Current peak speed=%.0E flop/s; Current consumption: from %.0fW to %.0fW"
+           " depending on load; Energy dissipated=%.0f J",
+           MSG_get_clock() - req->t_arrival, MSG_host_get_speed(host), sg_host_get_wattmin_at(host, MSG_host_get_pstate(host)),
+           sg_host_get_wattmax_at(host, MSG_host_get_pstate(host)), sg_host_get_consumed_energy(host));
+
 
 
 		xbt_mutex_acquire(tasksManagement[my_datacenter].mutex[my_server]);
@@ -347,9 +361,18 @@ int dispatcherServer(int argc, char *argv[])
 		xbt_mutex_release(tasksManagement[my_datacenter].mutex[my_server]);
 		c = MSG_get_clock(); // tiempo de terminacion de la tarea
 		
-
+		resServer = (struct ServerResponse *)malloc(sizeof(struct ServerResponse));
 		avServTime[my_datacenter].avServiceTime += (c - (req->t_arrival));
 		avServTime[my_datacenter].numTasks += 1;
+		resServer->server_cluster = my_datacenter;
+		resServer->server = my_server;
+
+		ans_task = MSG_task_create(MSG_task_get_name(task), MSG_task_get_flops_amount(task), 0, NULL);
+		sprintf(resServer->response, "Task finished on %d-%d", resServer->server_cluster, resServer->server);
+
+		sprintf(resServer->id_task,"%s",req->id_task);
+		sprintf(mailbox, "c-%d-%d", req->iot_cluster, req->device);
+		MSG_task_set_data(ans_task, (void *)resServer);
 
 		/*Reenvio de terminacion de la tarea al cliente*/
 		MSG_task_send(ans_task, mailbox);
@@ -493,15 +516,18 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	if (atoi(argv[3]) > 1 || atoi(argv[3]) < 0)
+	if (atof(argv[3]) > 1 || atof(argv[3]) < 0)
 	{
 		printf("Percentage Tasks must be a value between 0 and 1.\n");
 		exit(1);
 	}
 
+	percentageTasks = atof(argv[3]);
+
+
 	seed((int)time(NULL));
 	ARRIVAL_RATE = atof(argv[2]) * NUM_SERVERS_PER_DATACENTER;
-
+	sg_host_energy_plugin_init();
 	MSG_init(&argc, argv);
 
 	for (i = 0; i < NUM_DATACENTERS; i++)
