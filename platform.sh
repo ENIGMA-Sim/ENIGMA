@@ -25,9 +25,9 @@ echo -e "\t<AS  id=\"AS0\"  routing=\"Full\">" 												>> platform-cluster.x
 
 for (( c=0; c<$IOT_CLUSTERS; c++ ))
 do
-	echo -e "\t\t<cluster id=\"IoT$c\" prefix=\"c-$c-\" suffix=\"\" radical=\"0-$(($IOT_DEVICES-1))\"" 	>> platform-cluster.xml
-	echo -e "\t\tspeed=\"4Gf,2Gf,1Gf\" core=\"4\" bw=\"10Mbps\" lat=\"10ms\" bb_bw=\"1000000000GBps\""					>> platform-cluster.xml	
-	echo -e	"\t\tbb_lat=\"10ms\" router_id=\"IoT_cluster$c\">" 										>> platform-cluster.xml
+	echo -e "\t\t<cluster id=\"IoT$c\" prefix=\"c-$c-\" suffix=\"\" radical=\"0-$(($IOT_DEVICES-1))\"" 										>> platform-cluster.xml
+	echo -e "\t\tspeed=\"4Gf,2Gf,1Gf\" core=\"4\" bw=\"10Mbps\" lat=\"10ms\" bb_bw=\"1000000000GBps\""										>> platform-cluster.xml	
+	echo -e	"\t\tbb_lat=\"10ms\" router_id=\"IoT_cluster$c\">" 																				>> platform-cluster.xml
 	echo -e "\t\t\t<prop id=\"watt_per_state\" value=\"100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0\" />"							>> platform-cluster.xml
 	echo -e "\t\t\t<prop id=\"wattage_off\" value=\"10\"/>"											>> platform-cluster.xml
 	echo -e "\t\t</cluster>"																		>> platform-cluster.xml
@@ -37,9 +37,9 @@ done
 
 for (( c=0; c<$DATACENTERS; c++ ))
 do
-	echo -e "\t\t<cluster id=\"Dispatcher$c\" prefix=\"d-$c-\" suffix=\"\" radical=\"0-1\"" 	>> platform-cluster.xml
-	echo -e "\t\tspeed=\"8Gf,4Gf,2Gf\" core=\"4\" bw=\"125Gbps\" lat=\"0us\" bb_bw=\"1000000000GBps\""		 		>> platform-cluster.xml
-	echo -e	"\t\tbb_lat=\"0us\" router_id=\"Dispatcher_cluster$c\">"							>> platform-cluster.xml
+	echo -e "\t\t<cluster id=\"Dispatcher$c\" prefix=\"d-$c-\" suffix=\"\" radical=\"0-1\"" 												>> platform-cluster.xml
+	echo -e "\t\tspeed=\"8Gf,4Gf,2Gf\" core=\"4\" bw=\"125Gbps\" lat=\"0us\" bb_bw=\"1000000000GBps\""		 								>> platform-cluster.xml
+	echo -e	"\t\tbb_lat=\"0us\" router_id=\"Dispatcher_cluster$c\">"																		>> platform-cluster.xml
 	echo -e "\t\t\t<prop id=\"watt_per_state\" value=\"100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0\" />"							>> platform-cluster.xml
 	echo -e "\t\t\t<prop id=\"wattage_off\" value=\"10\"/>"											>> platform-cluster.xml
 	echo -e "\t\t</cluster>"																		>> platform-cluster.xml
@@ -49,9 +49,9 @@ done
 
 for (( c=0; c<$DATACENTERS; c++ ))
 do
-	echo -e "\t\t<cluster id=\"Datacenter$c\" prefix=\"s-$c-\" suffix=\"\" radical=\"0-$(($SERVERS_ON_DATACENTERS-1))\"" 		>> platform-cluster.xml
+	echo -e "\t\t<cluster id=\"Datacenter$c\" prefix=\"s-$c-\" suffix=\"\" radical=\"0-$(($SERVERS_ON_DATACENTERS-1))\"" 					>> platform-cluster.xml
 	echo -e "\t\tspeed=\"10Gf,8Gf,4Gf\" core=\"8\" bw=\"125Gbps\" lat=\"0us\" bb_bw=\"10000000GBps\""		 								>> platform-cluster.xml
-	echo -e	"\t\tbb_lat=\"0us\" router_id=\"Datacenter_cluster$c\">"													>> platform-cluster.xml
+	echo -e	"\t\tbb_lat=\"0us\" router_id=\"Datacenter_cluster$c\">"																		>> platform-cluster.xml
 	echo -e "\t\t\t<prop id=\"watt_per_state\" value=\"100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0\" />"							>> platform-cluster.xml
 	echo -e "\t\t\t<prop id=\"wattage_off\" value=\"10\"/>"											>> platform-cluster.xml
 	echo -e "\t\t</cluster>"																		>> platform-cluster.xml
@@ -119,26 +119,26 @@ then
 	done
 
 
-	str=`grep '#define NUM_DATACENTERS' ejemplo.c`
-	sed -i "s/$str/#define NUM_DATACENTERS $DATACENTERS/g" ejemplo.c
+	str=`grep '#define NUM_DATACENTERS' simulation.c`
+	sed -i "s/$str/#define NUM_DATACENTERS $DATACENTERS/g" simulation.c
 
 
-	str=`grep '#define NUM_SERVERS_PER_DATACENTER' ejemplo.c`
-	sed -i "s/$str/#define NUM_SERVERS_PER_DATACENTER $SERVERS_ON_DATACENTERS/g" ejemplo.c
+	str=`grep '#define NUM_SERVERS_PER_DATACENTER' simulation.c`
+	sed -i "s/$str/#define NUM_SERVERS_PER_DATACENTER $SERVERS_ON_DATACENTERS/g" simulation.c
 
 
-	str=`grep '#define NUM_DISPATCHERS' ejemplo.c`
-	sed -i "s/$str/#define NUM_DISPATCHERS $DATACENTERS/g" ejemplo.c
+	str=`grep '#define NUM_DISPATCHERS' simulation.c`
+	sed -i "s/$str/#define NUM_DISPATCHERS $DATACENTERS/g" simulation.c
 	
 
-	str=`grep '#define NUM_IOT_CLUSTERS' ejemplo.c`
-	sed -i "s/$str/#define NUM_IOT_CLUSTERS $IOT_CLUSTERS/g" ejemplo.c 
+	str=`grep '#define NUM_IOT_CLUSTERS' simulation.c`
+	sed -i "s/$str/#define NUM_IOT_CLUSTERS $IOT_CLUSTERS/g" simulation.c 
 
 
-	str=`grep '#define NUM_DEVICES_PER_IOT_CLUSTER' ejemplo.c`
-	sed -i "s/$str/#define NUM_DEVICES_PER_IOT_CLUSTER $IOT_DEVICES/g" ejemplo.c
+	str=`grep '#define NUM_DEVICES_PER_IOT_CLUSTER' simulation.c`
+	sed -i "s/$str/#define NUM_DEVICES_PER_IOT_CLUSTER $IOT_DEVICES/g" simulation.c
 
 fi
 
-echo -e "\t\t</AS>" >> platform-cluster.xml
+echo -e "\t</AS>" >> platform-cluster.xml
 echo "</platform>" 	>> platform-cluster.xml

@@ -1,0 +1,170 @@
+
+
+{
+   "num_IoTCluster": "4",
+   "num_Datacenter": "4",
+   "num_Fog": "0",
+   "Datacenter": [
+      {
+         "id": "Datacenter1",
+         "numberServers": "50",
+         "speed": "10Gf,8Gf,2Gf",
+         "core": "8",
+         "bw": "125Gbps",
+         "lat": "0us",
+         "bb_bw": "10000000GBps",
+         "bb_lat": "0us",
+         "watt_per_state": "100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0",
+         "wattage_off": "10"
+      },
+      {
+         "id": "Datacenter2",
+         "numberServers": "20",
+         "speed": "10Gf,8Gf,2Gf",
+         "core": "8",
+         "bw": "125Gbps",
+         "lat": "0us",
+         "bb_bw": "10000000GBps",
+         "bb_lat": "0us",
+         "watt_per_state": "100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0",
+         "wattage_off": "10"
+      },
+      {
+         "id": "Datacenter3",
+         "numberServers": "10",
+         "speed": "10Gf,8Gf,2Gf",
+         "core": "8",
+         "bw": "125Gbps",
+         "lat": "0us",
+         "bb_bw": "10000000GBps",
+         "bb_lat": "0us",
+         "watt_per_state": "100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0",
+         "wattage_off": "10"
+      },
+      {
+         "id": "Datacenter4",
+         "numberServers": "10",
+         "speed": "10Gf,8Gf,2Gf",
+         "core": "8",
+         "bw": "125Gbps",
+         "lat": "0us",
+         "bb_bw": "10000000GBps",
+         "bb_lat": "0us",
+         "watt_per_state": "100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0",
+         "wattage_off": "10"
+      }
+   ],
+   "Dispatcher": [
+      {
+         "id": "Dispatcher1",
+         "speed": "8Gf,4Gf,2Gf",
+         "core": "4",
+         "bw": "125Gbps",
+         "lat": "0us",
+         "bb_bw": "10000000GBps",
+         "bb_lat": "0us",
+         "watt_per_state": "100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0",
+         "wattage_off": "10"
+      },
+      {
+         "id": "Dispatcher2",
+         "speed": "8Gf,4Gf,2Gf",
+         "core": "4",
+         "bw": "125Gbps",
+         "lat": "0us",
+         "bb_bw": "10000000GBps",
+         "bb_lat": "0us",
+         "watt_per_state": "100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0",
+         "wattage_off": "10"
+      },
+      {
+         "id": "Dispatcher3",
+         "speed": "8Gf,4Gf,2Gf",
+         "core": "4",
+         "bw": "125Gbps",
+         "lat": "0us",
+         "bb_bw": "10000000GBps",
+         "bb_lat": "0us",
+         "watt_per_state": "100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0",
+         "wattage_off": "10"
+      },
+      {
+         "id": "Dispatcher4",
+         "speed": "8Gf,4Gf,2Gf",
+         "core": "4",
+         "bw": "125Gbps",
+         "lat": "0us",
+         "bb_bw": "10000000GBps",
+         "bb_lat": "0us",
+         "watt_per_state": "100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0",
+         "wattage_off": "10"
+      }
+   ],
+   "IoT": [
+      {
+         "id": "IoT1",
+         "numberIoT": "10",
+         "speed": "4Gf,2Gf,1Gf",
+         "num_Tasks": "200",
+         "size_Tasks": "256*1024",
+         "size_Response": "60*1024",
+         "core": "4",
+         "bw": "10Mbps",
+         "lat": "10ms",
+         "bb_bw": "10000000GBps",
+         "bb_lat": "10ms",
+         "watt_per_state": "100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0",
+         "wattage_off": "10"
+      },
+      {
+         "id": "IoT2",
+         "numberIoT": "10",
+         "speed": "4Gf,2Gf,1Gf",
+         "num_Tasks": "150",
+         "size_Tasks": "256*1024",
+         "size_Response": "60*1024",
+         "core": "4",
+         "bw": "10Mbps",
+         "lat": "10ms",
+         "bb_bw": "10000000GBps",
+         "bb_lat": "10ms",
+         "watt_per_state": "100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0",
+         "wattage_off": "10"
+      },
+      {
+         "id": "IoT3",
+         "numberIoT": "10",
+         "speed": "4Gf,2Gf,1Gf",
+         "num_Tasks": "350",
+         "size_Tasks": "256*1024",
+         "size_Response": "60*1024",
+         "core": "4",
+         "bw": "10Mbps",
+         "lat": "10ms",
+         "bb_bw": "10000000GBps",
+         "bb_lat": "10ms",
+         "watt_per_state": "100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0",
+         "wattage_off": "10"
+      },
+      {
+         "id": "IoT4",
+         "numberIoT": "10",
+         "speed": "4Gf,2Gf,1Gf",
+         "num_Tasks": "1000",
+         "size_Tasks": "256*1024",
+         "size_Response": "60*1024",
+         "core": "4",
+         "bw": "10Mbps",
+         "lat": "10ms",
+         "bb_bw": "10000000GBps",
+         "bb_lat": "10ms",
+         "watt_per_state": "100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0",
+         "wattage_off": "10"
+      }
+   ],
+   "Links": {
+      "bandwidth": "10GBps",
+      "latency": "50us"
+   }
+}
+
