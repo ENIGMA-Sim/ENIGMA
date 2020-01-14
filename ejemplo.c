@@ -9,29 +9,28 @@
 
 
 
-#define NUM_DATACENTERS 9
-#define NUM_SERVERS_PER_DATACENTER 9
+#define NUM_DATACENTERS 5
+#define NUM_SERVERS_PER_DATACENTER 5
 #define NUM_VM 1
-#define NUM_DISPATCHERS 9
+#define NUM_DISPATCHERS 5
 #define NUM_FOG 0
-#define NUM_IOT_CLUSTERS 9
-#define NUM_DEVICES_PER_IOT_CLUSTER 4
+#define NUM_IOT_CLUSTERS 5
+#define NUM_DEVICES_PER_IOT_CLUSTER 100
 
 #define SIZE_DATA 243 * 1024			 //KB
-#define COMPUTATIONAL_TIME 10			 //us
 #define SIZE_OUTPUT_DATA 60 * 1024		 //KB
 
 
-#define NUM_TASKS 2000			 								//Tasks to generate
+#define NUM_TASKS 2000			 									//Tasks to generate
 #define MFLOPS_BASE (10 * 1000 * 1000 * 1000) 						//To compute service time for each task
-#define SERVICE_RATE 1.0				 						// Mu = 1  service time = 1 / 1; tasa de servicio de cada servidor
+#define SERVICE_RATE 1.0				 							// Mu = 1  service time = 1 / 1; tasa de servicio de cada servidor
 
 
 
-double ARRIVAL_RATE; 											//Arrival rate, argument of the program
-const long MAX_TIMEOUT_SERVER = (86400 * 10); 					//Timeout= 10 días sin actividad
+double ARRIVAL_RATE; 												//Arrival rate, argument of the program
+const long MAX_TIMEOUT_SERVER = (86400 * 0.001); 					//Timeout= 10 días sin actividad
 
-int computeTasks;												//Variable that determines where the tasks have to execute 0-locally, 1-fog, 2-cloud
+int computeTasks;													//Variable that determines where the tasks have to execute 0-locally, 1-fog, 2-cloud
 double percentageTasks; 											//Variable that determines which percentage of the tasks are executed on the devices
 
 
