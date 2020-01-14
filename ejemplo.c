@@ -9,13 +9,13 @@
 
 
 
-#define NUM_DATACENTERS 10
-#define NUM_SERVERS_PER_DATACENTER 10
+#define NUM_DATACENTERS 9
+#define NUM_SERVERS_PER_DATACENTER 9
 #define NUM_VM 1
-#define NUM_DISPATCHERS 10
+#define NUM_DISPATCHERS 9
 #define NUM_FOG 0
-#define NUM_IOT_CLUSTERS 10
-#define NUM_DEVICES_PER_IOT_CLUSTER 100
+#define NUM_IOT_CLUSTERS 9
+#define NUM_DEVICES_PER_IOT_CLUSTER 4
 
 #define SIZE_DATA 243 * 1024			 //KB
 #define COMPUTATIONAL_TIME 10			 //us
@@ -128,14 +128,26 @@ int client(int argc, char *argv[])
 
 	sprintf(buf, "c-%d-%d", my_iot_cluster,my_device);
 	MSG_mailbox_set_async(buf); //mailbox asincrono
+
+	msg_host_t host = MSG_host_by_name(buf);
 	
 	if (percentageTasks == 1)								//If percentageTasks is equal to 1 then the tasks execute on the devices
 	{
-		msg_task_t taskLocally = NULL;
-		double serviceLocally = MFLOPS_BASE * t * percentageTasks;
-		taskLocally = MSG_task_create(sprintf_buffer, serviceLocally, SIZE_DATA, NULL);
-		MSG_task_execute(taskLocally);
-		MSG_task_destroy(taskLocally);
+		for (k = 0; k < NUM_TASKS; k++)
+		{
+			sprintf(sprintf_buffer, "Task_%d_%d_%d", my_iot_cluster, my_device, k);
+			double start = MSG_get_clock();
+			msg_task_t taskLocally = NULL;
+			double serviceLocally = MFLOPS_BASE * exponential((double)SERVICE_RATE) * percentageTasks;
+			taskLocally = MSG_task_create(sprintf_buffer, serviceLocally, SIZE_DATA, NULL);
+			MSG_task_execute(taskLocally);
+			MSG_task_destroy(taskLocally);
+
+			printf("Task done in %s (duration: %.2f s). Current peak speed=%.0E flop/s; Current consumption: from %.0fW to %.0fW"
+			" depending on load; Energy dissipated=%.0f J\n\n",
+			MSG_host_get_name(host), MSG_get_clock() - start, MSG_host_get_speed(host), sg_host_get_wattmin_at(host, MSG_host_get_pstate(host)),
+			sg_host_get_wattmax_at(host, MSG_host_get_pstate(host)), sg_host_get_consumed_energy(host));
+		}
 	}
 	else 													//If not, the devices create the requests that execute the datacenters 
 	{
@@ -161,14 +173,19 @@ int client(int argc, char *argv[])
 
 			if (percentageTasks != 0)					//The devices compute locally part of the tasks
 			{
+				double start = MSG_get_clock();
 				msg_task_t taskLocally = NULL;
 				double serviceLocally = MFLOPS_BASE * t * percentageTasks;
 				taskLocally = MSG_task_create(sprintf_buffer, serviceLocally, SIZE_DATA, NULL);
 				MSG_task_execute(taskLocally);
 				MSG_task_destroy(taskLocally);
-				//printf("%g = %g - %g\n", req->t_service - serviceLocally, req->t_service, serviceLocally);
 				req->t_service = req->t_service - serviceLocally;
 				
+				printf("Task partially done in %s (duration: %.2f s). Current peak speed=%.0E flop/s; Current consumption: from %.0fW to %.0fW"
+				" depending on load; Energy dissipated=%.0f J\n\n",
+				MSG_host_get_name(host), MSG_get_clock() - start, MSG_host_get_speed(host), sg_host_get_wattmin_at(host, MSG_host_get_pstate(host)),
+				sg_host_get_wattmax_at(host, MSG_host_get_pstate(host)), sg_host_get_consumed_energy(host));
+
 			}
 
 			req->n_task = k;
@@ -312,11 +329,13 @@ int dispatcherServer(int argc, char *argv[])
 	double c;
 	int n_tasks = 0;
 	int my_datacenter, my_server;
-	msg_host_t host = MSG_host_by_name(MSG_host_self());
-
-
+	
 	my_datacenter = atoi(argv[0]);
 	my_server = atoi(argv[1]);
+
+	char hostS[30];
+	sprintf(hostS,"s-%d-%d",my_datacenter,my_server);
+	msg_host_t host = MSG_host_by_name(hostS);
 
 	while (1)
 	{
@@ -348,11 +367,12 @@ int dispatcherServer(int argc, char *argv[])
 		task = MSG_task_create("task", req->t_service, 0, NULL);
 		MSG_task_execute(task);
 
+		//printf("%s\n",MSG_host_get_name(host));
 
-		printf("Task done (duration: %.2f s). Current peak speed=%.0E flop/s; Current consumption: from %.0fW to %.0fW"
-           " depending on load; Energy dissipated=%.0f J",
-           MSG_get_clock() - req->t_arrival, MSG_host_get_speed(host), sg_host_get_wattmin_at(host, MSG_host_get_pstate(host)),
-           sg_host_get_wattmax_at(host, MSG_host_get_pstate(host)), sg_host_get_consumed_energy(host));
+		printf("Task done in %s (duration: %.2f s). Current peak speed=%.0E flop/s; Current consumption: from %.0fW to %.0fW"
+		" depending on load; Energy dissipated=%.0f J\n\n",
+		MSG_host_get_name(host), MSG_get_clock() - req->t_arrival, MSG_host_get_speed(host), sg_host_get_wattmin_at(host, MSG_host_get_pstate(host)),
+		sg_host_get_wattmax_at(host, MSG_host_get_pstate(host)), sg_host_get_consumed_energy(host));
 
 
 

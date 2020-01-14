@@ -25,7 +25,7 @@ echo -e "\t<AS  id=\"AS0\"  routing=\"Full\">" 												>> platform-cluster.x
 
 for (( c=0; c<$IOT_CLUSTERS; c++ ))
 do
-	echo -e "\t\t<cluster id=\"IoT$c\" prefix=\"c-$c-\" suffix=\"\" radical=\"0-$IOT_DEVICES\"" 	>> platform-cluster.xml
+	echo -e "\t\t<cluster id=\"IoT$c\" prefix=\"c-$c-\" suffix=\"\" radical=\"0-$(($IOT_DEVICES-1))\"" 	>> platform-cluster.xml
 	echo -e "\t\tspeed=\"4Gf,2Gf,1Gf\" core=\"4\" bw=\"10Mbps\" lat=\"10ms\" bb_bw=\"1000000000GBps\""					>> platform-cluster.xml	
 	echo -e	"\t\tbb_lat=\"10ms\" router_id=\"IoT_cluster$c\">" 										>> platform-cluster.xml
 	echo -e "\t\t\t<prop id=\"watt_per_state\" value=\"100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0\" />"							>> platform-cluster.xml
@@ -49,7 +49,7 @@ done
 
 for (( c=0; c<$DATACENTERS; c++ ))
 do
-	echo -e "\t\t<cluster id=\"Datacenter$c\" prefix=\"s-$c-\" suffix=\"\" radical=\"0-$SERVERS_ON_DATACENTERS\"" 		>> platform-cluster.xml
+	echo -e "\t\t<cluster id=\"Datacenter$c\" prefix=\"s-$c-\" suffix=\"\" radical=\"0-$(($SERVERS_ON_DATACENTERS-1))\"" 		>> platform-cluster.xml
 	echo -e "\t\tspeed=\"10Gf,8Gf,4Gf\" core=\"8\" bw=\"125Gbps\" lat=\"0us\" bb_bw=\"10000000GBps\""		 								>> platform-cluster.xml
 	echo -e	"\t\tbb_lat=\"0us\" router_id=\"Datacenter_cluster$c\">"													>> platform-cluster.xml
 	echo -e "\t\t\t<prop id=\"watt_per_state\" value=\"100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0\" />"							>> platform-cluster.xml

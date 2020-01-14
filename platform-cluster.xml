@@ -3,72 +3,65 @@
 <platform version="4.1">
 
 	<AS  id="AS0"  routing="Full">
-		<cluster id="IoT0" prefix="c-0-" suffix="" radical="0-100"
+		<cluster id="IoT0" prefix="c-0-" suffix="" radical="0-4"
 		speed="4Gf,2Gf,1Gf" core="4" bw="10Mbps" lat="10ms" bb_bw="1000000000GBps"
 		bb_lat="10ms" router_id="IoT_cluster0">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
 
-		<cluster id="IoT1" prefix="c-1-" suffix="" radical="0-100"
+		<cluster id="IoT1" prefix="c-1-" suffix="" radical="0-4"
 		speed="4Gf,2Gf,1Gf" core="4" bw="10Mbps" lat="10ms" bb_bw="1000000000GBps"
 		bb_lat="10ms" router_id="IoT_cluster1">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
 
-		<cluster id="IoT2" prefix="c-2-" suffix="" radical="0-100"
+		<cluster id="IoT2" prefix="c-2-" suffix="" radical="0-4"
 		speed="4Gf,2Gf,1Gf" core="4" bw="10Mbps" lat="10ms" bb_bw="1000000000GBps"
 		bb_lat="10ms" router_id="IoT_cluster2">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
 
-		<cluster id="IoT3" prefix="c-3-" suffix="" radical="0-100"
+		<cluster id="IoT3" prefix="c-3-" suffix="" radical="0-4"
 		speed="4Gf,2Gf,1Gf" core="4" bw="10Mbps" lat="10ms" bb_bw="1000000000GBps"
 		bb_lat="10ms" router_id="IoT_cluster3">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
 
-		<cluster id="IoT4" prefix="c-4-" suffix="" radical="0-100"
+		<cluster id="IoT4" prefix="c-4-" suffix="" radical="0-4"
 		speed="4Gf,2Gf,1Gf" core="4" bw="10Mbps" lat="10ms" bb_bw="1000000000GBps"
 		bb_lat="10ms" router_id="IoT_cluster4">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
 
-		<cluster id="IoT5" prefix="c-5-" suffix="" radical="0-100"
+		<cluster id="IoT5" prefix="c-5-" suffix="" radical="0-4"
 		speed="4Gf,2Gf,1Gf" core="4" bw="10Mbps" lat="10ms" bb_bw="1000000000GBps"
 		bb_lat="10ms" router_id="IoT_cluster5">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
 
-		<cluster id="IoT6" prefix="c-6-" suffix="" radical="0-100"
+		<cluster id="IoT6" prefix="c-6-" suffix="" radical="0-4"
 		speed="4Gf,2Gf,1Gf" core="4" bw="10Mbps" lat="10ms" bb_bw="1000000000GBps"
 		bb_lat="10ms" router_id="IoT_cluster6">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
 
-		<cluster id="IoT7" prefix="c-7-" suffix="" radical="0-100"
+		<cluster id="IoT7" prefix="c-7-" suffix="" radical="0-4"
 		speed="4Gf,2Gf,1Gf" core="4" bw="10Mbps" lat="10ms" bb_bw="1000000000GBps"
 		bb_lat="10ms" router_id="IoT_cluster7">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
 
-		<cluster id="IoT8" prefix="c-8-" suffix="" radical="0-100"
+		<cluster id="IoT8" prefix="c-8-" suffix="" radical="0-4"
 		speed="4Gf,2Gf,1Gf" core="4" bw="10Mbps" lat="10ms" bb_bw="1000000000GBps"
 		bb_lat="10ms" router_id="IoT_cluster8">
-			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
-			<prop id="wattage_off" value="10"/>
-		</cluster>
-
-		<cluster id="IoT9" prefix="c-9-" suffix="" radical="0-100"
-		speed="4Gf,2Gf,1Gf" core="4" bw="10Mbps" lat="10ms" bb_bw="1000000000GBps"
-		bb_lat="10ms" router_id="IoT_cluster9">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
@@ -136,79 +129,65 @@
 			<prop id="wattage_off" value="10"/>
 		</cluster>
 
-		<cluster id="Dispatcher9" prefix="d-9-" suffix="" radical="0-1"
-		speed="8Gf,4Gf,2Gf" core="4" bw="125Gbps" lat="0us" bb_bw="1000000000GBps"
-		bb_lat="0us" router_id="Dispatcher_cluster9">
-			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
-			<prop id="wattage_off" value="10"/>
-		</cluster>
-
-		<cluster id="Datacenter0" prefix="s-0-" suffix="" radical="0-10"
+		<cluster id="Datacenter0" prefix="s-0-" suffix="" radical="0-9"
 		speed="10Gf,8Gf,4Gf" core="8" bw="125Gbps" lat="0us" bb_bw="10000000GBps"
 		bb_lat="0us" router_id="Datacenter_cluster0">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
 
-		<cluster id="Datacenter1" prefix="s-1-" suffix="" radical="0-10"
+		<cluster id="Datacenter1" prefix="s-1-" suffix="" radical="0-9"
 		speed="10Gf,8Gf,4Gf" core="8" bw="125Gbps" lat="0us" bb_bw="10000000GBps"
 		bb_lat="0us" router_id="Datacenter_cluster1">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
 
-		<cluster id="Datacenter2" prefix="s-2-" suffix="" radical="0-10"
+		<cluster id="Datacenter2" prefix="s-2-" suffix="" radical="0-9"
 		speed="10Gf,8Gf,4Gf" core="8" bw="125Gbps" lat="0us" bb_bw="10000000GBps"
 		bb_lat="0us" router_id="Datacenter_cluster2">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
 
-		<cluster id="Datacenter3" prefix="s-3-" suffix="" radical="0-10"
+		<cluster id="Datacenter3" prefix="s-3-" suffix="" radical="0-9"
 		speed="10Gf,8Gf,4Gf" core="8" bw="125Gbps" lat="0us" bb_bw="10000000GBps"
 		bb_lat="0us" router_id="Datacenter_cluster3">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
 
-		<cluster id="Datacenter4" prefix="s-4-" suffix="" radical="0-10"
+		<cluster id="Datacenter4" prefix="s-4-" suffix="" radical="0-9"
 		speed="10Gf,8Gf,4Gf" core="8" bw="125Gbps" lat="0us" bb_bw="10000000GBps"
 		bb_lat="0us" router_id="Datacenter_cluster4">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
 
-		<cluster id="Datacenter5" prefix="s-5-" suffix="" radical="0-10"
+		<cluster id="Datacenter5" prefix="s-5-" suffix="" radical="0-9"
 		speed="10Gf,8Gf,4Gf" core="8" bw="125Gbps" lat="0us" bb_bw="10000000GBps"
 		bb_lat="0us" router_id="Datacenter_cluster5">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
 
-		<cluster id="Datacenter6" prefix="s-6-" suffix="" radical="0-10"
+		<cluster id="Datacenter6" prefix="s-6-" suffix="" radical="0-9"
 		speed="10Gf,8Gf,4Gf" core="8" bw="125Gbps" lat="0us" bb_bw="10000000GBps"
 		bb_lat="0us" router_id="Datacenter_cluster6">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
 
-		<cluster id="Datacenter7" prefix="s-7-" suffix="" radical="0-10"
+		<cluster id="Datacenter7" prefix="s-7-" suffix="" radical="0-9"
 		speed="10Gf,8Gf,4Gf" core="8" bw="125Gbps" lat="0us" bb_bw="10000000GBps"
 		bb_lat="0us" router_id="Datacenter_cluster7">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
 
-		<cluster id="Datacenter8" prefix="s-8-" suffix="" radical="0-10"
+		<cluster id="Datacenter8" prefix="s-8-" suffix="" radical="0-9"
 		speed="10Gf,8Gf,4Gf" core="8" bw="125Gbps" lat="0us" bb_bw="10000000GBps"
 		bb_lat="0us" router_id="Datacenter_cluster8">
-			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
-			<prop id="wattage_off" value="10"/>
-		</cluster>
-
-		<cluster id="Datacenter9" prefix="s-9-" suffix="" radical="0-10"
-		speed="10Gf,8Gf,4Gf" core="8" bw="125Gbps" lat="0us" bb_bw="10000000GBps"
-		bb_lat="0us" router_id="Datacenter_cluster9">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0" />
 			<prop id="wattage_off" value="10"/>
 		</cluster>
@@ -231,8 +210,6 @@
 
 		<link id="linkIoT8Dispatcher0" bandwidth="100000000GBps" latency="50us" />
 
-		<link id="linkIoT9Dispatcher0" bandwidth="100000000GBps" latency="50us" />
-
 		<link id="linkIoT0Dispatcher1" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkIoT1Dispatcher1" bandwidth="100000000GBps" latency="50us" />
@@ -250,8 +227,6 @@
 		<link id="linkIoT7Dispatcher1" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkIoT8Dispatcher1" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkIoT9Dispatcher1" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkIoT0Dispatcher2" bandwidth="100000000GBps" latency="50us" />
 
@@ -271,8 +246,6 @@
 
 		<link id="linkIoT8Dispatcher2" bandwidth="100000000GBps" latency="50us" />
 
-		<link id="linkIoT9Dispatcher2" bandwidth="100000000GBps" latency="50us" />
-
 		<link id="linkIoT0Dispatcher3" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkIoT1Dispatcher3" bandwidth="100000000GBps" latency="50us" />
@@ -290,8 +263,6 @@
 		<link id="linkIoT7Dispatcher3" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkIoT8Dispatcher3" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkIoT9Dispatcher3" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkIoT0Dispatcher4" bandwidth="100000000GBps" latency="50us" />
 
@@ -311,8 +282,6 @@
 
 		<link id="linkIoT8Dispatcher4" bandwidth="100000000GBps" latency="50us" />
 
-		<link id="linkIoT9Dispatcher4" bandwidth="100000000GBps" latency="50us" />
-
 		<link id="linkIoT0Dispatcher5" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkIoT1Dispatcher5" bandwidth="100000000GBps" latency="50us" />
@@ -330,8 +299,6 @@
 		<link id="linkIoT7Dispatcher5" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkIoT8Dispatcher5" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkIoT9Dispatcher5" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkIoT0Dispatcher6" bandwidth="100000000GBps" latency="50us" />
 
@@ -351,8 +318,6 @@
 
 		<link id="linkIoT8Dispatcher6" bandwidth="100000000GBps" latency="50us" />
 
-		<link id="linkIoT9Dispatcher6" bandwidth="100000000GBps" latency="50us" />
-
 		<link id="linkIoT0Dispatcher7" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkIoT1Dispatcher7" bandwidth="100000000GBps" latency="50us" />
@@ -370,8 +335,6 @@
 		<link id="linkIoT7Dispatcher7" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkIoT8Dispatcher7" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkIoT9Dispatcher7" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkIoT0Dispatcher8" bandwidth="100000000GBps" latency="50us" />
 
@@ -391,28 +354,6 @@
 
 		<link id="linkIoT8Dispatcher8" bandwidth="100000000GBps" latency="50us" />
 
-		<link id="linkIoT9Dispatcher8" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkIoT0Dispatcher9" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkIoT1Dispatcher9" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkIoT2Dispatcher9" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkIoT3Dispatcher9" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkIoT4Dispatcher9" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkIoT5Dispatcher9" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkIoT6Dispatcher9" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkIoT7Dispatcher9" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkIoT8Dispatcher9" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkIoT9Dispatcher9" bandwidth="100000000GBps" latency="50us" />
-
 		<link id="linkDispatcher0Datacenter0" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkDispatcher1Datacenter1" bandwidth="100000000GBps" latency="50us" />
@@ -430,8 +371,6 @@
 		<link id="linkDispatcher7Datacenter7" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkDispatcher8Datacenter8" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkDispatcher9Datacenter9" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkDatacenter0IoT0" bandwidth="100000000GBps" latency="50us" />
 
@@ -451,8 +390,6 @@
 
 		<link id="linkDatacenter0IoT8" bandwidth="100000000GBps" latency="50us" />
 
-		<link id="linkDatacenter0IoT9" bandwidth="100000000GBps" latency="50us" />
-
 		<link id="linkDatacenter1IoT0" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkDatacenter1IoT1" bandwidth="100000000GBps" latency="50us" />
@@ -470,8 +407,6 @@
 		<link id="linkDatacenter1IoT7" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkDatacenter1IoT8" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkDatacenter1IoT9" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkDatacenter2IoT0" bandwidth="100000000GBps" latency="50us" />
 
@@ -491,8 +426,6 @@
 
 		<link id="linkDatacenter2IoT8" bandwidth="100000000GBps" latency="50us" />
 
-		<link id="linkDatacenter2IoT9" bandwidth="100000000GBps" latency="50us" />
-
 		<link id="linkDatacenter3IoT0" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkDatacenter3IoT1" bandwidth="100000000GBps" latency="50us" />
@@ -510,8 +443,6 @@
 		<link id="linkDatacenter3IoT7" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkDatacenter3IoT8" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkDatacenter3IoT9" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkDatacenter4IoT0" bandwidth="100000000GBps" latency="50us" />
 
@@ -531,8 +462,6 @@
 
 		<link id="linkDatacenter4IoT8" bandwidth="100000000GBps" latency="50us" />
 
-		<link id="linkDatacenter4IoT9" bandwidth="100000000GBps" latency="50us" />
-
 		<link id="linkDatacenter5IoT0" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkDatacenter5IoT1" bandwidth="100000000GBps" latency="50us" />
@@ -550,8 +479,6 @@
 		<link id="linkDatacenter5IoT7" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkDatacenter5IoT8" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkDatacenter5IoT9" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkDatacenter6IoT0" bandwidth="100000000GBps" latency="50us" />
 
@@ -571,8 +498,6 @@
 
 		<link id="linkDatacenter6IoT8" bandwidth="100000000GBps" latency="50us" />
 
-		<link id="linkDatacenter6IoT9" bandwidth="100000000GBps" latency="50us" />
-
 		<link id="linkDatacenter7IoT0" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkDatacenter7IoT1" bandwidth="100000000GBps" latency="50us" />
@@ -591,8 +516,6 @@
 
 		<link id="linkDatacenter7IoT8" bandwidth="100000000GBps" latency="50us" />
 
-		<link id="linkDatacenter7IoT9" bandwidth="100000000GBps" latency="50us" />
-
 		<link id="linkDatacenter8IoT0" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkDatacenter8IoT1" bandwidth="100000000GBps" latency="50us" />
@@ -610,28 +533,6 @@
 		<link id="linkDatacenter8IoT7" bandwidth="100000000GBps" latency="50us" />
 
 		<link id="linkDatacenter8IoT8" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkDatacenter8IoT9" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkDatacenter9IoT0" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkDatacenter9IoT1" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkDatacenter9IoT2" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkDatacenter9IoT3" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkDatacenter9IoT4" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkDatacenter9IoT5" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkDatacenter9IoT6" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkDatacenter9IoT7" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkDatacenter9IoT8" bandwidth="100000000GBps" latency="50us" />
-
-		<link id="linkDatacenter9IoT9" bandwidth="100000000GBps" latency="50us" />
 
 		<ASroute src="IoT0" dst="Dispatcher0" gw_src="IoT_cluster0" gw_dst="Dispatcher_cluster0">
 			<link_ctn id="linkIoT0Dispatcher0" />
@@ -667,10 +568,6 @@
 
 		<ASroute src="IoT8" dst="Dispatcher0" gw_src="IoT_cluster8" gw_dst="Dispatcher_cluster0">
 			<link_ctn id="linkIoT8Dispatcher0" />
-		</ASroute>
-
-		<ASroute src="IoT9" dst="Dispatcher0" gw_src="IoT_cluster9" gw_dst="Dispatcher_cluster0">
-			<link_ctn id="linkIoT9Dispatcher0" />
 		</ASroute>
 
 		<ASroute src="IoT0" dst="Dispatcher1" gw_src="IoT_cluster0" gw_dst="Dispatcher_cluster1">
@@ -709,10 +606,6 @@
 			<link_ctn id="linkIoT8Dispatcher1" />
 		</ASroute>
 
-		<ASroute src="IoT9" dst="Dispatcher1" gw_src="IoT_cluster9" gw_dst="Dispatcher_cluster1">
-			<link_ctn id="linkIoT9Dispatcher1" />
-		</ASroute>
-
 		<ASroute src="IoT0" dst="Dispatcher2" gw_src="IoT_cluster0" gw_dst="Dispatcher_cluster2">
 			<link_ctn id="linkIoT0Dispatcher2" />
 		</ASroute>
@@ -747,10 +640,6 @@
 
 		<ASroute src="IoT8" dst="Dispatcher2" gw_src="IoT_cluster8" gw_dst="Dispatcher_cluster2">
 			<link_ctn id="linkIoT8Dispatcher2" />
-		</ASroute>
-
-		<ASroute src="IoT9" dst="Dispatcher2" gw_src="IoT_cluster9" gw_dst="Dispatcher_cluster2">
-			<link_ctn id="linkIoT9Dispatcher2" />
 		</ASroute>
 
 		<ASroute src="IoT0" dst="Dispatcher3" gw_src="IoT_cluster0" gw_dst="Dispatcher_cluster3">
@@ -789,10 +678,6 @@
 			<link_ctn id="linkIoT8Dispatcher3" />
 		</ASroute>
 
-		<ASroute src="IoT9" dst="Dispatcher3" gw_src="IoT_cluster9" gw_dst="Dispatcher_cluster3">
-			<link_ctn id="linkIoT9Dispatcher3" />
-		</ASroute>
-
 		<ASroute src="IoT0" dst="Dispatcher4" gw_src="IoT_cluster0" gw_dst="Dispatcher_cluster4">
 			<link_ctn id="linkIoT0Dispatcher4" />
 		</ASroute>
@@ -827,10 +712,6 @@
 
 		<ASroute src="IoT8" dst="Dispatcher4" gw_src="IoT_cluster8" gw_dst="Dispatcher_cluster4">
 			<link_ctn id="linkIoT8Dispatcher4" />
-		</ASroute>
-
-		<ASroute src="IoT9" dst="Dispatcher4" gw_src="IoT_cluster9" gw_dst="Dispatcher_cluster4">
-			<link_ctn id="linkIoT9Dispatcher4" />
 		</ASroute>
 
 		<ASroute src="IoT0" dst="Dispatcher5" gw_src="IoT_cluster0" gw_dst="Dispatcher_cluster5">
@@ -869,10 +750,6 @@
 			<link_ctn id="linkIoT8Dispatcher5" />
 		</ASroute>
 
-		<ASroute src="IoT9" dst="Dispatcher5" gw_src="IoT_cluster9" gw_dst="Dispatcher_cluster5">
-			<link_ctn id="linkIoT9Dispatcher5" />
-		</ASroute>
-
 		<ASroute src="IoT0" dst="Dispatcher6" gw_src="IoT_cluster0" gw_dst="Dispatcher_cluster6">
 			<link_ctn id="linkIoT0Dispatcher6" />
 		</ASroute>
@@ -907,10 +784,6 @@
 
 		<ASroute src="IoT8" dst="Dispatcher6" gw_src="IoT_cluster8" gw_dst="Dispatcher_cluster6">
 			<link_ctn id="linkIoT8Dispatcher6" />
-		</ASroute>
-
-		<ASroute src="IoT9" dst="Dispatcher6" gw_src="IoT_cluster9" gw_dst="Dispatcher_cluster6">
-			<link_ctn id="linkIoT9Dispatcher6" />
 		</ASroute>
 
 		<ASroute src="IoT0" dst="Dispatcher7" gw_src="IoT_cluster0" gw_dst="Dispatcher_cluster7">
@@ -949,10 +822,6 @@
 			<link_ctn id="linkIoT8Dispatcher7" />
 		</ASroute>
 
-		<ASroute src="IoT9" dst="Dispatcher7" gw_src="IoT_cluster9" gw_dst="Dispatcher_cluster7">
-			<link_ctn id="linkIoT9Dispatcher7" />
-		</ASroute>
-
 		<ASroute src="IoT0" dst="Dispatcher8" gw_src="IoT_cluster0" gw_dst="Dispatcher_cluster8">
 			<link_ctn id="linkIoT0Dispatcher8" />
 		</ASroute>
@@ -987,50 +856,6 @@
 
 		<ASroute src="IoT8" dst="Dispatcher8" gw_src="IoT_cluster8" gw_dst="Dispatcher_cluster8">
 			<link_ctn id="linkIoT8Dispatcher8" />
-		</ASroute>
-
-		<ASroute src="IoT9" dst="Dispatcher8" gw_src="IoT_cluster9" gw_dst="Dispatcher_cluster8">
-			<link_ctn id="linkIoT9Dispatcher8" />
-		</ASroute>
-
-		<ASroute src="IoT0" dst="Dispatcher9" gw_src="IoT_cluster0" gw_dst="Dispatcher_cluster9">
-			<link_ctn id="linkIoT0Dispatcher9" />
-		</ASroute>
-
-		<ASroute src="IoT1" dst="Dispatcher9" gw_src="IoT_cluster1" gw_dst="Dispatcher_cluster9">
-			<link_ctn id="linkIoT1Dispatcher9" />
-		</ASroute>
-
-		<ASroute src="IoT2" dst="Dispatcher9" gw_src="IoT_cluster2" gw_dst="Dispatcher_cluster9">
-			<link_ctn id="linkIoT2Dispatcher9" />
-		</ASroute>
-
-		<ASroute src="IoT3" dst="Dispatcher9" gw_src="IoT_cluster3" gw_dst="Dispatcher_cluster9">
-			<link_ctn id="linkIoT3Dispatcher9" />
-		</ASroute>
-
-		<ASroute src="IoT4" dst="Dispatcher9" gw_src="IoT_cluster4" gw_dst="Dispatcher_cluster9">
-			<link_ctn id="linkIoT4Dispatcher9" />
-		</ASroute>
-
-		<ASroute src="IoT5" dst="Dispatcher9" gw_src="IoT_cluster5" gw_dst="Dispatcher_cluster9">
-			<link_ctn id="linkIoT5Dispatcher9" />
-		</ASroute>
-
-		<ASroute src="IoT6" dst="Dispatcher9" gw_src="IoT_cluster6" gw_dst="Dispatcher_cluster9">
-			<link_ctn id="linkIoT6Dispatcher9" />
-		</ASroute>
-
-		<ASroute src="IoT7" dst="Dispatcher9" gw_src="IoT_cluster7" gw_dst="Dispatcher_cluster9">
-			<link_ctn id="linkIoT7Dispatcher9" />
-		</ASroute>
-
-		<ASroute src="IoT8" dst="Dispatcher9" gw_src="IoT_cluster8" gw_dst="Dispatcher_cluster9">
-			<link_ctn id="linkIoT8Dispatcher9" />
-		</ASroute>
-
-		<ASroute src="IoT9" dst="Dispatcher9" gw_src="IoT_cluster9" gw_dst="Dispatcher_cluster9">
-			<link_ctn id="linkIoT9Dispatcher9" />
 		</ASroute>
 
 		<ASroute src="Dispatcher0" dst="Datacenter0" gw_src="Dispatcher_cluster0" gw_dst="Datacenter_cluster0">
@@ -1069,10 +894,6 @@
 			<link_ctn id="linkDispatcher8Datacenter8" />
 		</ASroute>
 
-		<ASroute src="Dispatcher9" dst="Datacenter9" gw_src="Dispatcher_cluster9" gw_dst="Datacenter_cluster9">
-			<link_ctn id="linkDispatcher9Datacenter9" />
-		</ASroute>
-
 		<ASroute src="Datacenter0" dst="IoT0" gw_src="Datacenter_cluster0" gw_dst="IoT_cluster0">
 			<link_ctn id="linkDatacenter0IoT0" />
 		</ASroute>
@@ -1107,10 +928,6 @@
 
 		<ASroute src="Datacenter0" dst="IoT8" gw_src="Datacenter_cluster0" gw_dst="IoT_cluster8">
 			<link_ctn id="linkDatacenter0IoT8" />
-		</ASroute>
-
-		<ASroute src="Datacenter0" dst="IoT9" gw_src="Datacenter_cluster0" gw_dst="IoT_cluster9">
-			<link_ctn id="linkDatacenter0IoT9" />
 		</ASroute>
 
 		<ASroute src="Datacenter1" dst="IoT0" gw_src="Datacenter_cluster1" gw_dst="IoT_cluster0">
@@ -1149,10 +966,6 @@
 			<link_ctn id="linkDatacenter1IoT8" />
 		</ASroute>
 
-		<ASroute src="Datacenter1" dst="IoT9" gw_src="Datacenter_cluster1" gw_dst="IoT_cluster9">
-			<link_ctn id="linkDatacenter1IoT9" />
-		</ASroute>
-
 		<ASroute src="Datacenter2" dst="IoT0" gw_src="Datacenter_cluster2" gw_dst="IoT_cluster0">
 			<link_ctn id="linkDatacenter2IoT0" />
 		</ASroute>
@@ -1187,10 +1000,6 @@
 
 		<ASroute src="Datacenter2" dst="IoT8" gw_src="Datacenter_cluster2" gw_dst="IoT_cluster8">
 			<link_ctn id="linkDatacenter2IoT8" />
-		</ASroute>
-
-		<ASroute src="Datacenter2" dst="IoT9" gw_src="Datacenter_cluster2" gw_dst="IoT_cluster9">
-			<link_ctn id="linkDatacenter2IoT9" />
 		</ASroute>
 
 		<ASroute src="Datacenter3" dst="IoT0" gw_src="Datacenter_cluster3" gw_dst="IoT_cluster0">
@@ -1229,10 +1038,6 @@
 			<link_ctn id="linkDatacenter3IoT8" />
 		</ASroute>
 
-		<ASroute src="Datacenter3" dst="IoT9" gw_src="Datacenter_cluster3" gw_dst="IoT_cluster9">
-			<link_ctn id="linkDatacenter3IoT9" />
-		</ASroute>
-
 		<ASroute src="Datacenter4" dst="IoT0" gw_src="Datacenter_cluster4" gw_dst="IoT_cluster0">
 			<link_ctn id="linkDatacenter4IoT0" />
 		</ASroute>
@@ -1267,10 +1072,6 @@
 
 		<ASroute src="Datacenter4" dst="IoT8" gw_src="Datacenter_cluster4" gw_dst="IoT_cluster8">
 			<link_ctn id="linkDatacenter4IoT8" />
-		</ASroute>
-
-		<ASroute src="Datacenter4" dst="IoT9" gw_src="Datacenter_cluster4" gw_dst="IoT_cluster9">
-			<link_ctn id="linkDatacenter4IoT9" />
 		</ASroute>
 
 		<ASroute src="Datacenter5" dst="IoT0" gw_src="Datacenter_cluster5" gw_dst="IoT_cluster0">
@@ -1309,10 +1110,6 @@
 			<link_ctn id="linkDatacenter5IoT8" />
 		</ASroute>
 
-		<ASroute src="Datacenter5" dst="IoT9" gw_src="Datacenter_cluster5" gw_dst="IoT_cluster9">
-			<link_ctn id="linkDatacenter5IoT9" />
-		</ASroute>
-
 		<ASroute src="Datacenter6" dst="IoT0" gw_src="Datacenter_cluster6" gw_dst="IoT_cluster0">
 			<link_ctn id="linkDatacenter6IoT0" />
 		</ASroute>
@@ -1347,10 +1144,6 @@
 
 		<ASroute src="Datacenter6" dst="IoT8" gw_src="Datacenter_cluster6" gw_dst="IoT_cluster8">
 			<link_ctn id="linkDatacenter6IoT8" />
-		</ASroute>
-
-		<ASroute src="Datacenter6" dst="IoT9" gw_src="Datacenter_cluster6" gw_dst="IoT_cluster9">
-			<link_ctn id="linkDatacenter6IoT9" />
 		</ASroute>
 
 		<ASroute src="Datacenter7" dst="IoT0" gw_src="Datacenter_cluster7" gw_dst="IoT_cluster0">
@@ -1389,10 +1182,6 @@
 			<link_ctn id="linkDatacenter7IoT8" />
 		</ASroute>
 
-		<ASroute src="Datacenter7" dst="IoT9" gw_src="Datacenter_cluster7" gw_dst="IoT_cluster9">
-			<link_ctn id="linkDatacenter7IoT9" />
-		</ASroute>
-
 		<ASroute src="Datacenter8" dst="IoT0" gw_src="Datacenter_cluster8" gw_dst="IoT_cluster0">
 			<link_ctn id="linkDatacenter8IoT0" />
 		</ASroute>
@@ -1427,50 +1216,6 @@
 
 		<ASroute src="Datacenter8" dst="IoT8" gw_src="Datacenter_cluster8" gw_dst="IoT_cluster8">
 			<link_ctn id="linkDatacenter8IoT8" />
-		</ASroute>
-
-		<ASroute src="Datacenter8" dst="IoT9" gw_src="Datacenter_cluster8" gw_dst="IoT_cluster9">
-			<link_ctn id="linkDatacenter8IoT9" />
-		</ASroute>
-
-		<ASroute src="Datacenter9" dst="IoT0" gw_src="Datacenter_cluster9" gw_dst="IoT_cluster0">
-			<link_ctn id="linkDatacenter9IoT0" />
-		</ASroute>
-
-		<ASroute src="Datacenter9" dst="IoT1" gw_src="Datacenter_cluster9" gw_dst="IoT_cluster1">
-			<link_ctn id="linkDatacenter9IoT1" />
-		</ASroute>
-
-		<ASroute src="Datacenter9" dst="IoT2" gw_src="Datacenter_cluster9" gw_dst="IoT_cluster2">
-			<link_ctn id="linkDatacenter9IoT2" />
-		</ASroute>
-
-		<ASroute src="Datacenter9" dst="IoT3" gw_src="Datacenter_cluster9" gw_dst="IoT_cluster3">
-			<link_ctn id="linkDatacenter9IoT3" />
-		</ASroute>
-
-		<ASroute src="Datacenter9" dst="IoT4" gw_src="Datacenter_cluster9" gw_dst="IoT_cluster4">
-			<link_ctn id="linkDatacenter9IoT4" />
-		</ASroute>
-
-		<ASroute src="Datacenter9" dst="IoT5" gw_src="Datacenter_cluster9" gw_dst="IoT_cluster5">
-			<link_ctn id="linkDatacenter9IoT5" />
-		</ASroute>
-
-		<ASroute src="Datacenter9" dst="IoT6" gw_src="Datacenter_cluster9" gw_dst="IoT_cluster6">
-			<link_ctn id="linkDatacenter9IoT6" />
-		</ASroute>
-
-		<ASroute src="Datacenter9" dst="IoT7" gw_src="Datacenter_cluster9" gw_dst="IoT_cluster7">
-			<link_ctn id="linkDatacenter9IoT7" />
-		</ASroute>
-
-		<ASroute src="Datacenter9" dst="IoT8" gw_src="Datacenter_cluster9" gw_dst="IoT_cluster8">
-			<link_ctn id="linkDatacenter9IoT8" />
-		</ASroute>
-
-		<ASroute src="Datacenter9" dst="IoT9" gw_src="Datacenter_cluster9" gw_dst="IoT_cluster9">
-			<link_ctn id="linkDatacenter9IoT9" />
 		</ASroute>
 
 		</AS>
