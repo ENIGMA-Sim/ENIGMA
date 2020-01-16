@@ -7,7 +7,7 @@ Fogs = int(input("Enter number of Fog clusters:  "))
 
 
 
-filename = "./prueba.xml"
+filename = "./platform_user.xml"
 platform = xml.Element("platform")
 platform.set('version','4.1')
 
@@ -274,10 +274,11 @@ for i in range(IoT_Clusters):
 	tasks.append(t)
 	r = input("Insert size of requests to create on IoT" + str(i) + ": ")
 	sizeRequest.append(r)
-	rs = input("Insert size of responses to receive on IoT" + str(i) + ": ")
+	rs = input("Insert size of responses to receive on IoT" + str(i) + " (between 0 and 1): ")
 	sizeResponse.append(rs)
-	p = input("Insert percentage of tasks to execute on IoT (between 0 and 1)" + str(i) + ": ")
+	p = input("Insert percentage of tasks to execute on IoT" + str(i) + " (between 0 and 1): ")
 	percentage.append(p)
+	print("")
 
 arrival_rate = input("Insert arrival rate (between 0 and 1): ")
 
