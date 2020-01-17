@@ -19,7 +19,7 @@ static int sort_function_short(const void *e1, const void *e2)
 
 
 // Client function: Creates the requests
-int client(int argc, char *argv[])
+int iot(int argc, char *argv[])
 {
 	double task_comp_size = 0;
 	double task_comm_size = 0;
@@ -29,27 +29,31 @@ int client(int argc, char *argv[])
 	struct ClientRequest *req;
 	struct ServerResponse *resServer;
 	double t_arrival;
-	int my_iot_cluster, my_device, dispatcher;
-	double t;
+	int my_iot_cluster, my_device, dispatcher, num_tasks, size_request, num_datacemters;
+	double t, percentage;
 	int res, k;
 
 	my_iot_cluster = atoi(argv[0]);
 	my_device = atoi(argv[1]);
+	size_request = atoi(argv[2]);
+	num_tasks = atoi(argv[3]);
+	percentage = atof(argv[4]);
+	num_datacenters = atoi(argv[5]);
 
 	sprintf(buf, "c-%d-%d", my_iot_cluster,my_device);
 	MSG_mailbox_set_async(buf); //mailbox asincrono
 
 	msg_host_t host = MSG_host_by_name(buf);
 	
-	if (percentageTasks == 1)								//If percentageTasks is equal to 1 then the tasks execute on the devices
+	if (percentage == 1)								//If percentage is equal to 1 then the tasks execute on the devices
 	{
-		for (k = 0; k < NUM_TASKS; k++)
+		for (k = 0; k < num_tasks; k++)
 		{
 			sprintf(sprintf_buffer, "Task_%d_%d_%d", my_iot_cluster, my_device, k);
 			double start = MSG_get_clock();
 			msg_task_t taskLocally = NULL;
-			double serviceLocally = MFLOPS_BASE * exponential((double)SERVICE_RATE) * percentageTasks;
-			taskLocally = MSG_task_create(sprintf_buffer, serviceLocally, SIZE_DATA, NULL);
+			double serviceLocally = MFLOPS_BASE * exponential((double)SERVICE_RATE) * percentage;
+			taskLocally = MSG_task_create(sprintf_buffer, serviceLocally, size_request, NULL);
 			MSG_task_execute(taskLocally);
 			MSG_task_destroy(taskLocally);
 
@@ -61,7 +65,7 @@ int client(int argc, char *argv[])
 	}
 	else 													//If not, the devices create the requests that execute the datacenters 
 	{
-		for (k = 0; k < NUM_TASKS; k++)
+		for (k = 0; k < num_tasks; k++)
 		{
 			req = (struct ClientRequest *)malloc(sizeof(struct ClientRequest));
 
@@ -81,12 +85,12 @@ int client(int argc, char *argv[])
 			req->t_service = MFLOPS_BASE * t; 			// calculo del tiempo de servicio en funcion
 											  			// de la velocidad del host del servidor
 
-			if (percentageTasks != 0)					//The devices compute locally part of the tasks
+			if (percentage != 0)					//The devices compute locally part of the tasks
 			{
 				double start = MSG_get_clock();
 				msg_task_t taskLocally = NULL;
-				double serviceLocally = MFLOPS_BASE * t * percentageTasks;
-				taskLocally = MSG_task_create(sprintf_buffer, serviceLocally, SIZE_DATA, NULL);
+				double serviceLocally = MFLOPS_BASE * t * percentage;
+				taskLocally = MSG_task_create(sprintf_buffer, serviceLocally, size_request, NULL);
 				MSG_task_execute(taskLocally);
 				MSG_task_destroy(taskLocally);
 				req->t_service = req->t_service - serviceLocally;
@@ -105,7 +109,7 @@ int client(int argc, char *argv[])
 			task = MSG_task_create(sprintf_buffer, task_comp_size, task_comm_size, NULL);
 			MSG_task_set_data(task, (void *)req);
 
-			dispatcher = uniform_int(0, NUM_DATACENTERS-1);
+			dispatcher = uniform_int(0, num_datacenters-1);
 			sprintf(mailbox, "d-%d-0", dispatcher);
 			MSG_task_send(task, mailbox);
 			task = NULL;
@@ -163,7 +167,7 @@ int dispatcher(int argc, char *argv[])
 		task = NULL;
 
 		datacenter = my_d; 
-		server = uniform_int(0, NUM_SERVERS_PER_DATACENTER-1);
+		server = uniform_int(0, atoi(argv[1])-1);						//argv[1] == nservers [datacenter]
 
 		//printf("Tarea %s enviada al servidor s-%d-%d\n", req->id_task, datacenter, server);
 
@@ -180,7 +184,7 @@ int dispatcher(int argc, char *argv[])
 
 
 /* server function  */
-int server(int argc, char *argv[])
+int datacenter(int argc, char *argv[])
 {
 	msg_task_t task = NULL;
 	msg_task_t t = NULL;
@@ -226,7 +230,7 @@ int server(int argc, char *argv[])
 
 
 /* server function  */
-int dispatcherServer(int argc, char *argv[])
+int dispatcherDatacenter(int argc, char *argv[])
 {
 	int res;
 	char mailbox[64];
@@ -242,6 +246,7 @@ int dispatcherServer(int argc, char *argv[])
 	
 	my_datacenter = atoi(argv[0]);
 	my_server = atoi(argv[1]);
+	int output_size_data = atoi(argv[2]);
 
 	char hostS[30];
 	sprintf(hostS,"s-%d-%d",my_datacenter,my_server);
@@ -277,7 +282,9 @@ int dispatcherServer(int argc, char *argv[])
 		task = MSG_task_create("task", req->t_service, 0, NULL);
 		MSG_task_execute(task);
 
-		//printf("%s\n",MSG_host_get_name(host));
+		
+
+
 
 		printf("Task done in %s (duration: %.2f s). Current peak speed=%.0E flop/s; Current consumption: from %.0fW to %.0fW"
 		" depending on load; Energy dissipated=%.0f J\n\n",
@@ -297,7 +304,7 @@ int dispatcherServer(int argc, char *argv[])
 		resServer->server_cluster = my_datacenter;
 		resServer->server = my_server;
 
-		ans_task = MSG_task_create(MSG_task_get_name(task), MSG_task_get_flops_amount(task), 0, NULL);
+		ans_task = MSG_task_create(MSG_task_get_name(task), MSG_task_get_flops_amount(task), output_size_data, NULL);
 		sprintf(resServer->response, "Task finished on %d-%d", resServer->server_cluster, resServer->server);
 
 		sprintf(resServer->id_task,"%s",req->id_task);
@@ -306,7 +313,6 @@ int dispatcherServer(int argc, char *argv[])
 
 		/*Reenvio de terminacion de la tarea al cliente*/
 		MSG_task_send(ans_task, mailbox);
-		//free(req);
 		MSG_task_destroy(task);
 	}
 }

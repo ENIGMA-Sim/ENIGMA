@@ -15,6 +15,9 @@ AS = xml.SubElement(platform, 'AS')
 AS.set('id','AS0')
 AS.set('routing','Full')
 
+dev = []
+ser = []
+
 for i in range(IoT_Clusters):
 	id = "IoT"+str(i)
 
@@ -24,6 +27,7 @@ for i in range(IoT_Clusters):
 	print("")
 
 	devices = input("Number of devices: ")
+	dev.append(int(devices))
 	speed = input("Speed (A,B,C): ")
 	core = input("Cores: ")
 	bw = input("Bandwidth: ")
@@ -105,6 +109,7 @@ for i in range(Datacenters):
 	print("------------DATACENTER "+str(i)+"-------------")
 	print("")
 	servers = input("Number of servers: ")
+	ser.append(servers)
 	speed = input("Speed (A,B,C): ")
 	core = input("Cores: ")
 	bw = input("Bandwidth: ")
@@ -268,14 +273,16 @@ sizeRequest = []
 sizeResponse = []
 percentage = []
 
+for i in range(Datacenters):
+	rs = input("Insert size of responses to receive from Datacenter" + str(i) + ": ")
+	sizeResponse.append(rs)
+
 
 for i in range(IoT_Clusters):
 	t = input("Insert number of tasks to create on IoT" + str(i) + ": ")
 	tasks.append(t)
 	r = input("Insert size of requests to create on IoT" + str(i) + ": ")
 	sizeRequest.append(r)
-	rs = input("Insert size of responses to receive on IoT" + str(i) + " (between 0 and 1): ")
-	sizeResponse.append(rs)
 	p = input("Insert percentage of tasks to execute on IoT" + str(i) + " (between 0 and 1): ")
 	percentage.append(p)
 	print("")
@@ -283,13 +290,23 @@ for i in range(IoT_Clusters):
 arrival_rate = input("Insert arrival rate (between 0 and 1): ")
 
 print("----------------------------------------------")
-print ("The command is:")
+print ("The commands are:")
+print("")
+command = "./generation_main.sh  " + str(Datacenters)
 
-command = "./simulation platform-cluster.xml " + arrival_rate + " " + str(IoT_Clusters) + " "
+
+for i in range(Datacenters):
+	command = command + " " + ser[i] + " " + sizeResponse[i]
+
+
+command = command + " " + str(IoT_Clusters) + " "
+
 
 for i in range(IoT_Clusters):
-	command = command + tasks[i] + " " + sizeRequest[i] + " " + sizeResponse[i] + " " + percentage[i]
+	command = command + str(dev[i]) + " " + str(tasks[i]) + " " + str(sizeRequest[i]) + " " + str(percentage[i]) + " "
 
 print (command)
+print("make")
+print("./simulation platform-cluster.xml lambda")
 print("----------------------------------------------")
 
