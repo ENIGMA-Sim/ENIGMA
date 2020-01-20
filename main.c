@@ -13,8 +13,8 @@ void test_all(char *file)
 	MSG_function_register("dispatcherDatacenter", dispatcherDatacenter);
 
 
-	int request_data, num_tasks, percentage, num_datacenters, output_data;
-	double arrival;
+	int request_data, num_tasks, num_datacenters, output_data;
+	double arrival, percentage;
 
 	//Datacenter 0
 
@@ -22,7 +22,7 @@ void test_all(char *file)
 
 	for(j = 0; j < 200; j++)
 	{
-		sprintf(str, "s-0-%d", j);
+		sprintf(str, "s-%d-%d", i, j);
 		argc = 2;
 		char **argvc = xbt_new(char *, 3);
 
@@ -43,9 +43,9 @@ printf("\n");
 
 	i = 1;
 
-	for(j = 0; j < 2048; j++)
+	for(j = 0; j < 34; j++)
 	{
-		sprintf(str, "s-1-%d", j);
+		sprintf(str, "s-%d-%d", i, j);
 		argc = 2;
 		char **argvc = xbt_new(char *, 3);
 
@@ -68,7 +68,7 @@ printf("\n");
 
 	for(j = 0; j < 200; j++)
 	{
-		sprintf(str, "s-0-%d", j);
+		sprintf(str, "s-%d-%d", i, j);
 		argc = 3;
 		char **argvc = xbt_new(char *, 4);
 
@@ -91,9 +91,9 @@ printf("\n");
 
 	i = 1;
 
-	for(j = 0; j < 2048; j++)
+	for(j = 0; j < 34; j++)
 	{
-		sprintf(str, "s-1-%d", j);
+		sprintf(str, "s-%d-%d", i, j);
 		argc = 3;
 		char **argvc = xbt_new(char *, 4);
 
@@ -123,7 +123,7 @@ printf("\n");
 
 	for(j = 0; j < 100; j++)
 	{
-		sprintf(str, "c-0-%d", j);
+		sprintf(str, "c-%d-%d", i, j);
 		argc = 7;
 		char **argvc = xbt_new(char *, 8);
 
@@ -156,7 +156,7 @@ printf("\n");
 
 	for(j = 0; j < 50; j++)
 	{
-		sprintf(str, "c-1-%d", j);
+		sprintf(str, "c-%d-%d", i, j);
 		argc = 7;
 		char **argvc = xbt_new(char *, 8);
 
@@ -189,7 +189,7 @@ printf("\n");
 
 	for(j = 0; j < 123; j++)
 	{
-		sprintf(str, "c-2-%d", j);
+		sprintf(str, "c-%d-%d", i, j);
 		argc = 7;
 		char **argvc = xbt_new(char *, 8);
 
@@ -210,53 +210,48 @@ printf("\n");
 			exit(0);
 		}
 	}
+	int nservers;
 
 	//Dispatcher 0
 
 	i = 0;
 
-	for(j = 0; j < 2; j++)
+	sprintf(str, "d-%d-0", i);
+	argc = 2;
+	char **argvc0 = xbt_new(char *, 3);
+
+	nservers = 200;
+	argvc0[0] = bprintf("%d",i);
+	argvc0[1] = bprintf("%d",nservers);
+	argvc0[2] = NULL;
+
+	p = MSG_process_create_with_arguments(str, dispatcher, NULL, MSG_get_host_by_name(str), argc, argvc0);
+	if(p == NULL)
 	{
-		sprintf(str, "d-0-0", j);
-		argc = 2;
-		char **argvc = xbt_new(char *, 2);
-
-		int nservers = 200;
-		argvc[0] = bprintf("%d",i);
-		argvc[1] = bprintf("%d",nservers);
-		argvc[2] = NULL;
-
-		p = MSG_process_create_with_arguments(str, dispatcher, NULL, MSG_get_host_by_name(str), argc, argvc);
-		if(p == NULL)
-		{
-			printf("Error en ......... d-%d-0", i);
+		printf("Error en ......... d-%d-0", i);
 printf("\n");
-			exit(0);
-		}
+		exit(0);
 	}
 
 	//Dispatcher 1
 
 	i = 1;
 
-	for(j = 0; j < 2; j++)
+	sprintf(str, "d-%d-0", i);
+	argc = 2;
+	char **argvc1 = xbt_new(char *, 3);
+
+	nservers = 34;
+	argvc1[0] = bprintf("%d",i);
+	argvc1[1] = bprintf("%d",nservers);
+	argvc1[2] = NULL;
+
+	p = MSG_process_create_with_arguments(str, dispatcher, NULL, MSG_get_host_by_name(str), argc, argvc1);
+	if(p == NULL)
 	{
-		sprintf(str, "d-1-0", j);
-		argc = 2;
-		char **argvc = xbt_new(char *, 2);
-
-		int nservers = 2048;
-		argvc[0] = bprintf("%d",i);
-		argvc[1] = bprintf("%d",nservers);
-		argvc[2] = NULL;
-
-		p = MSG_process_create_with_arguments(str, dispatcher, NULL, MSG_get_host_by_name(str), argc, argvc);
-		if(p == NULL)
-		{
-			printf("Error en ......... d-%d-0", i);
+		printf("Error en ......... d-%d-0", i);
 printf("\n");
-			exit(0);
-		}
+		exit(0);
 	}
 	return;
 }
@@ -299,7 +294,7 @@ printf("\n");
 
 
 
-	for(j = 0; j < 2048; j++)
+	for(j = 0; j < 34; j++)
 	{
 		tasksManagement[1].Nqueue[j] = 0;
 		tasksManagement[1].Nsystem[j] = 0;
@@ -311,8 +306,6 @@ printf("\n");
 
 	test_all(argv[1]);
 	res = MSG_main();
-	int totaltasks = 0;
-
 
 
 	i = 0;
@@ -326,12 +319,11 @@ printf("%i \t\t %g \t\t\t %g \t\t\t  %g  \t\t\t  %d \n\n", i, t_medio_servicio, 
 	t_medio_servicio = 0;
 	q_medio = 0;
 	n_medio = 0;
-	totaltasks += avServTime[i].numTasks;
 
 
 
 	i = 1;
-	for(j = 0; j < 2048; j++)
+	for(j = 0; j < 34; j++)
 	{
 		q_medio = q_medio + tasksManagement[1].Navgqueue[j];
 		n_medio = n_medio + tasksManagement[1].Navgsystem[j];
@@ -341,7 +333,6 @@ printf("%i \t\t %g \t\t\t %g \t\t\t  %g  \t\t\t  %d \n\n", i, t_medio_servicio, 
 	t_medio_servicio = 0;
 	q_medio = 0;
 	n_medio = 0;
-	totaltasks += avServTime[i].numTasks;
 
 printf("Simulation time %g\n", MSG_get_clock());
 
@@ -354,7 +345,7 @@ printf("Simulation time %g\n", MSG_get_clock());
 
 
 
-	for(j = 0; j < 2048; j++)
+	for(j = 0; j < 34; j++)
 	{
 		xbt_dynar_free(&tasksManagement[1].client_requests[j]);
 	}

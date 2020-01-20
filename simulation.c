@@ -1,7 +1,7 @@
 #include "./Headers/simulation.h"
 #include "./Headers/rand.h"
 
-const long MAX_TIMEOUT_SERVER = (86400 * 0.001); 					//Timeout= 10 días sin actividad
+const long MAX_TIMEOUT_SERVER = (86400 * 0.01); 					//Timeout= 10 días sin actividad
 
 
 
@@ -44,11 +44,12 @@ int iot(int argc, char *argv[])
 	num_datacenters = atoi(argv[5]);
 	arrival = atof(argv[6]);
 
+
 	sprintf(buf, "c-%d-%d", my_iot_cluster,my_device);
 	MSG_mailbox_set_async(buf); //mailbox asincrono
 
 	msg_host_t host = MSG_host_by_name(buf);
-	
+
 	if (percentage == 1)								//If percentage is equal to 1 then the tasks execute on the devices
 	{
 		for (k = 0; k < num_tasks; k++)
@@ -88,6 +89,7 @@ int iot(int argc, char *argv[])
 
 			req->t_service = MFLOPS_BASE * t; 			// calculo del tiempo de servicio en funcion
 											  			// de la velocidad del host del servidor
+
 
 			if (percentage != 0)					//The devices compute locally part of the tasks
 			{
@@ -152,6 +154,7 @@ int dispatcher(int argc, char *argv[])
 	char mailbox[64];
 	int datacenter = 0, server = 0;
 	char buf[64];
+
 
 	my_d = atoi(argv[0]);
 	
@@ -307,6 +310,7 @@ int dispatcherDatacenter(int argc, char *argv[])
 		avServTime[my_datacenter].numTasks += 1;
 		resServer->server_cluster = my_datacenter;
 		resServer->server = my_server;
+
 
 		ans_task = MSG_task_create(MSG_task_get_name(task), MSG_task_get_flops_amount(task), output_size_data, NULL);
 		sprintf(resServer->response, "Task finished on %d-%d", resServer->server_cluster, resServer->server);

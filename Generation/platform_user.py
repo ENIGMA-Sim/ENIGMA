@@ -51,7 +51,7 @@ for i in range(IoT_Clusters):
 	cluster.set('lat', latency)
 	cluster.set('bb_bw', bb_bw)
 	cluster.set('bb_lat', bb_lat)
-	cluster.set('router_id', "IoT_Cluster"+str(i))
+	cluster.set('router_id', "IoT_cluster"+str(i))
 
 	propIoT = xml.SubElement(cluster, 'prop')
 	propIoT.set('id', 'watt_per_state') 
@@ -91,7 +91,7 @@ for i in range(Datacenters):
 	cluster.set('lat', latency)
 	cluster.set('bb_bw', bb_bw)
 	cluster.set('bb_lat', bb_lat)
-	cluster.set('router_id', "IoT_Cluster"+str(i))
+	cluster.set('router_id', "Dispatcher_cluster"+str(i))
 
 	propIoT = xml.SubElement(cluster, 'prop')
 	propIoT.set('id', 'watt_per_state') 
@@ -122,7 +122,7 @@ for i in range(Datacenters):
 
 	cluster = xml.SubElement(AS, 'cluster')
 	cluster.set('id', id)
-	prefix = "d-"+str(i)+"-"
+	prefix = "s-"+str(i)+"-"
 	cluster.set('prefix', prefix)
 	cluster.set('suffix', "")
 	cluster.set('radical', '0-'+str(int(servers)-1))
@@ -132,7 +132,7 @@ for i in range(Datacenters):
 	cluster.set('lat', latency)
 	cluster.set('bb_bw', bb_bw)
 	cluster.set('bb_lat', bb_lat)
-	cluster.set('router_id', "IoT_Cluster"+str(i))
+	cluster.set('router_id', "Datacenter_cluster"+str(i))
 
 	propIoT = xml.SubElement(cluster, 'prop')
 	propIoT.set('id', 'watt_per_state') 
@@ -213,7 +213,7 @@ for i in range(Datacenters):
 		ASroute = xml.SubElement(AS, 'ASroute')
 		ASroute.set('src', 'IoT' + str(j))
 		ASroute.set('dst', 'Dispatcher' + str(i))
-		ASroute.set('gw_src', 'Iot_cluster' + str(j))
+		ASroute.set('gw_src', 'IoT_cluster' + str(j))
 		ASroute.set('gw_dst', 'Dispatcher_cluster' + str(i))
 
 		link_ctn = xml.SubElement(ASroute, 'link_ctn')
@@ -235,16 +235,16 @@ for i in range(Datacenters):
 
 
 
-for i in range(Datacenters):
-	for j in range(IoT_Clusters):
+for i in range(IoT_Clusters):
+	for j in range(Datacenters):
 		ASroute = xml.SubElement(AS, 'ASroute')
-		ASroute.set('src', 'Datacenter' + str(i))
-		ASroute.set('dst', 'IoT' + str(j))
+		ASroute.set('src', 'Datacenter' + str(j))
+		ASroute.set('dst', 'IoT' + str(i))
 		ASroute.set('gw_src', 'Datacenter_cluster' + str(j))
-		ASroute.set('gw_dst', 'IoT_cluster' + str(i))
+		ASroute.set('gw_dst', 'IoT_Cluster' + str(i))
 
 		link_ctn = xml.SubElement(ASroute, 'link_ctn')
-		link_ctn.set('id', 'linkDatacenter' + str(i) + 'IoT' + str(j))
+		link_ctn.set('id', 'linkDatacenter' + str(j) + 'IoT' + str(i))
 
 
 

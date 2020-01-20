@@ -43,14 +43,14 @@ echo -e ""																					>> prueba.c
 #SERVERS
 
 
-echo -e "\tint request_data, num_tasks, percentage, num_datacenters, output_data;"																						>> prueba.c											
-echo -e "\tdouble arrival;"																																				>> prueba.c
+echo -e "\tint request_data, num_tasks, num_datacenters, output_data;"																						>> prueba.c											
+echo -e "\tdouble arrival, percentage;"																																				>> prueba.c
 
 
 
 for (( c=0; c<$DATACENTERS; c++ ))
 do
-	SERVERS=${args[$(($c+1))]}
+	SERVERS=${args[$((1 + ($c*2)))]}
 	echo -e ""																														>> prueba.c
 	echo -e "\t//Datacenter $c"																										>> prueba.c
 	echo -e ""																														>> prueba.c
@@ -59,7 +59,7 @@ do
 
 	echo -e "\tfor(j = 0; j < $SERVERS; j++)"																						>> prueba.c
 	echo -e "\t{"																													>> prueba.c
-	echo -e "\t\tsprintf(str, \"s-$c-%d\", j);"																						>> prueba.c
+	echo -e "\t\tsprintf(str, \"s-%d-%d\", i, j);"																						>> prueba.c
 	echo -e "\t\targc = 2;"																											>> prueba.c
 	echo -e "\t\tchar **argvc = xbt_new(char *, 3);"																				>> prueba.c
 	echo ""																															>> prueba.c
@@ -83,7 +83,7 @@ done
 for (( c=0; c<$DATACENTERS; c++ ))
 do
 	echo -e ""																														>> prueba.c
-	SERVERS=${args[$(($c+1))]}
+	SERVERS=${args[$((1 + ($c*2)))]}
 	OUTPUT=${args[$((2+$c+($c)))]}
 
 	echo -e "\t//Dispatcher Datacenter $c"																							>> prueba.c
@@ -92,7 +92,7 @@ do
 	echo -e ""																														>> prueba.c
 	echo -e "\tfor(j = 0; j < $SERVERS; j++)"																						>> prueba.c
 	echo -e "\t{"																													>> prueba.c
-	echo -e "\t\tsprintf(str, \"s-$c-%d\", j);"																						>> prueba.c
+	echo -e "\t\tsprintf(str, \"s-%d-%d\", i, j);"																						>> prueba.c
 	echo -e "\t\targc = 3;"																											>> prueba.c
 	echo -e "\t\tchar **argvc = xbt_new(char *, 4);"																				>> prueba.c
 	echo ""																															>> prueba.c
@@ -137,7 +137,7 @@ do
 	
 	echo -e "\tfor(j = 0; j < $DEVICES; j++)"																						>> prueba.c
 	echo -e "\t{"																													>> prueba.c
-	echo -e "\t\tsprintf(str, \"c-$c-%d\", j);"																						>> prueba.c
+	echo -e "\t\tsprintf(str, \"c-%d-%d\", i, j);"																						>> prueba.c
 	echo -e "\t\targc = 7;"																											>> prueba.c
 	echo -e "\t\tchar **argvc = xbt_new(char *, 8);"																				>> prueba.c
 	echo ""																															>> prueba.c
@@ -164,34 +164,35 @@ done
 #DISPATCHERS
 
 
+echo -e "\tint nservers;"																							>> prueba.c											
+
+
+
 for (( c=0; c<$DATACENTERS; c++ ))
 do
 	echo -e ""																														>> prueba.c
-	SERVERS=${args[$(($c+1))]}
+	SERVERS=${args[$((1 + ($c*2)))]}
 
 	echo -e "\t//Dispatcher $c"																										>> prueba.c
 	echo -e ""																														>> prueba.c
 	echo -e "\ti = $c;"																												>> prueba.c
 	echo -e ""																														>> prueba.c
-	
-	echo -e "\tfor(j = 0; j < $DATACENTERS; j++)"																					>> prueba.c
-	echo -e "\t{"																													>> prueba.c
-	echo -e "\t\tsprintf(str, \"d-$c-0\", j);"																						>> prueba.c
-	echo -e "\t\targc = 2;"																											>> prueba.c
-	echo -e "\t\tchar **argvc = xbt_new(char *, 2);"																				>> prueba.c
+																														>> prueba.c
+	echo -e "\tsprintf(str, \"d-%d-0\", i);"																						>> prueba.c
+	echo -e "\targc = 2;"																											>> prueba.c
+	echo -e "\tchar **argvc$c = xbt_new(char *, 3);"																				>> prueba.c
 	echo ""																															>> prueba.c
-	echo -e "\t\tint nservers = $SERVERS;"																							>> prueba.c											
-	echo -e "\t\targvc[0] = bprintf(\"%d\",i);"																						>> prueba.c
-	echo -e "\t\targvc[1] = bprintf(\"%d\",nservers);"																				>> prueba.c
-	echo -e "\t\targvc[2] = NULL;"																									>> prueba.c
+	echo -e "\tnservers = $SERVERS;"																							>> prueba.c											
+	echo -e "\targvc$c[0] = bprintf(\"%d\",i);"																						>> prueba.c
+	echo -e "\targvc$c[1] = bprintf(\"%d\",nservers);"																				>> prueba.c
+	echo -e "\targvc$c[2] = NULL;"																									>> prueba.c
 	echo -e ""																														>> prueba.c
-	echo -e "\t\tp = MSG_process_create_with_arguments(str, dispatcher, NULL, MSG_get_host_by_name(str), argc, argvc);"				>> prueba.c
-	echo -e "\t\tif(p == NULL)"																										>> prueba.c
-	echo -e "\t\t{"																													>> prueba.c
-	echo -e "\t\t\tprintf(\"Error en ......... d-%d-0\", i);"																		>> prueba.c
+	echo -e "\tp = MSG_process_create_with_arguments(str, dispatcher, NULL, MSG_get_host_by_name(str), argc, argvc$c);"				>> prueba.c
+	echo -e "\tif(p == NULL)"																										>> prueba.c
+	echo -e "\t{"																													>> prueba.c
+	echo -e "\t\tprintf(\"Error en ......... d-%d-0\", i);"																		>> prueba.c
 	echo  "printf(\"\\n\");"																										>> prueba.c
-	echo -e "\t\t\texit(0);"																										>> prueba.c
-	echo -e "\t\t}"																													>> prueba.c
+	echo -e "\t\texit(0);"																										>> prueba.c
 	echo -e "\t}"																													>> prueba.c
 done
 
@@ -229,7 +230,7 @@ echo -e ""																															>> prueba.c
 for (( c=0; c<$DATACENTERS; c++ ))
 do
 	echo -e ""																														>> prueba.c
-	SERVERS=${args[$(($c+1))]}
+	SERVERS=${args[$((1 + ($c*2)))]}
 	echo ""																															>> prueba.c
 	echo ""																															>> prueba.c
 	echo -e "\tfor(j = 0; j < $SERVERS; j++)"																						>> prueba.c
@@ -253,7 +254,7 @@ echo -e "\tint totaltasks = 0;"																										>> prueba.c
 for (( c=0; c<$DATACENTERS; c++ ))
 do
 	echo -e ""																														>> prueba.c
-	SERVERS=${args[$(($c+1))]}
+	SERVERS=${args[$((1 + ($c*2)))]}
 	echo ""																															>> prueba.c
 	echo ""																															>> prueba.c
 	echo -e "\ti = $c;"																												>> prueba.c
@@ -278,7 +279,7 @@ echo "printf(\"Simulation time %g\n\", MSG_get_clock());"																			>> p
 for (( c=0; c<$DATACENTERS; c++ ))
 do
 	echo -e ""																														>> prueba.c
-	SERVERS=${args[$(($c+1))]}																										>> prueba.c
+	SERVERS=${args[$((1 + ($c*2)))]}																									>> prueba.c
 	echo ""																															>> prueba.c
 	echo ""																															>> prueba.c
 	echo -e "\tfor(j = 0; j < $SERVERS; j++)"																						>> prueba.c
