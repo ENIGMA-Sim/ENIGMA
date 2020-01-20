@@ -1,6 +1,5 @@
-<?xml version="1.0" ?>
-<!DOCTYPE platform
-  SYSTEM 'http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd'>
+<?xml version="1.0"?>
+<!DOCTYPE platform SYSTEM 'http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd'>
 <platform version="4.1">
 	<AS id="AS0" routing="Full">
 		<cluster bb_bw="50Mbps" bb_lat="10ms" bw="100Mbps" core="4" id="IoT0" lat="50ms" prefix="c-0-" radical="0-99" router_id="IoT_Cluster0" speed="4Gf,2Gf,1Gf" suffix="">

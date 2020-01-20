@@ -3,7 +3,7 @@
 
 
 #COMANDO GENERACION
-# ./generation_main.sh num_datacenter [servers output_data] num_iot_clusters [devices tasks size_data percentage] 
+# ./generation_main.sh num_datacenter [servers output_data] num_iot_clusters [devices tasks size_data percentage arrival_rate] 
 
 
 args=("$@")
@@ -11,7 +11,7 @@ args=("$@")
 DATACENTERS=$1
 IOT_CLUSTERS=${args[$((($1*2)+1))]}
 
-ARGUMENTS=$(($DATACENTERS*2 + $IOT_CLUSTERS*4 + 2))
+ARGUMENTS=$(($DATACENTERS*2 + $IOT_CLUSTERS*5 + 2))
 
 if [ "$arg" == "--help" ] || [ "$arg" == "-h" ]  || [ "$ARGUMENTS" != "$#" ]
     then
@@ -22,7 +22,7 @@ rm ./prueba.c
 
 
 
-echo "#include \"simulation.h\"" 															>> prueba.c
+echo "#include \"./Headers/simulation.h\"" 															>> prueba.c
 echo ""																						>> prueba.c
 echo "void test_all(char *file)"															>> prueba.c
 echo "{"																					>> prueba.c
@@ -44,6 +44,7 @@ echo -e ""																					>> prueba.c
 
 
 echo -e "\tint request_data, num_tasks, percentage, num_datacenters, output_data;"																						>> prueba.c											
+echo -e "\tdouble arrival;"																																				>> prueba.c
 
 
 
@@ -117,26 +118,28 @@ done
 for (( c=0; c<$IOT_CLUSTERS; c++ ))
 do
 	echo -e ""																														>> prueba.c
-	DEVICES=${args[$((($1*2)+2+($c*4)))]}
-	TASKS=${args[$((($1*2)+3+($c*4)))]}
-	REQUEST=${args[$((($1*2)+4+($c*4)))]}
-	PERCENTAGE=${args[$((($1*2)+5+($c*4)))]}
+	DEVICES=${args[$((($1*2)+2+($c*5)))]}
+	TASKS=${args[$((($1*2)+3+($c*5)))]}
+	REQUEST=${args[$((($1*2)+4+($c*5)))]}
+	PERCENTAGE=${args[$((($1*2)+5+($c*5)))]}
+	ARRIVAL=${args[$((($1*2)+6+($c*5)))]}
 
 	echo -e "\t//IoT Devices from cluster $c"																						>> prueba.c
-	
 	echo -e ""																														>> prueba.c
 	echo -e "\ti = $c;"																												>> prueba.c	
 	echo -e "\trequest_data = $REQUEST;"																							>> prueba.c											
 	echo -e "\tnum_tasks = $TASKS;"																									>> prueba.c
 	echo -e "\tpercentage = $PERCENTAGE;"																							>> prueba.c
 	echo -e "\tnum_datacenters = $DATACENTERS;"																						>> prueba.c	
+	echo -e "\tarrival = $ARRIVAL * MAX_SERVERS;"																					>> prueba.c	
+
 	echo -e ""																														>> prueba.c	
 	
 	echo -e "\tfor(j = 0; j < $DEVICES; j++)"																						>> prueba.c
 	echo -e "\t{"																													>> prueba.c
 	echo -e "\t\tsprintf(str, \"c-$c-%d\", j);"																						>> prueba.c
-	echo -e "\t\targc = 6;"																											>> prueba.c
-	echo -e "\t\tchar **argvc = xbt_new(char *, 7);"																				>> prueba.c
+	echo -e "\t\targc = 7;"																											>> prueba.c
+	echo -e "\t\tchar **argvc = xbt_new(char *, 8);"																				>> prueba.c
 	echo ""																															>> prueba.c
 	echo -e "\t\targvc[0] = bprintf(\"%d\",i);"																						>> prueba.c
 	echo -e "\t\targvc[1] = bprintf(\"%d\",j);"																						>> prueba.c
@@ -144,7 +147,8 @@ do
 	echo -e "\t\targvc[3] = bprintf(\"%d\",num_tasks);"																				>> prueba.c
 	echo -e "\t\targvc[4] = bprintf(\"%d\",percentage);"																			>> prueba.c
 	echo -e "\t\targvc[5] = bprintf(\"%d\",num_datacenters);"																		>> prueba.c
-	echo -e "\t\targvc[6] = NULL;"																									>> prueba.c
+	echo -e "\t\targvc[6] = bprintf(\"%g\",arrival);"																				>> prueba.c	
+	echo -e "\t\targvc[7] = NULL;"																									>> prueba.c
 	echo -e ""																														>> prueba.c
 	echo -e "\t\tp = MSG_process_create_with_arguments(str, iot, NULL, MSG_get_host_by_name(str), argc, argvc);"					>> prueba.c
 	echo -e "\t\tif(p == NULL)"																										>> prueba.c
@@ -200,7 +204,7 @@ echo -e ""																															>> prueba.c
 echo -e ""																															>> prueba.c
 
 
-echo -e "int main(int argc, *argc[])"																								>> prueba.c
+echo -e "int main(int argc, char *argv[])"																								>> prueba.c
 echo -e "{"																															>> prueba.c
 echo -e "\tmsg_error_t res = MSG_OK;"																								>> prueba.c
 echo -e "\tint i, j;"																												>> prueba.c
@@ -208,9 +212,9 @@ echo -e "\tdouble t_medio_servicio = 0.0;"																							>> prueba.c
 echo -e "\tdouble q_medio = 0.0;"																									>> prueba.c
 echo -e "\tdouble n_medio = 0.0;"																									>> prueba.c
 echo -e ""																															>> prueba.c
-echo -e "\tif (argc < 3)"																											>> prueba.c
+echo -e "\tif (argc < 2)"																											>> prueba.c
 echo -e "\t{"																														>> prueba.c
-echo -e "\t\tprintf(\"Usage: %s platform_file lambda\", argv[0]);"																	>> prueba.c
+echo -e "\t\tprintf(\"Usage: %s platform_file\", argv[0]);"																	>> prueba.c
 echo  "printf(\"\\n\");"																											>> prueba.c
 echo -e "\t\texit(1);"																												>> prueba.c
 echo -e "\t}"																														>> prueba.c
@@ -218,8 +222,7 @@ echo -e ""																															>> prueba.c
 echo -e ""																															>> prueba.c
 
 echo -e "\tseed((int)time(NULL));"																									>> prueba.c
-echo -e "\tARRIVAL_RATE = atof(argv[2]) * MAX_SERVERS;"																				>> prueba.c
-echo -e "\tsg_host_enery_plugin_init();"																							>> prueba.c
+echo -e "\tsg_host_energy_plugin_init();"																							>> prueba.c
 echo -e "\tMSG_init(&argc, argv);"																									>> prueba.c
 echo -e ""																															>> prueba.c
 
@@ -256,8 +259,8 @@ do
 	echo -e "\ti = $c;"																												>> prueba.c
 	echo -e "\tfor(j = 0; j < $SERVERS; j++)"																						>> prueba.c
 	echo -e "\t{"																													>> prueba.c
-	echo -e "\t\tq_medio = q_medio + taskManagement[$c].Navqueue[j];"																				>> prueba.c
-	echo -e "\t\tn_medio = n_medio + taskManagement[$c].Navsystem[j];"																				>> prueba.c
+	echo -e "\t\tq_medio = q_medio + tasksManagement[$c].Navgqueue[j];"																				>> prueba.c
+	echo -e "\t\tn_medio = n_medio + tasksManagement[$c].Navgsystem[j];"																				>> prueba.c
 	echo -e "\t}"																																	>> prueba.c
 
 	echo "printf(\"DATACENTER \t tiempoMedioServicio \t TamañoMediocola \t    TareasMediasEnElSistema  \t   tareas\n\");"							>> prueba.c
@@ -269,7 +272,7 @@ do
 done
 
 echo -e ""																															>> prueba.c
-echo "\tprintf(\"Simulation time %g\n\", MSG_get_clock());"																			>> prueba.c
+echo "printf(\"Simulation time %g\n\", MSG_get_clock());"																			>> prueba.c
 
 
 for (( c=0; c<$DATACENTERS; c++ ))
@@ -280,7 +283,7 @@ do
 	echo ""																															>> prueba.c
 	echo -e "\tfor(j = 0; j < $SERVERS; j++)"																						>> prueba.c
 	echo -e "\t{"																													>> prueba.c
-	echo -e "\t\txbt_dynar_free(&taskManagement[$c].client_requests[j]);"															>> prueba.c
+	echo -e "\t\txbt_dynar_free(&tasksManagement[$c].client_requests[j]);"															>> prueba.c
 	echo -e "\t}"																													>> prueba.c
 done
 

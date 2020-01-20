@@ -1,4 +1,4 @@
-#include "simulation.h"
+#include "./Headers/simulation.h"
 
 void test_all(char *file)
 {
@@ -14,6 +14,7 @@ void test_all(char *file)
 
 
 	int request_data, num_tasks, percentage, num_datacenters, output_data;
+	double arrival;
 
 	//Datacenter 0
 
@@ -118,12 +119,13 @@ printf("\n");
 	num_tasks = 200;
 	percentage = 0.9;
 	num_datacenters = 2;
+	arrival = 0.2 * MAX_SERVERS;
 
 	for(j = 0; j < 100; j++)
 	{
 		sprintf(str, "c-0-%d", j);
-		argc = 6;
-		char **argvc = xbt_new(char *, 7);
+		argc = 7;
+		char **argvc = xbt_new(char *, 8);
 
 		argvc[0] = bprintf("%d",i);
 		argvc[1] = bprintf("%d",j);
@@ -131,7 +133,8 @@ printf("\n");
 		argvc[3] = bprintf("%d",num_tasks);
 		argvc[4] = bprintf("%d",percentage);
 		argvc[5] = bprintf("%d",num_datacenters);
-		argvc[6] = NULL;
+		argvc[6] = bprintf("%g",arrival);
+		argvc[7] = NULL;
 
 		p = MSG_process_create_with_arguments(str, iot, NULL, MSG_get_host_by_name(str), argc, argvc);
 		if(p == NULL)
@@ -149,12 +152,13 @@ printf("\n");
 	num_tasks = 1000;
 	percentage = 0;
 	num_datacenters = 2;
+	arrival = 0.8 * MAX_SERVERS;
 
 	for(j = 0; j < 50; j++)
 	{
 		sprintf(str, "c-1-%d", j);
-		argc = 6;
-		char **argvc = xbt_new(char *, 7);
+		argc = 7;
+		char **argvc = xbt_new(char *, 8);
 
 		argvc[0] = bprintf("%d",i);
 		argvc[1] = bprintf("%d",j);
@@ -162,7 +166,8 @@ printf("\n");
 		argvc[3] = bprintf("%d",num_tasks);
 		argvc[4] = bprintf("%d",percentage);
 		argvc[5] = bprintf("%d",num_datacenters);
-		argvc[6] = NULL;
+		argvc[6] = bprintf("%g",arrival);
+		argvc[7] = NULL;
 
 		p = MSG_process_create_with_arguments(str, iot, NULL, MSG_get_host_by_name(str), argc, argvc);
 		if(p == NULL)
@@ -180,12 +185,13 @@ printf("\n");
 	num_tasks = 456;
 	percentage = 0.5;
 	num_datacenters = 2;
+	arrival = 0.1 * MAX_SERVERS;
 
 	for(j = 0; j < 123; j++)
 	{
 		sprintf(str, "c-2-%d", j);
-		argc = 6;
-		char **argvc = xbt_new(char *, 7);
+		argc = 7;
+		char **argvc = xbt_new(char *, 8);
 
 		argvc[0] = bprintf("%d",i);
 		argvc[1] = bprintf("%d",j);
@@ -193,7 +199,8 @@ printf("\n");
 		argvc[3] = bprintf("%d",num_tasks);
 		argvc[4] = bprintf("%d",percentage);
 		argvc[5] = bprintf("%d",num_datacenters);
-		argvc[6] = NULL;
+		argvc[6] = bprintf("%g",arrival);
+		argvc[7] = NULL;
 
 		p = MSG_process_create_with_arguments(str, iot, NULL, MSG_get_host_by_name(str), argc, argvc);
 		if(p == NULL)
@@ -257,7 +264,7 @@ printf("\n");
 
 
 
-int main(int argc, *argc[])
+int main(int argc, char *argv[])
 {
 	msg_error_t res = MSG_OK;
 	int i, j;
@@ -274,8 +281,7 @@ printf("\n");
 
 
 	seed((int)time(NULL));
-	ARRIVAL_RATE = atof(argv[2]) * MAX_SERVERS;
-	sg_host_enery_plugin_init();
+	sg_host_energy_plugin_init();
 	MSG_init(&argc, argv);
 
 
@@ -312,8 +318,8 @@ printf("\n");
 	i = 0;
 	for(j = 0; j < 200; j++)
 	{
-		q_medio = q_medio + taskManagement[0].Navqueue[j];
-		n_medio = n_medio + taskManagement[0].Navsystem[j];
+		q_medio = q_medio + tasksManagement[0].Navgqueue[j];
+		n_medio = n_medio + tasksManagement[0].Navgsystem[j];
 	}
 printf("DATACENTER \t tiempoMedioServicio \t TamañoMediocola \t    TareasMediasEnElSistema  \t   tareas\n");
 printf("%i \t\t %g \t\t\t %g \t\t\t  %g  \t\t\t  %d \n\n", i, t_medio_servicio, q_medio, n_medio, avServTime[i].numTasks);
@@ -327,8 +333,8 @@ printf("%i \t\t %g \t\t\t %g \t\t\t  %g  \t\t\t  %d \n\n", i, t_medio_servicio, 
 	i = 1;
 	for(j = 0; j < 2048; j++)
 	{
-		q_medio = q_medio + taskManagement[1].Navqueue[j];
-		n_medio = n_medio + taskManagement[1].Navsystem[j];
+		q_medio = q_medio + tasksManagement[1].Navgqueue[j];
+		n_medio = n_medio + tasksManagement[1].Navgsystem[j];
 	}
 printf("DATACENTER \t tiempoMedioServicio \t TamañoMediocola \t    TareasMediasEnElSistema  \t   tareas\n");
 printf("%i \t\t %g \t\t\t %g \t\t\t  %g  \t\t\t  %d \n\n", i, t_medio_servicio, q_medio, n_medio, avServTime[i].numTasks);
@@ -337,20 +343,20 @@ printf("%i \t\t %g \t\t\t %g \t\t\t  %g  \t\t\t  %d \n\n", i, t_medio_servicio, 
 	n_medio = 0;
 	totaltasks += avServTime[i].numTasks;
 
-\tprintf("Simulation time %g\n", MSG_get_clock());
+printf("Simulation time %g\n", MSG_get_clock());
 
 
 
 	for(j = 0; j < 200; j++)
 	{
-		xbt_dynar_free(&taskManagement[0].client_requests[j]);
+		xbt_dynar_free(&tasksManagement[0].client_requests[j]);
 	}
 
 
 
 	for(j = 0; j < 2048; j++)
 	{
-		xbt_dynar_free(&taskManagement[1].client_requests[j]);
+		xbt_dynar_free(&tasksManagement[1].client_requests[j]);
 	}
 
 

@@ -1,4 +1,4 @@
-BIN_FILES  =  simulation
+BIN_FILES  =  main
 
 INSTALL_PATH = /simgrid
 
@@ -18,7 +18,7 @@ all: CFLAGS=$(NO_PRAYER_FOR_THE_WICKED)
 all: $(BIN_FILES)
 .PHONY : all
 
-simulation: simulation.o rand.o
+main: main.o rand.o simulation.o
 	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 

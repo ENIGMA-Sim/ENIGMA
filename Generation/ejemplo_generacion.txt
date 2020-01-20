@@ -3,7 +3,8 @@ Enter number of Datacenters:  2
 Enter number of Fog clusters:  0
 
 ----------------------------------------------
-------------IOT CLUSTER 0------------
+-------------------IOT CLUSTER 0--------------
+----------------------------------------------
 
 Number of devices: 100
 Speed (A,B,C): 4Gf,2Gf,1Gf
@@ -16,7 +17,8 @@ Wattage per state (A:B:C, D:E:F, G:H:I): 100.0:120.0:200.0, 93.0:110.0:170.0, 90
 Wattage off: 10
 
 ----------------------------------------------
-------------IOT CLUSTER 1------------
+-------------------IOT CLUSTER 1--------------
+----------------------------------------------
 
 Number of devices: 50
 Speed (A,B,C): 4Gf,2Gf,1Gf
@@ -29,7 +31,8 @@ Wattage per state (A:B:C, D:E:F, G:H:I): 100.0:120.0:200.0, 93.0:110.0:170.0, 90
 Wattage off: 20
 
 ----------------------------------------------
-------------IOT CLUSTER 2------------
+-------------------IOT CLUSTER 2--------------
+----------------------------------------------
 
 Number of devices: 123
 Speed (A,B,C): 4Gf,2Gf,1Gf
@@ -42,19 +45,7 @@ Wattage per state (A:B:C, D:E:F, G:H:I): 100.0:120.0:200.0, 93.0:110.0:170.0, 90
 Wattage off: 15
 
 ----------------------------------------------
-------------DISPATCHER 0-------------
-
-Speed (A,B,C): 8Gf,4Gf,2Gf
-Cores: 4
-Bandwidth: 1Gbps
-Latency: 50ms
-Backbone bandwidth: 125Mbps
-Backbone latency: 20ms
-Wattage per state (A:B:C, D:E:F, G:H:I): 100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0
-Wattage off: 30
-
-----------------------------------------------
-------------DISPATCHER 1-------------
+----------------DISPATCHER 0------------------
 
 Speed (A,B,C): 8Gf,4Gf,2Gf
 Cores: 4
@@ -66,7 +57,19 @@ Wattage per state (A:B:C, D:E:F, G:H:I): 100.0:120.0:200.0, 93.0:110.0:170.0, 90
 Wattage off: 40
 
 ----------------------------------------------
-------------DATACENTER 0-------------
+----------------DISPATCHER 1------------------
+
+Speed (A,B,C): 8Gf,4Gf,2Gf
+Cores: 4
+Bandwidth: 1Gbps
+Latency: 50ms
+Backbone bandwidth: 125Mbps
+Backbone latency: 20ms
+Wattage per state (A:B:C, D:E:F, G:H:I): 100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0
+Wattage off: 30
+
+----------------------------------------------
+----------------DATACENTER 0------------------
 
 Number of servers: 200
 Speed (A,B,C): 12Gf,8Gf,4Gf
@@ -79,7 +82,7 @@ Wattage per state (A:B:C, D:E:F, G:H:I): 100.0:120.0:200.0, 93.0:110.0:170.0, 90
 Wattage off: 50
 
 ----------------------------------------------
-------------DATACENTER 1-------------
+----------------DATACENTER 1------------------
 
 Number of servers: 34
 Speed (A,B,C): 12Gf,8Gf,4Gf
@@ -95,40 +98,51 @@ Wattage off: 50
 ---Links between IoT clusters and Dispatchers--
 -----------------------------------------------
 
-Enter link bandwidth: 100Gbps         
-Enter link latency: 20us
+Enter link bandwidth: 100Gbps
+Enter link latency: 5ms
 
 -----------------------------------------------
 ---Links between Dispatchers and Datacenters---
 -----------------------------------------------
 
-Enter link bandwidth: 10Gbps 
+Enter link bandwidth: 10Gbps
 Enter link latency: 20us
 
 ----------------------------------------------
 --Links between Datacenters and IoT Clusters--
 ----------------------------------------------
 
-Enter link bandwidth: 100Gbps
-Enter link latency: 10us
+Enter link bandwidth: 10Gbps 
+Enter link latency: 5ms
 ----------------------------------------------
 --------CREATING PLATFORM_CLUSTER.XML---------
 ----------------------------------------------
 ----------------------------------------------
 ---------PLATFORM_CLUSTER.XML CREATED---------
 ----------------------------------------------
+
 Insert size of responses to receive from Datacenter0: 2048
 Insert size of responses to receive from Datacenter1: 1000
+
 Insert number of tasks to create on IoT0: 200
 Insert size of requests to create on IoT0: 80
 Insert percentage of tasks to execute on IoT0 (between 0 and 1): 0.9
+Insert arrival rate on IoT0(between 0 and 1): 0.2
 
 Insert number of tasks to create on IoT1: 1000
 Insert size of requests to create on IoT1: 1024
 Insert percentage of tasks to execute on IoT1 (between 0 and 1): 0
+Insert arrival rate on IoT1(between 0 and 1): 0.8
 
 Insert number of tasks to create on IoT2: 456
 Insert size of requests to create on IoT2: 50
 Insert percentage of tasks to execute on IoT2 (between 0 and 1): 0.5
+Insert arrival rate on IoT2(between 0 and 1): 0.1
 
-Insert arrival rate (between 0 and 1): 0.8
+----------------------------------------------
+The commands are:
+
+./generation_main.sh 2 200 2048 34 1000 3 100 200 80 0.9 0.2 50 1000 1024 0 0.8 123 456 50 0.5 0.1
+make
+./simulation platform-cluster.xml
+----------------------------------------------

@@ -1,4 +1,7 @@
-#include "simulation.h"
+#include "./Headers/simulation.h"
+#include "./Headers/rand.h"
+
+const long MAX_TIMEOUT_SERVER = (86400 * 0.001); 					//Timeout= 10 días sin actividad
 
 
 
@@ -29,8 +32,8 @@ int iot(int argc, char *argv[])
 	struct ClientRequest *req;
 	struct ServerResponse *resServer;
 	double t_arrival;
-	int my_iot_cluster, my_device, dispatcher, num_tasks, size_request, num_datacemters;
-	double t, percentage;
+	int my_iot_cluster, my_device, dispatcher, num_tasks, size_request, num_datacenters;
+	double t, percentage, arrival;
 	int res, k;
 
 	my_iot_cluster = atoi(argv[0]);
@@ -39,6 +42,7 @@ int iot(int argc, char *argv[])
 	num_tasks = atoi(argv[3]);
 	percentage = atof(argv[4]);
 	num_datacenters = atoi(argv[5]);
+	arrival = atof(argv[6]);
 
 	sprintf(buf, "c-%d-%d", my_iot_cluster,my_device);
 	MSG_mailbox_set_async(buf); //mailbox asincrono
@@ -69,7 +73,7 @@ int iot(int argc, char *argv[])
 		{
 			req = (struct ClientRequest *)malloc(sizeof(struct ClientRequest));
 
-			t_arrival = exponential((double)ARRIVAL_RATE);
+			t_arrival = exponential((double)arrival);
 			MSG_process_sleep(t_arrival);
 
 			sprintf(sprintf_buffer, "Task_%d_%d_%d", my_iot_cluster, my_device, k);
