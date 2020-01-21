@@ -1,7 +1,7 @@
 #include "./Headers/simulation.h"
 #include "./Headers/rand.h"
 
-const long MAX_TIMEOUT_SERVER = (86400 * 0.01); 					//Timeout= 10 días sin actividad
+const long MAX_TIMEOUT_SERVER = (86400 * 0.5); 					//Timeout= 10 días sin actividad
 
 
 
@@ -50,6 +50,7 @@ int iot(int argc, char *argv[])
 
 	msg_host_t host = MSG_host_by_name(buf);
 
+
 	if (percentage == 1)								//If percentage is equal to 1 then the tasks execute on the devices
 	{
 		for (k = 0; k < num_tasks; k++)
@@ -62,10 +63,10 @@ int iot(int argc, char *argv[])
 			MSG_task_execute(taskLocally);
 			MSG_task_destroy(taskLocally);
 
-			printf("Task done in %s (duration: %.2f s). Current peak speed=%.0E flop/s; Current consumption: from %.0fW to %.0fW"
+			/*printf("Task done in %s (duration: %.2f s). Current peak speed=%.0E flop/s; Current consumption: from %.0fW to %.0fW"
 			" depending on load; Energy dissipated=%.0f J\n\n",
 			MSG_host_get_name(host), MSG_get_clock() - start, MSG_host_get_speed(host), sg_host_get_wattmin_at(host, MSG_host_get_pstate(host)),
-			sg_host_get_wattmax_at(host, MSG_host_get_pstate(host)), sg_host_get_consumed_energy(host));
+			sg_host_get_wattmax_at(host, MSG_host_get_pstate(host)), sg_host_get_consumed_energy(host));*/
 		}
 	}
 	else 													//If not, the devices create the requests that execute the datacenters 
@@ -101,10 +102,10 @@ int iot(int argc, char *argv[])
 				MSG_task_destroy(taskLocally);
 				req->t_service = req->t_service - serviceLocally;
 				
-				printf("Task partially done in %s (duration: %.2f s). Current peak speed=%.0E flop/s; Current consumption: from %.0fW to %.0fW"
+				/*printf("Task partially done in %s (duration: %.2f s). Current peak speed=%.0E flop/s; Current consumption: from %.0fW to %.0fW"
 				" depending on load; Energy dissipated=%.0f J\n\n",
 				MSG_host_get_name(host), MSG_get_clock() - start, MSG_host_get_speed(host), sg_host_get_wattmin_at(host, MSG_host_get_pstate(host)),
-				sg_host_get_wattmax_at(host, MSG_host_get_pstate(host)), sg_host_get_consumed_energy(host));
+				sg_host_get_wattmax_at(host, MSG_host_get_pstate(host)), sg_host_get_consumed_energy(host));*/
 
 			}
 
@@ -174,6 +175,7 @@ int dispatcher(int argc, char *argv[])
 		task = NULL;
 
 		datacenter = my_d; 
+
 		server = uniform_int(0, atoi(argv[1])-1);						//argv[1] == nservers [datacenter]
 
 		//printf("Tarea %s enviada al servidor s-%d-%d\n", req->id_task, datacenter, server);
@@ -210,7 +212,10 @@ int datacenter(int argc, char *argv[])
 	while (1)
 	{
 		res = MSG_task_receive_with_timeout(&(task), MSG_host_get_name(MSG_host_self()), MAX_TIMEOUT_SERVER);
+		
 		if (res != MSG_OK) break;
+	
+		
 		req = MSG_task_get_data(task);
 
 		// inserta la petición en la cola
@@ -253,6 +258,7 @@ int dispatcherDatacenter(int argc, char *argv[])
 	
 	my_datacenter = atoi(argv[0]);
 	my_server = atoi(argv[1]);
+
 	int output_size_data = atoi(argv[2]);
 
 	char hostS[30];
@@ -293,16 +299,18 @@ int dispatcherDatacenter(int argc, char *argv[])
 
 
 
-		printf("Task done in %s (duration: %.2f s). Current peak speed=%.0E flop/s; Current consumption: from %.0fW to %.0fW"
+		/*printf("Task done in %s (duration: %.2f s). Current peak speed=%.0E flop/s; Current consumption: from %.0fW to %.0fW"
 		" depending on load; Energy dissipated=%.0f J\n\n",
 		MSG_host_get_name(host), MSG_get_clock() - req->t_arrival, MSG_host_get_speed(host), sg_host_get_wattmin_at(host, MSG_host_get_pstate(host)),
-		sg_host_get_wattmax_at(host, MSG_host_get_pstate(host)), sg_host_get_consumed_energy(host));
+		sg_host_get_wattmax_at(host, MSG_host_get_pstate(host)), sg_host_get_consumed_energy(host));*/
 
 
 
 		xbt_mutex_acquire(tasksManagement[my_datacenter].mutex[my_server]);
 		tasksManagement[my_datacenter].Nsystem[my_server]--; // un elemento menos en el sistema
 		xbt_mutex_release(tasksManagement[my_datacenter].mutex[my_server]);
+		
+
 		c = MSG_get_clock(); // tiempo de terminacion de la tarea
 		
 		resServer = (struct ServerResponse *)malloc(sizeof(struct ServerResponse));

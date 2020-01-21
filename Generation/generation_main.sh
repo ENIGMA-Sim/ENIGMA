@@ -145,7 +145,7 @@ do
 	echo -e "\t\targvc[1] = bprintf(\"%d\",j);"																						>> prueba.c
 	echo -e "\t\targvc[2] = bprintf(\"%d\",request_data);"																			>> prueba.c
 	echo -e "\t\targvc[3] = bprintf(\"%d\",num_tasks);"																				>> prueba.c
-	echo -e "\t\targvc[4] = bprintf(\"%d\",percentage);"																			>> prueba.c
+	echo -e "\t\targvc[4] = bprintf(\"%g\",percentage);"																			>> prueba.c
 	echo -e "\t\targvc[5] = bprintf(\"%d\",num_datacenters);"																		>> prueba.c
 	echo -e "\t\targvc[6] = bprintf(\"%g\",arrival);"																				>> prueba.c	
 	echo -e "\t\targvc[7] = NULL;"																									>> prueba.c
@@ -263,9 +263,16 @@ do
 	echo -e "\t\tq_medio = q_medio + tasksManagement[$c].Navgqueue[j];"																				>> prueba.c
 	echo -e "\t\tn_medio = n_medio + tasksManagement[$c].Navgsystem[j];"																				>> prueba.c
 	echo -e "\t}"																																	>> prueba.c
+	
+	echo ""																															>> prueba.c
+	echo -e "\tt_medio_servicio = avServTime[i].avServiceTime / (avServTime[i].numTasks);"																															>> prueba.c
 
 	echo "printf(\"DATACENTER \t tiempoMedioServicio \t TamañoMediocola \t    TareasMediasEnElSistema  \t   tareas\n\");"							>> prueba.c
 	echo "printf(\"%i \t\t %g \t\t\t %g \t\t\t  %g  \t\t\t  %d \n\n\", i, t_medio_servicio, q_medio, n_medio, avServTime[i].numTasks);"				>> prueba.c
+
+	echo ""																															>> prueba.c
+
+
 	echo -e "\tt_medio_servicio = 0;"																												>> prueba.c
 	echo -e "\tq_medio = 0;"																														>> prueba.c
 	echo -e "\tn_medio = 0;"																														>> prueba.c

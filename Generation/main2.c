@@ -20,7 +20,7 @@ void test_all(char *file)
 
 	i = 0;
 
-	for(j = 0; j < 50; j++)
+	for(j = 0; j < 200; j++)
 	{
 		sprintf(str, "s-%d-%d", i, j);
 		argc = 2;
@@ -43,7 +43,7 @@ printf("\n");
 
 	i = 1;
 
-	for(j = 0; j < 50; j++)
+	for(j = 0; j < 34; j++)
 	{
 		sprintf(str, "s-%d-%d", i, j);
 		argc = 2;
@@ -66,7 +66,7 @@ printf("\n");
 
 	i = 0;
 
-	for(j = 0; j < 50; j++)
+	for(j = 0; j < 200; j++)
 	{
 		sprintf(str, "s-%d-%d", i, j);
 		argc = 3;
@@ -91,7 +91,7 @@ printf("\n");
 
 	i = 1;
 
-	for(j = 0; j < 50; j++)
+	for(j = 0; j < 34; j++)
 	{
 		sprintf(str, "s-%d-%d", i, j);
 		argc = 3;
@@ -117,7 +117,7 @@ printf("\n");
 	i = 0;
 	request_data = 80;
 	num_tasks = 200;
-	percentage = 0.9;
+	percentage = 0;
 	num_datacenters = 2;
 	arrival = 0.2 * MAX_SERVERS;
 
@@ -183,7 +183,7 @@ printf("\n");
 	i = 2;
 	request_data = 50;
 	num_tasks = 456;
-	percentage = 0.5;
+	percentage = 0;
 	num_datacenters = 2;
 	arrival = 0.1 * MAX_SERVERS;
 
@@ -220,7 +220,7 @@ printf("\n");
 	argc = 2;
 	char **argvc0 = xbt_new(char *, 3);
 
-	nservers = 50;
+	nservers = 200;
 	argvc0[0] = bprintf("%d",i);
 	argvc0[1] = bprintf("%d",nservers);
 	argvc0[2] = NULL;
@@ -241,7 +241,7 @@ printf("\n");
 	argc = 2;
 	char **argvc1 = xbt_new(char *, 3);
 
-	nservers = 50;
+	nservers = 34;
 	argvc1[0] = bprintf("%d",i);
 	argvc1[1] = bprintf("%d",nservers);
 	argvc1[2] = NULL;
@@ -282,7 +282,7 @@ printf("\n");
 
 
 
-	for(j = 0; j < 50; j++)
+	for(j = 0; j < 200; j++)
 	{
 		tasksManagement[0].Nqueue[j] = 0;
 		tasksManagement[0].Nsystem[j] = 0;
@@ -294,7 +294,7 @@ printf("\n");
 
 
 
-	for(j = 0; j < 50; j++)
+	for(j = 0; j < 34; j++)
 	{
 		tasksManagement[1].Nqueue[j] = 0;
 		tasksManagement[1].Nsystem[j] = 0;
@@ -306,56 +306,51 @@ printf("\n");
 
 	test_all(argv[1]);
 	res = MSG_main();
-	int totaltasks = 0;
-
 
 
 	i = 0;
-	for(j = 0; j < 50; j++)
+	for(j = 0; j < 200; j++)
 	{
 		q_medio = q_medio + tasksManagement[0].Navgqueue[j];
 		n_medio = n_medio + tasksManagement[0].Navgsystem[j];
 	}
-
 	t_medio_servicio = avServTime[i].avServiceTime / (avServTime[i].numTasks);
+
 printf("DATACENTER \t tiempoMedioServicio \t TamañoMediocola \t    TareasMediasEnElSistema  \t   tareas\n");
 printf("%i \t\t %g \t\t\t %g \t\t\t  %g  \t\t\t  %d \n\n", i, t_medio_servicio, q_medio, n_medio, avServTime[i].numTasks);
-
 	t_medio_servicio = 0;
 	q_medio = 0;
 	n_medio = 0;
-	totaltasks += avServTime[i].numTasks;
 
 
 
 	i = 1;
-	for(j = 0; j < 50; j++)
+	for(j = 0; j < 34; j++)
 	{
 		q_medio = q_medio + tasksManagement[1].Navgqueue[j];
 		n_medio = n_medio + tasksManagement[1].Navgsystem[j];
 	}
-
+	
 	t_medio_servicio = avServTime[i].avServiceTime / (avServTime[i].numTasks);
+
 printf("DATACENTER \t tiempoMedioServicio \t TamañoMediocola \t    TareasMediasEnElSistema  \t   tareas\n");
 printf("%i \t\t %g \t\t\t %g \t\t\t  %g  \t\t\t  %d \n\n", i, t_medio_servicio, q_medio, n_medio, avServTime[i].numTasks);
-
 	t_medio_servicio = 0;
 	q_medio = 0;
 	n_medio = 0;
-	totaltasks += avServTime[i].numTasks;
 
 printf("Simulation time %g\n", MSG_get_clock());
 
 
 
-	for(j = 0; j < 50; j++)
+	for(j = 0; j < 200; j++)
 	{
 		xbt_dynar_free(&tasksManagement[0].client_requests[j]);
 	}
 
 
 
-	for(j = 0; j < 50; j++)
+	for(j = 0; j < 34; j++)
 	{
 		xbt_dynar_free(&tasksManagement[1].client_requests[j]);
 	}
