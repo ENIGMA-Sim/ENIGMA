@@ -7,7 +7,7 @@ Fogs = int(input("Enter number of Fog clusters:  "))
 
 
 
-filename = "./platform_user.xml"
+filename = "../platform_user.xml"
 platform = xml.Element("platform")
 platform.set('version','4.1')
 
@@ -40,7 +40,7 @@ for i in range(IoT_Clusters):
 
 	cluster = xml.SubElement(AS, 'cluster')
 	cluster.set('id',id)
-	prefix = "c-"+str(i)+"-"
+	prefix = "iot-"+str(i)+"-"
 	cluster.set('prefix', prefix)
 	cluster.set('suffix', "")
 	radical = int(devices)-1
@@ -69,6 +69,7 @@ for i in range(Datacenters):
 	print("")
 	print("----------------------------------------------")
 	print("----------------DISPATCHER "+str(i)+"------------------")
+	print("----------------------------------------------")
 	print("")
 	speed = input("Speed (A,B,C): ")
 	core = input("Cores: ")
@@ -108,6 +109,7 @@ for i in range(Datacenters):
 	print("")
 	print("----------------------------------------------")
 	print("----------------DATACENTER "+str(i)+"------------------")
+	print("----------------------------------------------")
 	print("")
 	servers = input("Number of servers: ")
 	ser.append(servers)
@@ -141,6 +143,26 @@ for i in range(Datacenters):
 	propIoT = xml.SubElement(cluster, 'prop')
 	propIoT.set('id', 'wattage_off') 
 	propIoT.set('value', woff)
+
+
+
+""" CONTROLLER """
+
+controller = xml.SubElement(AS, 'controller')
+controller.set('id', 'controller')
+prefix = "cont-"+"-"
+controller.set('prefix', prefix)
+controller.set('suffix', "")
+controller.set('radical', '0-1')
+controller.set('speed', '4Gf')
+controller.set('bw', "125GBps")
+controller.set('lat', '0us')
+controller.set('bb_bw', '1000000000GBps')
+controller.set('bb_lat', '0us')
+controller.set('router_id', "Controller")
+
+
+""" CONTROLLER """
 
 
 
@@ -182,7 +204,6 @@ for i in range(Datacenters):
 
 
 
-
 print("")
 print("----------------------------------------------")
 print("--Links between Datacenters and IoT Clusters--")
@@ -199,6 +220,38 @@ for i in range(Datacenters):
 		link.set('id', id)
 		link.set('bandwidth', bandwidthLink)
 		link.set('latency', latencyLink)
+
+
+
+
+
+
+
+""" LINKS BETWEEN CONTROLLER AND DATACENTERS """
+
+
+bandwidthLink = '100000000GBps'
+latencyLink = '0us'
+
+for i in range(Datacenters):
+	link = xml.SubElement(AS, 'link')
+	id = "linkController" + "Datacenter" + str(i) 
+	link.set('id', id)
+	link.set('bandwidth', bandwidthLink)
+	link.set('latency', latencyLink)
+
+
+
+""" LINKS BETWEEN IOT AND CONTROLLER """
+
+
+for i in range(IoT_Clusters):
+	link = xml.SubElement(AS, 'link')
+	id = "linkIoT" + str(i) + "Controller" 
+	link.set('id', id)
+	link.set('bandwidth', bandwidthLink)
+	link.set('latency', latencyLink)
+
 
 
 
@@ -233,9 +286,34 @@ for i in range(Datacenters):
 	link_ctn.set('id', 'linkDispatcher' + str(i) + 'Datacenter' + str(i))
 
 
+	""" ASRoute BETWEEN CONTROLLER AND DATACENTERS """
+	ASroute = xml.SubElement(AS, 'ASroute')
+	ASroute.set('src', 'Controller')
+	ASroute.set('dst', 'Datacenter' + str(i))
+	ASroute.set('gw_src', 'Controller')
+	ASroute.set('gw_dst', 'Datacenter_cluster' + str(i))
+
+	link_ctn = xml.SubElement(ASroute, 'link_ctn')
+	link_ctn.set('id', 'linkController' + 'Datacenter' + str(i))
+
+
 
 
 for i in range(IoT_Clusters):
+
+	""" ASRoute BETWEEN IOT AND CONTROLLER """
+
+	ASroute = xml.SubElement(AS, 'ASroute')
+	ASroute.set('src', 'IoT' + str(i))
+	ASroute.set('dst', 'Controller')
+	ASroute.set('gw_src', 'IoT_Cluster' + str(i))
+	ASroute.set('gw_dst', 'Controller')
+
+	link_ctn = xml.SubElement(ASroute, 'link_ctn')
+	link_ctn.set('id', 'linkIoT' + str(i) + 'Controller')
+
+
+
 	for j in range(Datacenters):
 		ASroute = xml.SubElement(AS, 'ASroute')
 		ASroute.set('src', 'Datacenter' + str(j))
@@ -245,6 +323,7 @@ for i in range(IoT_Clusters):
 
 		link_ctn = xml.SubElement(ASroute, 'link_ctn')
 		link_ctn.set('id', 'linkDatacenter' + str(j) + 'IoT' + str(i))
+
 
 
 
@@ -313,6 +392,6 @@ for i in range(IoT_Clusters):
 
 print (command)
 print("make")
-print("./simulation platform-cluster.xml")
+print("./main platform-cluster.xml")
 print("----------------------------------------------")
 

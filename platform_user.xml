@@ -22,11 +22,11 @@
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0"/>
 			<prop id="wattage_off" value="30"/>
 		</cluster>
-		<cluster bb_bw="750Mbps" bb_lat="15ms" bw="2Gbps" core="8" id="Datacenter0" lat="10ms" prefix="s-0-" radical="0-500" router_id="Datacenter_cluster0" speed="12Gf,8Gf,4Gf" suffix="">
+		<cluster bb_bw="750Mbps" bb_lat="15ms" bw="2Gbps" core="8" id="Datacenter0" lat="10ms" prefix="s-0-" radical="0-50" router_id="Datacenter_cluster0" speed="12Gf,8Gf,4Gf" suffix="">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0"/>
 			<prop id="wattage_off" value="50"/>
 		</cluster>
-		<cluster bb_bw="750Mbps" bb_lat="10ms" bw="2Gbps" core="8" id="Datacenter1" lat="5ms" prefix="s-1-" radical="0-300" router_id="Datacenter_cluster1" speed="12Gf,8Gf,4Gf" suffix="">
+		<cluster bb_bw="750Mbps" bb_lat="10ms" bw="2Gbps" core="8" id="Datacenter1" lat="5ms" prefix="s-1-" radical="0-30" router_id="Datacenter_cluster1" speed="12Gf,8Gf,4Gf" suffix="">
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0"/>
 			<prop id="wattage_off" value="50"/>
 		</cluster>

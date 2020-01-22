@@ -1,9 +1,6 @@
 #include "./Headers/simulation.h"
 #include "./Headers/rand.h"
 
-const long MAX_TIMEOUT_SERVER = (86400 * 0.5); 					//Timeout= 10 días sin actividad
-
-
 
 // Sort two elements of type struct ClientRequest. It uses the function xbt_dynar_sort
 static int sort_function_short(const void *e1, const void *e2)
@@ -24,17 +21,13 @@ static int sort_function_short(const void *e1, const void *e2)
 // Client function: Creates the requests
 int iot(int argc, char *argv[])
 {
-	double task_comp_size = 0;
-	double task_comm_size = 0;
-	char sprintf_buffer[64];
-	char mailbox[256], buf[64];
+	double task_comp_size = 0, task_comm_size = 0;
+	char sprintf_buffer[64], mailbox[256], buf[64];
 	msg_task_t task = NULL;
 	struct ClientRequest *req;
 	struct ServerResponse *resServer;
-	double t_arrival;
-	int my_iot_cluster, my_device, dispatcher, num_tasks, size_request, num_datacenters;
-	double t, percentage, arrival;
-	int res, k;
+	double t_arrival, t, percentage, arrival;
+	int my_iot_cluster, my_device, dispatcher, num_tasks, size_request, num_datacenters, res, k;
 
 	my_iot_cluster = atoi(argv[0]);
 	my_device = atoi(argv[1]);
@@ -45,7 +38,7 @@ int iot(int argc, char *argv[])
 	arrival = atof(argv[6]);
 
 
-	sprintf(buf, "c-%d-%d", my_iot_cluster,my_device);
+	sprintf(buf, "iot-%d-%d", my_iot_cluster,my_device);
 	MSG_mailbox_set_async(buf); //mailbox asincrono
 
 	msg_host_t host = MSG_host_by_name(buf);
@@ -164,7 +157,7 @@ int dispatcher(int argc, char *argv[])
 
 	while (1)
 	{
-		res = MSG_task_receive_with_timeout(&(task), MSG_host_get_name(MSG_host_self()), MAX_TIMEOUT_SERVER);
+		res = MSG_task_receive(&(task), MSG_host_get_name(MSG_host_self()));
 		if (res != MSG_OK) break;
 		req = MSG_task_get_data(task);
 
@@ -211,7 +204,7 @@ int datacenter(int argc, char *argv[])
 
 	while (1)
 	{
-		res = MSG_task_receive_with_timeout(&(task), MSG_host_get_name(MSG_host_self()), MAX_TIMEOUT_SERVER);
+		res = MSG_task_receive(&(task), MSG_host_get_name(MSG_host_self()));
 		
 		if (res != MSG_OK) break;
 	
@@ -299,10 +292,10 @@ int dispatcherDatacenter(int argc, char *argv[])
 
 
 
-		/*printf("Task done in %s (duration: %.2f s). Current peak speed=%.0E flop/s; Current consumption: from %.0fW to %.0fW"
+		printf("Task done duration: %.2f s). Current peak speed=%.0E flop/s; Current consumption: from %.0fW to %.0fW"
 		" depending on load; Energy dissipated=%.0f J\n\n",
 		MSG_host_get_name(host), MSG_get_clock() - req->t_arrival, MSG_host_get_speed(host), sg_host_get_wattmin_at(host, MSG_host_get_pstate(host)),
-		sg_host_get_wattmax_at(host, MSG_host_get_pstate(host)), sg_host_get_consumed_energy(host));*/
+		sg_host_get_wattmax_at(host, MSG_host_get_pstate(host)), sg_host_get_consumed_energy(host));
 
 
 
@@ -324,7 +317,7 @@ int dispatcherDatacenter(int argc, char *argv[])
 		sprintf(resServer->response, "Task finished on %d-%d", resServer->server_cluster, resServer->server);
 
 		sprintf(resServer->id_task,"%s",req->id_task);
-		sprintf(mailbox, "c-%d-%d", req->iot_cluster, req->device);
+		sprintf(mailbox, "iot-%d-%d", req->iot_cluster, req->device);
 		MSG_task_set_data(ans_task, (void *)resServer);
 
 		/*Reenvio de terminacion de la tarea al cliente*/

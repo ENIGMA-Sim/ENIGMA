@@ -43,7 +43,7 @@ printf("\n");
 
 	i = 1;
 
-	for(j = 0; j < 50; j++)
+	for(j = 0; j < 30; j++)
 	{
 		sprintf(str, "s-%d-%d", i, j);
 		argc = 2;
@@ -91,7 +91,7 @@ printf("\n");
 
 	i = 1;
 
-	for(j = 0; j < 50; j++)
+	for(j = 0; j < 30; j++)
 	{
 		sprintf(str, "s-%d-%d", i, j);
 		argc = 3;
@@ -116,78 +116,12 @@ printf("\n");
 
 	i = 0;
 	request_data = 80;
-	num_tasks = 200;
+	num_tasks = 20;
 	percentage = 0.9;
 	num_datacenters = 2;
 	arrival = 0.2 * MAX_SERVERS;
 
-	for(j = 0; j < 100; j++)
-	{
-		sprintf(str, "c-%d-%d", i, j);
-		argc = 7;
-		char **argvc = xbt_new(char *, 8);
-
-		argvc[0] = bprintf("%d",i);
-		argvc[1] = bprintf("%d",j);
-		argvc[2] = bprintf("%d",request_data);
-		argvc[3] = bprintf("%d",num_tasks);
-		argvc[4] = bprintf("%g",percentage);
-		argvc[5] = bprintf("%d",num_datacenters);
-		argvc[6] = bprintf("%g",arrival);
-		argvc[7] = NULL;
-
-		p = MSG_process_create_with_arguments(str, iot, NULL, MSG_get_host_by_name(str), argc, argvc);
-		if(p == NULL)
-		{
-			printf("Error en ......... c-%d-%d", i, j);
-printf("\n");
-			exit(0);
-		}
-	}
-
-	//IoT Devices from cluster 1
-
-	i = 1;
-	request_data = 1024;
-	num_tasks = 1000;
-	percentage = 0;
-	num_datacenters = 2;
-	arrival = 0.8 * MAX_SERVERS;
-
-	for(j = 0; j < 50; j++)
-	{
-		sprintf(str, "c-%d-%d", i, j);
-		argc = 7;
-		char **argvc = xbt_new(char *, 8);
-
-		argvc[0] = bprintf("%d",i);
-		argvc[1] = bprintf("%d",j);
-		argvc[2] = bprintf("%d",request_data);
-		argvc[3] = bprintf("%d",num_tasks);
-		argvc[4] = bprintf("%g",percentage);
-		argvc[5] = bprintf("%d",num_datacenters);
-		argvc[6] = bprintf("%g",arrival);
-		argvc[7] = NULL;
-
-		p = MSG_process_create_with_arguments(str, iot, NULL, MSG_get_host_by_name(str), argc, argvc);
-		if(p == NULL)
-		{
-			printf("Error en ......... c-%d-%d", i, j);
-printf("\n");
-			exit(0);
-		}
-	}
-
-	//IoT Devices from cluster 2
-
-	i = 2;
-	request_data = 50;
-	num_tasks = 456;
-	percentage = 0.5;
-	num_datacenters = 2;
-	arrival = 0.1 * MAX_SERVERS;
-
-	for(j = 0; j < 123; j++)
+	for(j = 0; j < 1; j++)
 	{
 		sprintf(str, "c-%d-%d", i, j);
 		argc = 7;
@@ -241,7 +175,7 @@ printf("\n");
 	argc = 2;
 	char **argvc1 = xbt_new(char *, 3);
 
-	nservers = 50;
+	nservers = 30;
 	argvc1[0] = bprintf("%d",i);
 	argvc1[1] = bprintf("%d",nservers);
 	argvc1[2] = NULL;
@@ -294,7 +228,7 @@ printf("\n");
 
 
 
-	for(j = 0; j < 50; j++)
+	for(j = 0; j < 30; j++)
 	{
 		tasksManagement[1].Nqueue[j] = 0;
 		tasksManagement[1].Nsystem[j] = 0;
@@ -329,7 +263,7 @@ printf("%i \t\t %g \t\t\t %g \t\t\t  %g  \t\t\t  %d \n\n", i, t_medio_servicio, 
 
 
 	i = 1;
-	for(j = 0; j < 50; j++)
+	for(j = 0; j < 30; j++)
 	{
 		q_medio = q_medio + tasksManagement[1].Navgqueue[j];
 		n_medio = n_medio + tasksManagement[1].Navgsystem[j];
@@ -355,7 +289,7 @@ printf("Simulation time %g\n", MSG_get_clock());
 
 
 
-	for(j = 0; j < 50; j++)
+	for(j = 0; j < 30; j++)
 	{
 		xbt_dynar_free(&tasksManagement[1].client_requests[j]);
 	}
