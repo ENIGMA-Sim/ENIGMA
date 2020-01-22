@@ -30,8 +30,7 @@
 			<prop id="watt_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0"/>
 			<prop id="wattage_off" value="50"/>
 		</cluster>
-		<cluster bb_bw="1000000000GBps" bb_lat="0us" bw="125GBps" id="Controller" lat="0us" prefix="cont-" radical="0-0" router_id="Controller_cluster" speed="4Gf" suffix="">
-		</cluster>
+		<cluster bb_bw="1000000000GBps" bb_lat="0us" bw="125GBps" id="Controller" lat="0us" prefix="cont-" radical="0-0" router_id="Controller_cluster" speed="4Gf" suffix=""/>
 		<link bandwidth="100Gbps" id="linkIoT0Dispatcher0" latency="5ms"/>
 		<link bandwidth="100Gbps" id="linkIoT1Dispatcher0" latency="5ms"/>
 		<link bandwidth="100Gbps" id="linkIoT2Dispatcher0" latency="5ms"/>
@@ -75,22 +74,22 @@
 		<ASroute dst="Datacenter1" gw_dst="Datacenter_cluster1" gw_src="Dispatcher_cluster1" src="Dispatcher1">
 			<link_ctn id="linkDispatcher1Datacenter1"/>
 		</ASroute>
-		<ASroute dst="IoT0" gw_dst="IoT_cluster0" gw_src="Datacenter_cluster0" src="Datacenter0">
+		<ASroute dst="IoT0" gw_dst="IoT_Cluster0" gw_src="Datacenter_cluster0" src="Datacenter0">
 			<link_ctn id="linkDatacenter0IoT0"/>
 		</ASroute>
-		<ASroute dst="IoT0" gw_dst="IoT_cluster0" gw_src="Datacenter_cluster1" src="Datacenter1">
+		<ASroute dst="IoT0" gw_dst="IoT_Cluster0" gw_src="Datacenter_cluster1" src="Datacenter1">
 			<link_ctn id="linkDatacenter1IoT0"/>
 		</ASroute>
-		<ASroute dst="IoT1" gw_dst="IoT_cluster1" gw_src="Datacenter_cluster0" src="Datacenter0">
+		<ASroute dst="IoT1" gw_dst="IoT_Cluster1" gw_src="Datacenter_cluster0" src="Datacenter0">
 			<link_ctn id="linkDatacenter0IoT1"/>
 		</ASroute>
-		<ASroute dst="IoT1" gw_dst="IoT_cluster1" gw_src="Datacenter_cluster1" src="Datacenter1">
+		<ASroute dst="IoT1" gw_dst="IoT_Cluster1" gw_src="Datacenter_cluster1" src="Datacenter1">
 			<link_ctn id="linkDatacenter1IoT1"/>
 		</ASroute>
-		<ASroute dst="IoT2" gw_dst="IoT_cluster2" gw_src="Datacenter_cluster0" src="Datacenter0">
+		<ASroute dst="IoT2" gw_dst="IoT_Cluster2" gw_src="Datacenter_cluster0" src="Datacenter0">
 			<link_ctn id="linkDatacenter0IoT2"/>
 		</ASroute>
-		<ASroute dst="IoT2" gw_dst="IoT_cluster2" gw_src="Datacenter_cluster1" src="Datacenter1">
+		<ASroute dst="IoT2" gw_dst="IoT_Cluster2" gw_src="Datacenter_cluster1" src="Datacenter1">
 			<link_ctn id="linkDatacenter1IoT2"/>
 		</ASroute>
 		<ASroute dst="Dispatcher0" gw_dst="Dispatcher_cluster0" gw_src="Controller_cluster" src="Controller">
@@ -99,13 +98,13 @@
 		<ASroute dst="Dispatcher1" gw_dst="Dispatcher_cluster1" gw_src="Controller_cluster" src="Controller">
 			<link_ctn id="linkControllerDispatcher1"/>
 		</ASroute>
-		<ASroute dst="Controller" gw_dst="Controller_cluster" gw_src="IoT_cluster0" src="IoT0">
+		<ASroute dst="Controller" gw_dst="Controller_cluster" gw_src="IoT_Cluster0" src="IoT0">
 			<link_ctn id="linkIoT0Controller"/>
 		</ASroute>
-		<ASroute dst="Controller" gw_dst="Controller_cluster" gw_src="IoT_cluster1" src="IoT1">
+		<ASroute dst="Controller" gw_dst="Controller_cluster" gw_src="IoT_Cluster1" src="IoT1">
 			<link_ctn id="linkIoT1Controller"/>
 		</ASroute>
-		<ASroute dst="Controller" gw_dst="Controller_cluster" gw_src="IoT_cluster2" src="IoT2">
+		<ASroute dst="Controller" gw_dst="Controller_cluster" gw_src="IoT_Cluster2" src="IoT2">
 			<link_ctn id="linkIoT2Controller"/>
 		</ASroute>
 		

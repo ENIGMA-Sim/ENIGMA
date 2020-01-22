@@ -148,9 +148,9 @@ for i in range(Datacenters):
 
 """ CONTROLLER """
 
-controller = xml.SubElement(AS, 'controller')
-controller.set('id', 'controller')
-prefix = "cont-"+"-"
+controller = xml.SubElement(AS, 'cluster')
+controller.set('id', 'Controller')
+prefix = "cont-"
 controller.set('prefix', prefix)
 controller.set('suffix', "")
 controller.set('radical', '0-1')
@@ -159,7 +159,7 @@ controller.set('bw', "125GBps")
 controller.set('lat', '0us')
 controller.set('bb_bw', '1000000000GBps')
 controller.set('bb_lat', '0us')
-controller.set('router_id', "Controller")
+controller.set('router_id', "Controller_cluster")
 
 
 """ CONTROLLER """
@@ -227,7 +227,7 @@ for i in range(Datacenters):
 
 
 
-""" LINKS BETWEEN CONTROLLER AND DATACENTERS """
+""" LINKS BETWEEN CONTROLLER AND DISPATCHERS """
 
 
 bandwidthLink = '100000000GBps'
@@ -235,7 +235,7 @@ latencyLink = '0us'
 
 for i in range(Datacenters):
 	link = xml.SubElement(AS, 'link')
-	id = "linkController" + "Datacenter" + str(i) 
+	id = "linkController" + "Dispatcher" + str(i) 
 	link.set('id', id)
 	link.set('bandwidth', bandwidthLink)
 	link.set('latency', latencyLink)
@@ -286,15 +286,20 @@ for i in range(Datacenters):
 	link_ctn.set('id', 'linkDispatcher' + str(i) + 'Datacenter' + str(i))
 
 
-	""" ASRoute BETWEEN CONTROLLER AND DATACENTERS """
-	ASroute = xml.SubElement(AS, 'ASroute')
-	ASroute.set('src', 'Controller')
-	ASroute.set('dst', 'Datacenter' + str(i))
-	ASroute.set('gw_src', 'Controller')
-	ASroute.set('gw_dst', 'Datacenter_cluster' + str(i))
 
-	link_ctn = xml.SubElement(ASroute, 'link_ctn')
-	link_ctn.set('id', 'linkController' + 'Datacenter' + str(i))
+
+for i in range(IoT_Clusters):
+	for j in range(Datacenters):
+		ASroute = xml.SubElement(AS, 'ASroute')
+		ASroute.set('src', 'Datacenter' + str(j))
+		ASroute.set('dst', 'IoT' + str(i))
+		ASroute.set('gw_src', 'Datacenter_cluster' + str(j))
+		ASroute.set('gw_dst', 'IoT_cluster' + str(i))
+
+		link_ctn = xml.SubElement(ASroute, 'link_ctn')
+		link_ctn.set('id', 'linkDatacenter' + str(j) + 'IoT' + str(i))
+
+
 
 
 
@@ -306,23 +311,32 @@ for i in range(IoT_Clusters):
 	ASroute = xml.SubElement(AS, 'ASroute')
 	ASroute.set('src', 'IoT' + str(i))
 	ASroute.set('dst', 'Controller')
-	ASroute.set('gw_src', 'IoT_Cluster' + str(i))
-	ASroute.set('gw_dst', 'Controller')
+	ASroute.set('gw_src', 'IoT_cluster' + str(i))
+	ASroute.set('gw_dst', 'Controller_cluster')
 
 	link_ctn = xml.SubElement(ASroute, 'link_ctn')
 	link_ctn.set('id', 'linkIoT' + str(i) + 'Controller')
 
 
 
-	for j in range(Datacenters):
-		ASroute = xml.SubElement(AS, 'ASroute')
-		ASroute.set('src', 'Datacenter' + str(j))
-		ASroute.set('dst', 'IoT' + str(i))
-		ASroute.set('gw_src', 'Datacenter_cluster' + str(j))
-		ASroute.set('gw_dst', 'IoT_Cluster' + str(i))
 
-		link_ctn = xml.SubElement(ASroute, 'link_ctn')
-		link_ctn.set('id', 'linkDatacenter' + str(j) + 'IoT' + str(i))
+
+
+
+
+for i in range(Datacenters):
+
+	""" ASRoute BETWEEN CONTROLLER AND DATACENTERS """
+	ASroute = xml.SubElement(AS, 'ASroute')
+	ASroute.set('src', 'Controller')
+	ASroute.set('dst', 'Dispatcher' + str(i))
+	ASroute.set('gw_src', 'Controller_cluster')
+	ASroute.set('gw_dst', 'Dispatcher_cluster' + str(i))
+
+	link_ctn = xml.SubElement(ASroute, 'link_ctn')
+	link_ctn.set('id', 'linkController' + 'Dispatcher' + str(i))
+
+
 
 
 

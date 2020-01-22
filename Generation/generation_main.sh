@@ -4,7 +4,6 @@
 
 #COMANDO GENERACION
 # ./generation_main.sh num_datacenter [servers output_data] num_iot_clusters [devices tasks size_data percentage arrival_rate] 
-rm ../main.c
 
 args=("$@")
 
@@ -18,11 +17,11 @@ if [ "$arg" == "--help" ] || [ "$arg" == "-h" ]  || [ "$ARGUMENTS" != "$#" ]
     echo "./generation_main.sh num_datacenter [servers output_data] num_iot_clusters [devices tasks size_data percentage]"
    	exit 1
 fi
-rm ./../main.c
+rm ../main.c
 
 
 
-echo "#include \"./Headers/simulation.h\"" 															>> ../main.c
+echo "#include \"./Headers/simulation.h\"" 													>> ../main.c
 echo ""																						>> ../main.c
 echo "void test_all(char *file)"															>> ../main.c
 echo "{"																					>> ../main.c
@@ -35,6 +34,7 @@ echo -e "\tMSG_function_register(\"iot\", iot);"											>> ../main.c
 echo -e "\tMSG_function_register(\"dispatcher\", dispatcher);"								>> ../main.c
 echo -e "\tMSG_function_register(\"datacenter\", datacenter);" 								>> ../main.c
 echo -e "\tMSG_function_register(\"dispatcherDatacenter\", dispatcherDatacenter);"			>> ../main.c
+echo -e "\tMSG_function_register(\"controller\", controller);"								>> ../main.c
 echo -e ""																					>> ../main.c
 echo -e ""																					>> ../main.c
 
@@ -43,8 +43,8 @@ echo -e ""																					>> ../main.c
 #SERVERS
 
 
-echo -e "\tint request_data, num_tasks, num_datacenters, output_data;"																						>> ../main.c											
-echo -e "\tdouble arrival, percentage;"																																				>> ../main.c
+echo -e "\tint request_data, num_tasks, num_datacenters, output_data;"																>> ../main.c											
+echo -e "\tdouble arrival, percentage;"																								>> ../main.c
 
 
 
@@ -59,7 +59,7 @@ do
 
 	echo -e "\tfor(j = 0; j < $SERVERS; j++)"																						>> ../main.c
 	echo -e "\t{"																													>> ../main.c
-	echo -e "\t\tsprintf(str, \"s-%d-%d\", i, j);"																						>> ../main.c
+	echo -e "\t\tsprintf(str, \"s-%d-%d\", i, j);"																					>> ../main.c
 	echo -e "\t\targc = 2;"																											>> ../main.c
 	echo -e "\t\tchar **argvc = xbt_new(char *, 3);"																				>> ../main.c
 	echo ""																															>> ../main.c
@@ -92,7 +92,7 @@ do
 	echo -e ""																														>> ../main.c
 	echo -e "\tfor(j = 0; j < $SERVERS; j++)"																						>> ../main.c
 	echo -e "\t{"																													>> ../main.c
-	echo -e "\t\tsprintf(str, \"s-%d-%d\", i, j);"																						>> ../main.c
+	echo -e "\t\tsprintf(str, \"s-%d-%d\", i, j);"																					>> ../main.c
 	echo -e "\t\targc = 3;"																											>> ../main.c
 	echo -e "\t\tchar **argvc = xbt_new(char *, 4);"																				>> ../main.c
 	echo ""																															>> ../main.c
@@ -137,7 +137,7 @@ do
 	
 	echo -e "\tfor(j = 0; j < $DEVICES; j++)"																						>> ../main.c
 	echo -e "\t{"																													>> ../main.c
-	echo -e "\t\tsprintf(str, \"c-%d-%d\", i, j);"																						>> ../main.c
+	echo -e "\t\tsprintf(str, \"iot-%d-%d\", i, j);"																					>> ../main.c
 	echo -e "\t\targc = 7;"																											>> ../main.c
 	echo -e "\t\tchar **argvc = xbt_new(char *, 8);"																				>> ../main.c
 	echo ""																															>> ../main.c
@@ -153,7 +153,7 @@ do
 	echo -e "\t\tp = MSG_process_create_with_arguments(str, iot, NULL, MSG_get_host_by_name(str), argc, argvc);"					>> ../main.c
 	echo -e "\t\tif(p == NULL)"																										>> ../main.c
 	echo -e "\t\t{"																													>> ../main.c
-	echo -e "\t\t\tprintf(\"Error en ......... c-%d-%d\", i, j);"																	>> ../main.c
+	echo -e "\t\t\tprintf(\"Error en ......... iot-%d-%d\", i, j);"																	>> ../main.c
 	echo  "printf(\"\\n\");"																										>> ../main.c
 	echo -e "\t\t\texit(0);"																										>> ../main.c
 	echo -e "\t\t}"																													>> ../main.c
@@ -164,7 +164,7 @@ done
 #DISPATCHERS
 
 
-echo -e "\tint nservers;"																							>> ../main.c											
+echo -e "\tint nservers;"																											>> ../main.c											
 
 
 
@@ -177,12 +177,11 @@ do
 	echo -e ""																														>> ../main.c
 	echo -e "\ti = $c;"																												>> ../main.c
 	echo -e ""																														>> ../main.c
-																														>> ../main.c
 	echo -e "\tsprintf(str, \"d-%d-0\", i);"																						>> ../main.c
 	echo -e "\targc = 2;"																											>> ../main.c
 	echo -e "\tchar **argvc$c = xbt_new(char *, 3);"																				>> ../main.c
 	echo ""																															>> ../main.c
-	echo -e "\tnservers = $SERVERS;"																							>> ../main.c											
+	echo -e "\tnservers = $SERVERS;"																								>> ../main.c											
 	echo -e "\targvc$c[0] = bprintf(\"%d\",i);"																						>> ../main.c
 	echo -e "\targvc$c[1] = bprintf(\"%d\",nservers);"																				>> ../main.c
 	echo -e "\targvc$c[2] = NULL;"																									>> ../main.c
@@ -190,11 +189,45 @@ do
 	echo -e "\tp = MSG_process_create_with_arguments(str, dispatcher, NULL, MSG_get_host_by_name(str), argc, argvc$c);"				>> ../main.c
 	echo -e "\tif(p == NULL)"																										>> ../main.c
 	echo -e "\t{"																													>> ../main.c
-	echo -e "\t\tprintf(\"Error en ......... d-%d-0\", i);"																		>> ../main.c
+	echo -e "\t\tprintf(\"Error en ......... d-%d-0\", i);"																			>> ../main.c
 	echo  "printf(\"\\n\");"																										>> ../main.c
-	echo -e "\t\texit(0);"																										>> ../main.c
+	echo -e "\t\texit(0);"																											>> ../main.c
 	echo -e "\t}"																													>> ../main.c
 done
+
+
+
+
+
+for (( j=0; j<$IOT_CLUSTERS; j++ ))
+do
+	TOTAL_IOT=$(($TOTAL_IOT+${args[$((($1*2)+2+($j*5)))]}))
+done
+
+echo -e ""																														>> ../main.c
+echo -e ""																														>> ../main.c
+echo -e "\t//Controller"																										>> ../main.c
+echo -e ""																														>> ../main.c
+echo -e "\tint total_devices = $TOTAL_IOT;"																						>> ../main.c
+echo -e "\tint total_datacenters = $DATACENTERS;"																				>> ../main.c
+echo -e ""																														>> ../main.c
+echo -e "\tsprintf(str, \"cont-0\");"																							>> ../main.c
+echo -e "\targc = 2;"																											>> ../main.c
+echo -e "\tchar **argvc$c = xbt_new(char *, 3);"																				>> ../main.c
+echo ""																															>> ../main.c
+echo -e "\targvc$c[0] = bprintf(\"%d\", total_devices);"																		>> ../main.c
+echo -e "\targvc$c[1] = bprintf(\"%d\", total_datacenters);"																	>> ../main.c
+echo -e "\targvc$c[2] = NULL;"																									>> ../main.c
+echo -e ""																														>> ../main.c
+echo -e "\tp = MSG_process_create_with_arguments(str, controller, NULL, MSG_get_host_by_name(str), argc, argvc$c);"				>> ../main.c
+echo -e "\tif(p == NULL)"																										>> ../main.c
+echo -e "\t{"																													>> ../main.c
+echo -e "\t\tprintf(\"Error en ......... cont-0\");"																			>> ../main.c
+echo  "printf(\"\\n\");"																										>> ../main.c
+echo -e "\t\texit(0);"																											>> ../main.c
+echo -e "\t}"																													>> ../main.c
+
+
 
 echo -e "\treturn;"																													>> ../main.c
 echo -e "}"																															>> ../main.c
@@ -205,7 +238,7 @@ echo -e ""																															>> ../main.c
 echo -e ""																															>> ../main.c
 
 
-echo -e "int main(int argc, char *argv[])"																								>> ../main.c
+echo -e "int main(int argc, char *argv[])"																							>> ../main.c
 echo -e "{"																															>> ../main.c
 echo -e "\tmsg_error_t res = MSG_OK;"																								>> ../main.c
 echo -e "\tint i, j;"																												>> ../main.c
@@ -215,7 +248,7 @@ echo -e "\tdouble n_medio = 0.0;"																									>> ../main.c
 echo -e ""																															>> ../main.c
 echo -e "\tif (argc < 2)"																											>> ../main.c
 echo -e "\t{"																														>> ../main.c
-echo -e "\t\tprintf(\"Usage: %s platform_file\", argv[0]);"																	>> ../main.c
+echo -e "\t\tprintf(\"Usage: %s platform_file\", argv[0]);"																			>> ../main.c
 echo  "printf(\"\\n\");"																											>> ../main.c
 echo -e "\t\texit(1);"																												>> ../main.c
 echo -e "\t}"																														>> ../main.c
@@ -261,16 +294,16 @@ do
 	echo -e "\tfor(j = 0; j < $SERVERS; j++)"																						>> ../main.c
 	echo -e "\t{"																													>> ../main.c
 	echo -e "\t\tq_medio = q_medio + tasksManagement[$c].Navgqueue[j];"																				>> ../main.c
-	echo -e "\t\tn_medio = n_medio + tasksManagement[$c].Navgsystem[j];"																				>> ../main.c
+	echo -e "\t\tn_medio = n_medio + tasksManagement[$c].Navgsystem[j];"																			>> ../main.c
 	echo -e "\t}"																																	>> ../main.c
 	
-	echo ""																															>> ../main.c
-	echo -e "\tt_medio_servicio = avServTime[i].avServiceTime / (avServTime[i].numTasks);"																															>> ../main.c
+	echo ""																																			>> ../main.c
+	echo -e "\tt_medio_servicio = avServTime[i].avServiceTime / (avServTime[i].numTasks);"															>> ../main.c
 
 	echo "printf(\"DATACENTER \t tiempoMedioServicio \t TamañoMediocola \t    TareasMediasEnElSistema  \t   tareas\n\");"							>> ../main.c
 	echo "printf(\"%i \t\t %g \t\t\t %g \t\t\t  %g  \t\t\t  %d \n\n\", i, t_medio_servicio, q_medio, n_medio, avServTime[i].numTasks);"				>> ../main.c
 
-	echo ""																															>> ../main.c
+	echo ""																																			>> ../main.c
 
 
 	echo -e "\tt_medio_servicio = 0;"																												>> ../main.c
@@ -286,7 +319,7 @@ echo "printf(\"Simulation time %g\n\", MSG_get_clock());"																			>> .
 for (( c=0; c<$DATACENTERS; c++ ))
 do
 	echo -e ""																														>> ../main.c
-	SERVERS=${args[$((1 + ($c*2)))]}																									>> ../main.c
+	SERVERS=${args[$((1 + ($c*2)))]}																								>> ../main.c
 	echo ""																															>> ../main.c
 	echo ""																															>> ../main.c
 	echo -e "\tfor(j = 0; j < $SERVERS; j++)"																						>> ../main.c

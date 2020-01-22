@@ -10,7 +10,7 @@
 #define MAX_SERVERS 1000
 
 
-#define MFLOPS_BASE (1000 * 1000 * 1000) 						//To compute service time for each task
+#define MFLOPS_BASE (10 * 1000 * 1000) 						//To compute service time for each task
 #define SERVICE_RATE 1.0				 							// Mu = 1  service time = 1 / 1; tasa de servicio de cada servidor
 
 
@@ -53,6 +53,7 @@ struct ClientRequest
 	double t_service; /* tiempo de servicio asignado en FLOPS*/
 	int iot_cluster;
 	int device;
+	int finish_controller;
 };
 
 
@@ -62,7 +63,19 @@ struct ServerResponse
 	char response[30];
 	int server_cluster;
 	int server;
+	int iot_cluster;
+	int device;
 };
+
+
+
+struct ControllerResponse
+{
+	int iot_cluster;
+	int device;
+	int finish;
+};
+
 
 
 struct TaskDatacenters tasksManagement[MAX_DATACENTERS];
@@ -77,5 +90,6 @@ struct AverageServiceTime avServTime[MAX_DATACENTERS];
 int iot(int argc, char *argv[]);
 int dispatcher(int argc, char *argv[]);
 int datacenter(int argc, char *argv[]);
+int controller(int argc, char *argv[]);
 int dispatcherDatacenter(int argc, char *argv[]);
 void test_all(char *file);
