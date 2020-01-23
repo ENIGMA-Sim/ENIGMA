@@ -10,7 +10,7 @@
 #define MAX_SERVERS 1000
 
 
-#define MFLOPS_BASE (10 * 1000 * 1000) 						//To compute service time for each task
+#define MFLOPS_BASE (1000*1000*1000) 						//To compute service time for each task
 #define SERVICE_RATE 1.0				 							// Mu = 1  service time = 1 / 1; tasa de servicio de cada servidor
 
 

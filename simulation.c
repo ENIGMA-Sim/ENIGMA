@@ -5,12 +5,28 @@
 // Sort two elements of type struct ClientRequest. It uses the function xbt_dynar_sort
 static int sort_function_short(const void *e1, const void *e2)
 {
-	struct ClientRequest *c1 = *(void **)e1;
-	struct ClientRequest *c2 = *(void **)e2;
+	struct ClientRequest *c1 = *(void **) e1;
+	struct ClientRequest *c2 = *(void **) e2;
 
 	if (c1->t_service == c2->t_service)
 		return 0;
-	else if (c1->t_service < c2->t_service)
+
+	else    if (c1->t_service < c2->t_service)
+		return -1;
+	else
+		return 1;
+}
+
+/*Ordena los elementos de tipo struct ClientRequest de mayor tiempo de ejecucion a menor*/
+static int sort_function_long(const void *e1, const void *e2)
+{
+	struct ClientRequest *c1 = *(void **) e1;
+	struct ClientRequest *c2 = *(void **) e2;
+
+	if (c1->t_service == c2->t_service)
+		return 0;
+
+	else    if (c1->t_service > c2->t_service)
 		return -1;
 	else
 		return 1;
@@ -56,13 +72,6 @@ int iot(int argc, char *argv[])
 			taskLocally = MSG_task_create(sprintf_buffer, serviceLocally, size_request, NULL);
 			MSG_task_execute(taskLocally);
 			MSG_task_destroy(taskLocally);
-
-			/*printf("Task done in %s (duration: %.2f s). Current peak speed=%.0E flop/s; Current consumption: from %.0fW to %.0fW"
-			" depending on load; Energy dissipated=%.0f J\n\n",
-			MSG_host_get_name(host), MSG_get_clock() - start, MSG_host_get_speed(host), sg_host_get_wattmin_at(host, MSG_host_get_pstate(host)),
-			sg_host_get_wattmax_at(host, MSG_host_get_pstate(host)), sg_host_get_consumed_energy(host));*/
-
-
 		}
 	}
 	else 													//If not, the devices create the requests that execute the datacenters 
@@ -77,20 +86,17 @@ int iot(int argc, char *argv[])
 			sprintf(sprintf_buffer, "Task_%d_%d_%d", my_iot_cluster, my_device, k);
 			sprintf(req->id_task, "%s", sprintf_buffer);
 
-			req->t_arrival = MSG_get_clock(); // tiempo de llegada
+			//req->t_arrival = MSG_get_clock(); // tiempo de llegada
 			req->finish_controller = 0;
 			req->iot_cluster = my_iot_cluster;
 			req->device = my_device;
 
 			t = exponential((double)SERVICE_RATE);
 
-			req->t_service = MFLOPS_BASE * t; 			// calculo del tiempo de servicio en funcion
-											  			// de la velocidad del host del servidor
-
+			req->t_service = MFLOPS_BASE * t; 			// calculo del tiempo de servicio en funcion de la velocidad del host del servidor
 
 			if (percentage != 0)					//The devices compute locally part of the tasks
 			{
-				double start = MSG_get_clock();
 				msg_task_t taskLocally = NULL;
 				double serviceLocally = MFLOPS_BASE * t * percentage;
 				taskLocally = MSG_task_create(sprintf_buffer, serviceLocally, size_request, NULL);
@@ -98,11 +104,6 @@ int iot(int argc, char *argv[])
 				MSG_task_destroy(taskLocally);
 				req->t_service = req->t_service - serviceLocally;
 				taskLocally = NULL;
-				/*printf("Task partially done in %s (duration: %.2f s). Current peak speed=%.0E flop/s; Current consumption: from %.0fW to %.0fW"
-				" depending on load; Energy dissipated=%.0f J\n\n",
-				MSG_host_get_name(host), MSG_get_clock() - start, MSG_host_get_speed(host), sg_host_get_wattmin_at(host, MSG_host_get_pstate(host)),
-				sg_host_get_wattmax_at(host, MSG_host_get_pstate(host)), sg_host_get_consumed_energy(host));*/
-
 			}
 
 			req->n_task = k;
@@ -239,15 +240,16 @@ int datacenter(int argc, char *argv[])
 	msg_task_t t = NULL;
 	struct ClientRequest *req;
 	int res, my_datacenter, my_server;
-	char buf[64];
+	char buf[64], hostS[30];
+	double time_task = MSG_get_clock();
 
 	my_datacenter = atoi(argv[0]);
 	my_server = atoi(argv[1]);
 	sprintf(buf, "s-%d-%d", my_datacenter, my_server);
 	MSG_mailbox_set_async(buf);
 
-	
-
+	msg_host_t host = MSG_host_by_name(buf);
+	//MSG_host_set_pstate(host, 2);
 	while (1)
 	{
 		res = MSG_task_receive(&(task), MSG_host_get_name(MSG_host_self()));
@@ -258,9 +260,13 @@ int datacenter(int argc, char *argv[])
 
 		if(req->finish_controller == 1) 
 		{
-			printf("Server %d-%d shutting down\n",my_datacenter,my_server);
+			printf("Server %d-%d shutting down. Total energy dissipated = %.0f J\n\n",my_datacenter,my_server, sg_host_get_consumed_energy(host));
 			break;
 		}
+
+		req->t_arrival = MSG_get_clock();
+
+		
 
 		// inserta la petición en la cola
 
@@ -269,6 +275,7 @@ int datacenter(int argc, char *argv[])
 		tasksManagement[my_datacenter].Nsystem[my_server]++; // un elemento mas en el sistema
 
 		xbt_dynar_push(tasksManagement[my_datacenter].client_requests[my_server], (const char *)&req);
+		xbt_dynar_sort(tasksManagement[my_datacenter].client_requests[my_server], &sort_function_short);
 		xbt_cond_signal(tasksManagement[my_datacenter].cond[my_server]); // despierta al proceso server
 		xbt_mutex_release(tasksManagement[my_datacenter].mutex[my_server]);
 		MSG_task_destroy(task);
@@ -342,14 +349,10 @@ int dispatcherDatacenter(int argc, char *argv[])
 		task = MSG_task_create("task", req->t_service, 0, NULL);
 		MSG_task_execute(task);
 
-		
+		//printf("%g %g %g\n", MSG_get_clock() - req->t_arrival, MSG_get_clock(), req->t_arrival);
 
-
-
-		/*printf("Task done. Duration: %.2f s. Current peak speed=%.0E flop/s; Current consumption: from %.0fW to %.0fW"
-		" depending on load; Energy dissipated=%.0f J\n\n",
-		MSG_host_get_name(host), MSG_get_clock() - req->t_arrival, MSG_host_get_speed(host), sg_host_get_wattmin_at(host, MSG_host_get_pstate(host)),
-		sg_host_get_wattmax_at(host, MSG_host_get_pstate(host)), sg_host_get_consumed_energy(host));*/
+		printf("Task done. Duration: %.2f s. Current peak speed=%.0E flop/s; Energy dissipated=%.0f J\n\n",
+		MSG_host_get_name(host), MSG_get_clock() - req->t_arrival, MSG_host_get_speed(host), sg_host_get_consumed_energy(host));
 
 
 
@@ -428,8 +431,9 @@ int controller(int argc, char *argv[])
 				MSG_task_set_data(task, (void *)req);
 				sprintf(dispatcher, "d-%d-0", l);
 				MSG_task_send(task, dispatcher);
-				MSG_task_destroy(task);
+				
 			}
+			MSG_task_destroy(task);
 			task = NULL;
 			break;
 		}
