@@ -54,7 +54,7 @@ for i in range(IoT_Clusters):
 	cluster.set('router_id', "IoT_cluster"+str(i))
 
 	propIoT = xml.SubElement(cluster, 'prop')
-	propIoT.set('id', 'watt_per_state') 
+	propIoT.set('id', 'wattage_per_state') 
 	propIoT.set('value', wp)
 	
 	propIoT = xml.SubElement(cluster, 'prop')
@@ -95,7 +95,7 @@ for i in range(Datacenters):
 	cluster.set('router_id', "Dispatcher_cluster"+str(i))
 
 	propIoT = xml.SubElement(cluster, 'prop')
-	propIoT.set('id', 'watt_per_state') 
+	propIoT.set('id', 'wattage_per_state') 
 	propIoT.set('value', wp)
 	
 	propIoT = xml.SubElement(cluster, 'prop')
@@ -137,7 +137,7 @@ for i in range(Datacenters):
 	cluster.set('router_id', "Datacenter_cluster"+str(i))
 
 	propIoT = xml.SubElement(cluster, 'prop')
-	propIoT.set('id', 'watt_per_state') 
+	propIoT.set('id', 'wattage_per_state') 
 	propIoT.set('value', wp)
 	
 	propIoT = xml.SubElement(cluster, 'prop')

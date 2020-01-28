@@ -182,29 +182,38 @@ printf("\n");
 
 	test_all(argv[1]);
 	res = MSG_main();
-	int totaltasks = 0;
 
 
+	FILE * fp = fopen ("./results.csv" , "w+");
 
+	char h[30];
+	msg_host_t host;
 	i = 0;
+	fprintf(fp, "Server,Energy Consumed (J)\n");
 	for(j = 0; j < 20; j++)
 	{
 		q_medio = q_medio + tasksManagement[0].Navgqueue[j];
 		n_medio = n_medio + tasksManagement[0].Navgsystem[j];
+		sprintf(h, "s-%d-%d", i, j);
+		host = MSG_host_by_name(h);
+		printf("%s %.6f J\n",MSG_host_get_name(host), sg_host_get_consumed_energy(host));
+		
+		fprintf(fp, "%d-%d,%.0f J\n",i,j, sg_host_get_consumed_energy(host));
 	}
 
 	t_medio_servicio = avServTime[i].avServiceTime / (avServTime[i].numTasks);
-printf("DATACENTER \t tiempoMedioServicio \t TamañoMediocola \t    TareasMediasEnElSistema  \t   tareas\n");
-printf("%i \t\t %g \t\t\t %g \t\t\t  %g  \t\t\t  %d \n\n", i, t_medio_servicio, q_medio, n_medio, avServTime[i].numTasks);
+	fprintf(fp,"\nDATACENTER,tiempoMedioServicio,TamañoMediocola,TareasMediasEnElSistema,tareas\n");
+	fprintf(fp,"%i,%g,%g,%g,%d\n\n", i, t_medio_servicio, q_medio, n_medio, avServTime[i].numTasks);
+
+
 
 	t_medio_servicio = 0;
 	q_medio = 0;
 	n_medio = 0;
-	totaltasks += avServTime[i].numTasks;
 
-printf("Simulation time %g\n", MSG_get_clock());
+	fprintf(fp, "Simulation time,%g\n", MSG_get_clock());
 
-
+	fclose(fp);
 
 	for(j = 0; j < 20; j++)
 	{

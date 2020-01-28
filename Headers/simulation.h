@@ -1,6 +1,7 @@
 #include <string.h>
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "simgrid/plugins/energy.h"
 #include "simgrid/msg.h"
 #include "xbt/synchro.h"
@@ -33,6 +34,7 @@ struct TaskDatacenters
 
 	int Nsystem[MAX_SERVERS];	   				// número de tareas en cada servidor (esperando y siendo atendidas)
 	double Navgsystem[MAX_SERVERS]; 				// número medio de tareas por servidor (esperando y siendo atendidas)
+	double timeWait[MAX_SERVERS];
 };
 
 
@@ -78,11 +80,10 @@ struct ControllerResponse
 
 
 
+
+
 struct TaskDatacenters tasksManagement[MAX_DATACENTERS];
 struct AverageServiceTime avServTime[MAX_DATACENTERS];
-
-
-
 
 
 

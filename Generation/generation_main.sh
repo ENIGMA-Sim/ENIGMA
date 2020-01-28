@@ -280,8 +280,15 @@ done
 echo ""																																>> ../main.c
 echo -e "\ttest_all(argv[1]);"																										>> ../main.c
 echo -e "\tres = MSG_main();"																										>> ../main.c
-echo -e "\tint totaltasks = 0;"																										>> ../main.c
+echo ""																															>> ../main.c
+echo ""																															>> ../main.c
+echo -e "\tFILE *fp = fopen(\"./results.csv\", \"w+\");"																										>> ../main.c
 
+echo -e "\tchar h[30];"																										>> ../main.c
+echo -e "\tmsg_host_t host;"																										>> ../main.c
+
+
+echo "fprintf(fp, \"Server,Energy Consumed (J)\n\");"																										>> ../main.c
 
 
 for (( c=0; c<$DATACENTERS; c++ ))
@@ -295,13 +302,20 @@ do
 	echo -e "\t{"																													>> ../main.c
 	echo -e "\t\tq_medio = q_medio + tasksManagement[$c].Navgqueue[j];"																				>> ../main.c
 	echo -e "\t\tn_medio = n_medio + tasksManagement[$c].Navgsystem[j];"																			>> ../main.c
+	echo -e "\t\tsprintf(h, \"s-%d-%d\", i, j);"																			>> ../main.c
+	echo -e "\t\thost = MSG_host_by_name(h);"																			>> ../main.c
+	echo "\t\tprintf(\"%s %.6f J\",MSG_host_get_name(host), sg_host_get_consumed_energy(host));"																			>> ../main.c
+	echo "fprintf(fp, \"%d-%d,%.0f J\n\",i,j, sg_host_get_consumed_energy(host));"																			>> ../main.c
+
+
+
 	echo -e "\t}"																																	>> ../main.c
 	
 	echo ""																																			>> ../main.c
 	echo -e "\tt_medio_servicio = avServTime[i].avServiceTime / (avServTime[i].numTasks);"															>> ../main.c
 
-	echo "printf(\"DATACENTER \t tiempoMedioServicio \t TamañoMediocola \t    TareasMediasEnElSistema  \t   tareas\n\");"							>> ../main.c
-	echo "printf(\"%i \t\t %g \t\t\t %g \t\t\t  %g  \t\t\t  %d \n\n\", i, t_medio_servicio, q_medio, n_medio, avServTime[i].numTasks);"				>> ../main.c
+	echo "fprintf(fp,\"DATACENTER,tiempoMedioServicio,TamañoMediocola,TareasMediasEnElSistema,tareas\n\");"							>> ../main.c
+	echo "fprintf(fp,\"%i,%g,%g,%g,%d\n\n\", i, t_medio_servicio, q_medio, n_medio, avServTime[i].numTasks);"				>> ../main.c
 
 	echo ""																																			>> ../main.c
 

@@ -230,9 +230,6 @@ int dispatcher(int argc, char *argv[])
 
 
 
-
-
-
 /* datacenter function  */
 int datacenter(int argc, char *argv[])
 {
@@ -249,9 +246,11 @@ int datacenter(int argc, char *argv[])
 	MSG_mailbox_set_async(buf);
 
 	msg_host_t host = MSG_host_by_name(buf);
-	//MSG_host_set_pstate(host, 2);
+	MSG_host_set_pstate(host, 2);
+
 	while (1)
 	{
+		
 		res = MSG_task_receive(&(task), MSG_host_get_name(MSG_host_self()));
 		
 		if (res != MSG_OK) break;
@@ -265,8 +264,6 @@ int datacenter(int argc, char *argv[])
 		}
 
 		req->t_arrival = MSG_get_clock();
-
-		
 
 		// inserta la petición en la cola
 
@@ -288,6 +285,7 @@ int datacenter(int argc, char *argv[])
 	xbt_cond_signal(tasksManagement[my_datacenter].cond[my_server]);
 	xbt_mutex_release(tasksManagement[my_datacenter].mutex[my_server]);
 	
+	MSG_host_set_pstate(host, 2);
 
 	return 0;
 }
@@ -345,15 +343,17 @@ int dispatcherDatacenter(int argc, char *argv[])
 		tasksManagement[my_datacenter].Navgsystem[my_server] = (tasksManagement[my_datacenter].Navgsystem[my_server] * (n_tasks - 1) + tasksManagement[my_datacenter].Nsystem[my_server]) / n_tasks;
 		xbt_mutex_release(tasksManagement[my_datacenter].mutex[my_server]);
 
+		
 		// crea una tarea para su ejecución
+
+		MSG_host_set_pstate(host, 0);
 		task = MSG_task_create("task", req->t_service, 0, NULL);
 		MSG_task_execute(task);
 
-		//printf("%g %g %g\n", MSG_get_clock() - req->t_arrival, MSG_get_clock(), req->t_arrival);
+		
+		//printf("Task done. Duration: %.2f s. Current peak speed=%.0E flop/s; Energy dissipated=%.0f J\n", MSG_host_get_name(host), MSG_get_clock() - req->t_arrival, MSG_host_get_speed(host), sg_host_get_consumed_energy(host));
 
-		printf("Task done. Duration: %.2f s. Current peak speed=%.0E flop/s; Energy dissipated=%.0f J\n\n",
-		MSG_host_get_name(host), MSG_get_clock() - req->t_arrival, MSG_host_get_speed(host), sg_host_get_consumed_energy(host));
-
+		MSG_host_set_pstate(host, 2);
 
 
 		xbt_mutex_acquire(tasksManagement[my_datacenter].mutex[my_server]);
