@@ -10,7 +10,7 @@
 			<prop id="wattage_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0"/>
 			<prop id="wattage_off" value="20"/>
 		</cluster>
-		<cluster bb_bw="75Mbps" bb_lat="5ms" bw="80Mbps" core="4" id="IoT2" lat="40ms" prefix="iot-2-" radical="0-122" router_id="IoT_cluster2" speed="4Gf,2Gf,1Gf" suffix="">
+		<cluster bb_bw="75Mbps" bb_lat="5ms" bw="80Mbps" core="4" id="IoT2" lat="40ms" prefix="iot-2-" radical="0-150" router_id="IoT_cluster2" speed="4Gf,2Gf,1Gf" suffix="">
 			<prop id="wattage_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0"/>
 			<prop id="wattage_off" value="15"/>
 		</cluster>
@@ -22,7 +22,7 @@
 			<prop id="wattage_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0"/>
 			<prop id="wattage_off" value="30"/>
 		</cluster>
-		<cluster bb_bw="750Mbps" bb_lat="10ms" bw="2Gbps" core="8" id="Datacenter0" lat="10ms" prefix="s-0-" radical="0-199" router_id="Datacenter_cluster0" speed="12Gf,8Gf,4Gf" suffix="">
+		<cluster bb_bw="750Mbps" bb_lat="10ms" bw="2Gbps" core="8" id="Datacenter0" lat="10ms" prefix="s-0-" radical="0-101" router_id="Datacenter_cluster0" speed="12Gf,8Gf,4Gf" suffix="">
 			<prop id="wattage_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0"/>
 			<prop id="wattage_off" value="50"/>
 		</cluster>

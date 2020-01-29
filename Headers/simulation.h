@@ -9,6 +9,8 @@
 
 #define MAX_DATACENTERS 10
 #define MAX_SERVERS 1000
+#define MAX_DEVICES 10000
+#define MAX_IOT 1
 
 
 #define MFLOPS_BASE (1000*1000*1000) 						//To compute service time for each task
@@ -34,16 +36,7 @@ struct TaskDatacenters
 
 	int Nsystem[MAX_SERVERS];	   				// número de tareas en cada servidor (esperando y siendo atendidas)
 	double Navgsystem[MAX_SERVERS]; 				// número medio de tareas por servidor (esperando y siendo atendidas)
-	double timeWait[MAX_SERVERS];
 };
-
-
-struct AverageServiceTime
-{
-	double avServiceTime;
-	int numTasks;
-};
-
 
 
 //Structure sent by the IoT device that contains the task to execute
@@ -67,6 +60,7 @@ struct ServerResponse
 	int server;
 	int iot_cluster;
 	int device;
+	double t_arrival;
 };
 
 
@@ -79,12 +73,26 @@ struct ControllerResponse
 };
 
 
+struct StatisticsDatacenter
+{
+	double totalEnergy[MAX_SERVERS];
+	double avEnergy[MAX_SERVERS];
+	double avTime[MAX_SERVERS];
+	int numTasks[MAX_SERVERS];
+};
+
+struct StatisticsIoT{
+	double totalEnergy[MAX_DEVICES];
+	double avEnergy[MAX_DEVICES];
+	double avTime[MAX_DEVICES];
+	int numTasks;
+};
 
 
 
 struct TaskDatacenters tasksManagement[MAX_DATACENTERS];
-struct AverageServiceTime avServTime[MAX_DATACENTERS];
-
+struct StatisticsDatacenter statsDatacenter[MAX_DATACENTERS];
+struct StatisticsIoT statsIoT[MAX_IOT];
 
 
 
