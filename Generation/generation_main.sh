@@ -249,7 +249,7 @@ echo -e ""																															>> ../main.c
 echo -e "\tif (argc < 2)"																											>> ../main.c
 echo -e "\t{"																														>> ../main.c
 echo -e "\t\tprintf(\"Usage: %s platform_file\", argv[0]);"																			>> ../main.c
-echo  "printf(\"\\n\");"																											>> ../main.c
+echo  "printf(\"\n\");"																											>> ../main.c
 echo -e "\t\texit(1);"																												>> ../main.c
 echo -e "\t}"																														>> ../main.c
 echo -e ""																															>> ../main.c
@@ -288,7 +288,7 @@ echo -e "\tchar h[30];"																										>> ../main.c
 echo -e "\tmsg_host_t host;"																										>> ../main.c
 
 
-echo "fprintf(fp, \"Server,Energy Consumed (J)\n\");"																										>> ../main.c
+echo "fprintf(fp, \"Server,Tasks Executed,Energy Consumed,Average Energy Consumed,Average Time\n\");"																										>> ../main.c
 
 
 for (( c=0; c<$DATACENTERS; c++ ))
@@ -304,7 +304,7 @@ do
 	echo -e "\t\tn_medio = n_medio + tasksManagement[$c].Navgsystem[j];"																			>> ../main.c
 	echo -e "\t\tsprintf(h, \"s-%d-%d\", i, j);"																									>> ../main.c
 	echo -e "\t\thost = MSG_host_by_name(h);"																										>> ../main.c
-	echo "fprintf(fp,\"%s,%.6f J\n\",MSG_host_get_name(host), sg_host_get_consumed_energy(host));"													>> ../main.c
+	echo "fprintf(fp,\"%s,%d,%.6f,%g\n\",MSG_host_get_name(host), statsDatacenter[i].numTasks[j], statsDatacenter[i].totalEnergy[j], statsDatacenter[i].avEnergy[j], statsDatacenter[i].avTime[j]);"													>> ../main.c
 
 
 	echo -e "\t}"																																	>> ../main.c
@@ -324,7 +324,44 @@ do
 done
 
 echo -e ""																															>> ../main.c
-echo "fprintf(fp,\"\n\");"																														>> ../main.c
+echo "fprintf(fp,\"\n\n\n\n\");"																														>> ../main.c
+echo -e ""																															>> ../main.c
+echo -e ""																															>> ../main.c
+
+echo "fprintf(fp, \"IoT Device,Tasks Executed,Energy Consumed,Average Energy Consumed,Average Time\n\");"																										>> ../main.c
+echo -e ""																															>> ../main.c
+echo -e ""																															>> ../main.c
+echo -e ""																															>> ../main.c
+
+
+for (( c=0; c<$IOT_CLUSTERS; c++ ))
+do
+	echo -e ""																														>> ../main.c
+	DEVICES=${args[$((($1*2)+2+($c*5)))]}
+	echo ""																															>> ../main.c
+	echo ""																															>> ../main.c
+	echo -e "\ti = $c;"																												>> ../main.c
+	echo -e "\tfor(j = 0; j < $DEVICES; j++)"																						>> ../main.c
+	echo -e "\t{"																													>> ../main.c
+	echo -e "\t\tsprintf(h, \"iot-%d-%d\", i, j);"																									>> ../main.c
+	echo -e "\t\thost = MSG_host_by_name(h);"																										>> ../main.c
+	echo "fprintf(fp,\"%s,%d,%.6f,%g\n\",MSG_host_get_name(host), statsIoT[i].numTasks[j], statsIoT[i].totalEnergy[j], statsIoT[i].avEnergy[j], statsIoT[i].avTime[j]);"													>> ../main.c
+
+
+	echo -e "\t}"																																	>> ../main.c
+	
+	echo ""																																			>> ../main.c
+	echo ""																																			>> ../main.c
+done
+
+echo -e ""																															>> ../main.c
+echo "fprintf(fp,\"\n\n\n\");"																														>> ../main.c
+
+echo -e ""																															>> ../main.c
+echo -e ""																															>> ../main.c
+echo -e ""																															>> ../main.c
+
+
 
 echo "fprintf(fp,\"Simulation time %g\n\", MSG_get_clock());"																		>> ../main.c
 echo -e "\tfclose(fp);"																												>> ../main.c

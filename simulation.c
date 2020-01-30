@@ -89,7 +89,7 @@ int iot(int argc, char *argv[])
 			sprintf(mailbox, "d-%d-0", dispatcher);
 			MSG_task_send(task, mailbox);
 			task = NULL;
-			
+			statsIoT[my_iot_cluster].numTasks += 1;
 		}
 
 		while(1)
@@ -102,8 +102,13 @@ int iot(int argc, char *argv[])
 				resServer = MSG_task_get_data(task);
 				//printf("%s completed on server %d-%d\n",resServer->id_task, resServer->server_cluster, resServer->server);
 				//printf("%d %d - %d %d\n", resServer->iot_cluster , my_iot_cluster, resServer->device , my_device);
-				if(resServer->iot_cluster == my_iot_cluster && resServer->device == my_device) tasks_completed++;
+				if(resServer->iot_cluster == my_iot_cluster && resServer->device == my_device)
+				{
+					tasks_completed++;
+					statsIoT[my_iot_cluster].avTime[my_device] += (MSG_get_clock() - resServer->t_arrival);
+				} 
 				
+
 				free(resServer);
 				MSG_task_destroy(task);
 				task = NULL;
@@ -120,6 +125,9 @@ int iot(int argc, char *argv[])
 		
 	/* TASKS COMPLETED */
 
+
+
+
 	conResponse = (struct ControllerResponse *)malloc(sizeof(struct ControllerResponse));
 	conResponse->iot_cluster = my_iot_cluster;
 	conResponse->device = my_device;
@@ -132,6 +140,9 @@ int iot(int argc, char *argv[])
 	MSG_task_send(task, mailbox);
 	task = NULL;
 
+	statsIoT[my_iot_cluster].totalEnergy[my_device] = sg_host_get_consumed_energy(host);
+	statsIoT[my_iot_cluster].avEnergy[my_device] = sg_host_get_consumed_energy(host) / statsIoT[my_iot_cluster].numTasks;
+	statsIoT[my_iot_cluster].avTime[my_device] = statsIoT[my_iot_cluster].avTime / statsIoT[my_iot_cluster].numTasks;
 	//printf("Device %d-%d shutting down\n",my_iot_cluster,my_device);
 
 	/* finalizar */

@@ -334,7 +334,7 @@ int main(int argc, char *argv[])
 	FILE *fp = fopen("./results.csv", "w+");
 	char h[30];
 	msg_host_t host;
-	fprintf(fp, "Server,Energy Consumed (J)\n");
+	fprintf(fp, "Server,Tasks Executed,Energy Consumed\n");
 
 
 
@@ -345,7 +345,7 @@ int main(int argc, char *argv[])
 		n_medio = n_medio + tasksManagement[0].Navgsystem[j];
 		sprintf(h, "s-%d-%d", i, j);
 		host = MSG_host_by_name(h);
-	fprintf(fp,"%s,%.6f J\n",MSG_host_get_name(host), sg_host_get_consumed_energy(host));
+	fprintf(fp,"%s,%d,%.6f, %g\n",MSG_host_get_name(host), statsDatacenter[i].totalEnergy[j], statsDatacenter[i].numTasks[j], statsDatacenter[i].avEnergy[j], statsDatacenter[i].avTime[j]);
 	}
 
 	t_medio_servicio = avServTime[i].avServiceTime / (avServTime[i].numTasks);
