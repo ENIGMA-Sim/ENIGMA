@@ -29,13 +29,13 @@ for i in range(IoT_Clusters):
 
 	devices = input("Number of devices: ")
 	dev.append(int(devices))
-	speed = input("Speed (A,B,C): ")
+	speed = input("Speed: ")
 	core = input("Cores: ")
 	bw = input("Bandwidth: ")
 	latency = input("Latency: ")
 	bb_bw = input("Backbone bandwidth: ")
 	bb_lat = input("Backbone latency: ")
-	wp = input("Wattage per state (A:B:C, D:E:F, G:H:I): ")
+	wp = input("Wattage per state (A:B:C): ")
 	woff = input("Wattage off: ")
 
 	cluster = xml.SubElement(AS, 'cluster')
@@ -71,13 +71,13 @@ for i in range(Datacenters):
 	print("----------------DISPATCHER "+str(i)+"------------------")
 	print("----------------------------------------------")
 	print("")
-	speed = input("Speed (A,B,C): ")
+	speed = input("Speed: ")
 	core = input("Cores: ")
 	bw = input("Bandwidth: ")
 	latency = input("Latency: ")
 	bb_bw = input("Backbone bandwidth: ")
 	bb_lat = input("Backbone latency: ")
-	wp = input("Wattage per state (A:B:C, D:E:F, G:H:I): ")
+	wp = input("Wattage per state (A:B:C): ")
 	woff = input("Wattage off: ")
 
 	cluster = xml.SubElement(AS, 'cluster')
@@ -113,13 +113,13 @@ for i in range(Datacenters):
 	print("")
 	servers = input("Number of servers: ")
 	ser.append(servers)
-	speed = input("Speed (A,B,C): ")
+	speed = input("Speed: ")
 	core = input("Cores: ")
 	bw = input("Bandwidth: ")
 	latency = input("Latency: ")
 	bb_bw = input("Backbone bandwidth: ")
 	bb_lat = input("Backbone latency: ")
-	wp = input("Wattage per state (A:B:C, D:E:F, G:H:I): ")
+	wp = input("Wattage per state (A:B:C): ")
 	woff = input("Wattage off: ")
 
 	cluster = xml.SubElement(AS, 'cluster')
@@ -157,8 +157,8 @@ controller.set('radical', '0-1')
 controller.set('speed', '4Gf')
 controller.set('bw', "125GBps")
 controller.set('lat', '0us')
-controller.set('bb_bw', '1000000000GBps')
-controller.set('bb_lat', '0us')
+controller.set('bb_bw', '10GBps')
+controller.set('bb_lat', '10us')
 controller.set('router_id', "Controller_cluster")
 
 
@@ -230,8 +230,8 @@ for i in range(Datacenters):
 """ LINKS BETWEEN CONTROLLER AND DISPATCHERS """
 
 
-bandwidthLink = '100000000GBps'
-latencyLink = '0us'
+bandwidthLink = '10GBps'
+latencyLink = '50us'
 
 for i in range(Datacenters):
 	link = xml.SubElement(AS, 'link')

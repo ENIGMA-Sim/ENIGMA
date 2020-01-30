@@ -241,8 +241,7 @@ echo -e ""																															>> ../main.c
 echo -e "int main(int argc, char *argv[])"																							>> ../main.c
 echo -e "{"																															>> ../main.c
 echo -e "\tmsg_error_t res = MSG_OK;"																								>> ../main.c
-echo -e "\tint i, j;"																												>> ../main.c
-echo -e "\tdouble t_medio_servicio = 0.0;"																							>> ../main.c
+echo -e "\tint i, j, tasksExecuted;"																												>> ../main.c
 echo -e "\tdouble q_medio = 0.0;"																									>> ../main.c
 echo -e "\tdouble n_medio = 0.0;"																									>> ../main.c
 echo -e ""																															>> ../main.c
@@ -305,15 +304,14 @@ do
 	echo -e "\t\tsprintf(h, \"s-%d-%d\", i, j);"																									>> ../main.c
 	echo -e "\t\thost = MSG_host_by_name(h);"																										>> ../main.c
 	echo "fprintf(fp,\"%s,%d,%.6f,%g\n\",MSG_host_get_name(host), statsDatacenter[i].numTasks[j], statsDatacenter[i].totalEnergy[j], statsDatacenter[i].avEnergy[j], statsDatacenter[i].avTime[j]);"													>> ../main.c
-
+	echo -e "\t\ttasksExecuted += statsDatacenter[i].numTasks[j];"																										>> ../main.c
 
 	echo -e "\t}"																																	>> ../main.c
 	
 	echo ""																																			>> ../main.c
-	echo -e "\tt_medio_servicio = avServTime[i].avServiceTime / (avServTime[i].numTasks);"															>> ../main.c
 	echo "fprintf(fp,\"\n\");"																														>> ../main.c
-	echo "fprintf(fp,\"DATACENTER,tiempoMedioServicio,TamañoMediocola,TareasMediasEnElSistema,tareas\n\");"											>> ../main.c
-	echo "fprintf(fp,\"%i,%g,%g,%g,%d\n\n\", i, t_medio_servicio, q_medio, n_medio, avServTime[i].numTasks);"										>> ../main.c
+	echo "fprintf(fp,\"DATACENTER,TamañoMediocola,TareasMediasEnElSistema,tareas\n\");"											>> ../main.c
+	echo "fprintf(fp,\"%i,%g,%g,%d\n\n\", i, q_medio, n_medio, tasksExecuted);"										>> ../main.c
 
 	echo ""																																			>> ../main.c
 
@@ -345,7 +343,7 @@ do
 	echo -e "\t{"																													>> ../main.c
 	echo -e "\t\tsprintf(h, \"iot-%d-%d\", i, j);"																									>> ../main.c
 	echo -e "\t\thost = MSG_host_by_name(h);"																										>> ../main.c
-	echo "fprintf(fp,\"%s,%d,%.6f,%g\n\",MSG_host_get_name(host), statsIoT[i].numTasks[j], statsIoT[i].totalEnergy[j], statsIoT[i].avEnergy[j], statsIoT[i].avTime[j]);"													>> ../main.c
+	echo "fprintf(fp,\"%s,%d,%.6f,%g\n\",MSG_host_get_name(host), statsIoT[i].numTasks, statsIoT[i].totalEnergy[j], statsIoT[i].avEnergy[j], statsIoT[i].avTime[j]);"													>> ../main.c
 
 
 	echo -e "\t}"																																	>> ../main.c

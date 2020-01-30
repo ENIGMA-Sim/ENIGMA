@@ -33,6 +33,7 @@ int iot(int argc, char *argv[])
 	{
 		for (k = 0; k < num_tasks; k++)
 		{
+			MSG_host_set_pstate(host, 0);
 			sprintf(sprintf_buffer, "Task_%d_%d_%d", my_iot_cluster, my_device, k);
 			double start = MSG_get_clock();
 			msg_task_t taskLocally = NULL;
@@ -41,7 +42,9 @@ int iot(int argc, char *argv[])
 			MSG_task_execute(taskLocally);
 			MSG_task_destroy(taskLocally);
 			statsIoT[my_iot_cluster].avTime[my_device] += (MSG_get_clock() - start);
-			statsIoT[my_iot_cluster].numTasks += 1;
+			statsIoT[my_iot_cluster].numTasks[my_device] += 1;
+			MSG_host_set_pstate(host, 2);
+			//printf("%d. Total energy dissipated = %.0f J\n\n",k,my_iot_cluster,my_device, sg_host_get_consumed_energy(host));
 		}
 	}
 	else 													//If not, the devices create the requests that execute the datacenters 
@@ -69,6 +72,7 @@ int iot(int argc, char *argv[])
 
 			if (percentage != 0)							//The devices compute locally part of the tasks
 			{
+				MSG_host_set_pstate(host, 0);
 				msg_task_t taskLocally = NULL;
 				double serviceLocally = req->t_service * percentage;
 				taskLocally = MSG_task_create(sprintf_buffer, serviceLocally, size_request, NULL);
@@ -76,6 +80,7 @@ int iot(int argc, char *argv[])
 				MSG_task_destroy(taskLocally);
 				req->t_service = req->t_service - serviceLocally;
 				taskLocally = NULL;
+				MSG_host_set_pstate(host, 2);
 			}
 
 			req->n_task = k;
@@ -89,7 +94,7 @@ int iot(int argc, char *argv[])
 			sprintf(mailbox, "d-%d-0", dispatcher);
 			MSG_task_send(task, mailbox);
 			task = NULL;
-			statsIoT[my_iot_cluster].numTasks += 1;
+			statsIoT[my_iot_cluster].numTasks[my_device] += 1;
 		}
 
 		while(1)
@@ -141,8 +146,8 @@ int iot(int argc, char *argv[])
 	task = NULL;
 
 	statsIoT[my_iot_cluster].totalEnergy[my_device] = sg_host_get_consumed_energy(host);
-	statsIoT[my_iot_cluster].avEnergy[my_device] = sg_host_get_consumed_energy(host) / statsIoT[my_iot_cluster].numTasks;
-	statsIoT[my_iot_cluster].avTime[my_device] = statsIoT[my_iot_cluster].avTime / statsIoT[my_iot_cluster].numTasks;
+	statsIoT[my_iot_cluster].avEnergy[my_device] = sg_host_get_consumed_energy(host) / statsIoT[my_iot_cluster].numTasks[my_device];
+	statsIoT[my_iot_cluster].avTime[my_device] = statsIoT[my_iot_cluster].avTime[my_device] / statsIoT[my_iot_cluster].numTasks[my_device];
 	//printf("Device %d-%d shutting down\n",my_iot_cluster,my_device);
 
 	/* finalizar */
@@ -229,6 +234,8 @@ int datacenter(int argc, char *argv[])
 
 	msg_host_t host = MSG_host_by_name(buf);
 	MSG_host_set_pstate(host, 2);
+
+	statsDatacenter[my_datacenter].numTasks[my_server] = 0;
 
 	while (1)
 	{
@@ -345,7 +352,7 @@ int dispatcherDatacenter(int argc, char *argv[])
 		
 		resServer = (struct ServerResponse *)malloc(sizeof(struct ServerResponse));
 		statsDatacenter[my_datacenter].avTime[my_server] += (c - (req->t_arrival));
-		statsDatacenter[my_datacenter].numTasks][my_server] += 1;
+		statsDatacenter[my_datacenter].numTasks[my_server] += 1;
 		resServer->server_cluster = my_datacenter;
 		resServer->server = my_server;
 		resServer->iot_cluster = req->iot_cluster;

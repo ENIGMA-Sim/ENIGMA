@@ -85,7 +85,7 @@ struct StatisticsIoT{
 	double totalEnergy[MAX_DEVICES];
 	double avEnergy[MAX_DEVICES];
 	double avTime[MAX_DEVICES];
-	int numTasks;
+	int numTasks[MAX_DEVICES];
 };
 
 
