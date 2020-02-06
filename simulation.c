@@ -89,17 +89,12 @@ int iot(int argc, char *argv[])
 
 			task = MSG_task_create(sprintf_buffer, task_comp_size, task_comm_size, NULL);
 			MSG_task_set_data(task, (void *)req);
-
 			dispatcher = uniform_int(0, num_datacenters-1);
 			sprintf(mailbox, "d-%d-0", dispatcher);
 			MSG_task_send(task, mailbox);
 			task = NULL;
 			statsIoT[my_iot_cluster].numTasks[my_device] += 1;
-		}
 
-		while(1)
-		{
-			
 			res = MSG_task_receive(&(task), MSG_host_get_name(MSG_host_self()));
 
 			if (res == MSG_OK)
@@ -110,6 +105,7 @@ int iot(int argc, char *argv[])
 				if(resServer->iot_cluster == my_iot_cluster && resServer->device == my_device)
 				{
 					tasks_completed++;
+					//printf("%s completed on server %d-%d\n",resServer->id_task, resServer->server_cluster, resServer->server);
 					statsIoT[my_iot_cluster].avTime[my_device] += (MSG_get_clock() - resServer->t_arrival);
 				} 
 				
@@ -118,19 +114,12 @@ int iot(int argc, char *argv[])
 				MSG_task_destroy(task);
 				task = NULL;
 			}
-
-			//printf("%d %d - %d %d\n", my_iot_cluster , my_device, tasks_completed , num_tasks);
-			if(tasks_completed == num_tasks) break;
-
 		}
 
 	}
 
-
-		
+	
 	/* TASKS COMPLETED */
-
-
 
 
 	conResponse = (struct ControllerResponse *)malloc(sizeof(struct ControllerResponse));

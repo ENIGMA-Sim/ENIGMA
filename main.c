@@ -35,7 +35,7 @@ void test_all(char *file)
 		if(p == NULL)
 		{
 			printf("Error en ......... s-%d-%d", i, j);
-printf("\n");
+			printf("\n");
 			exit(0);
 		}
 	}
@@ -60,7 +60,7 @@ printf("\n");
 		if(p == NULL)
 		{
 			printf("Error en ......... s-%d-%d", i, j);
-printf("\n");
+			printf("\n");
 			exit(0);
 		}
 	}
@@ -93,7 +93,7 @@ printf("\n");
 		if(p == NULL)
 		{
 			printf("Error en ......... iot-%d-%d", i, j);
-printf("\n");
+			printf("\n");
 			exit(0);
 		}
 	}
@@ -116,7 +116,7 @@ printf("\n");
 	if(p == NULL)
 	{
 		printf("Error en ......... d-%d-0", i);
-printf("\n");
+		printf("\n");
 		exit(0);
 	}
 
@@ -138,7 +138,7 @@ printf("\n");
 	if(p == NULL)
 	{
 		printf("Error en ......... cont-0");
-printf("\n");
+		printf("\n");
 		exit(0);
 	}
 	return;
