@@ -6,7 +6,7 @@
 int iot(int argc, char *argv[])
 {
 	double task_comp_size = 0, task_comm_size = 0;
-	char sprintf_buffer[64], mailbox[256], buf[64];
+	char sprintf_buffer[40], mailbox[256], buf[64];
 	msg_task_t task = NULL;
 	struct ClientRequest *req;
 	struct ServerResponse *resServer;
@@ -345,7 +345,7 @@ int dispatcherDatacenter(int argc, char *argv[])
 
 
 		ans_task = MSG_task_create(MSG_task_get_name(task), MSG_task_get_flops_amount(task), output_size_data, NULL);
-		sprintf(resServer->response, "Task %s finished", req->id_task);
+		sprintf(resServer->response, "%s finished", req->id_task);
 		resServer->t_arrival = req->t_arrival;
 		sprintf(resServer->id_task,"%s",req->id_task);
 		sprintf(mailbox, "iot-%d-%d", req->iot_cluster, req->device);

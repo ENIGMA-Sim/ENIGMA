@@ -183,11 +183,10 @@ int main(int argc, char *argv[])
 	res = MSG_main();
 
 
-	FILE *fp = fopen("./Resultados/results_10s_10000iot_2000t_50_50.csv", "w+");
+	FILE *fp = fopen("./Resultados/results_10s_10000iot_100t_50_50.csv", "w+");
 	char h[30];
 	msg_host_t host;
 	fprintf(fp, "Server,Tasks Executed,Energy Consumed,Average Energy Consumed,Average Time\n");
-
 
 
 	i = 0;
@@ -214,6 +213,7 @@ int main(int argc, char *argv[])
 	fprintf(fp, "IoT Device,Tasks Executed,Energy Consumed,Average Energy Consumed,Average Time\n");
 
 
+	printf("B\n");
 
 
 
@@ -236,7 +236,7 @@ int main(int argc, char *argv[])
 	int hours_s = (int)(t_s/3600);		
 	t_s -= (hours_s*3600);
 	int min_s = (int)(t_s/60);
-	t_s -= (min*60);
+	t_s -= (min_s*60);
 
 
 	fprintf(fp,"Simulation time,%d days,%d hours,%d min,%d s\n\n", days_s, hours_s, min_s, (int)round(t_s));

@@ -42,7 +42,7 @@ struct TaskDatacenters
 //Structure sent by the IoT device that contains the task to execute
 struct ClientRequest
 {
-	char id_task[30];
+	char id_task[40];
 	int n_task;		  // número de tarea
 	double t_arrival; /* momento en el que llega la tarea (tiempo de creacion)*/
 	double t_service; /* tiempo de servicio asignado en FLOPS*/
@@ -54,8 +54,8 @@ struct ClientRequest
 
 struct ServerResponse
 {
-	char id_task[30];
-	char response[30];
+	char id_task[40];
+	char response[40];
 	int server_cluster;
 	int server;
 	int iot_cluster;
