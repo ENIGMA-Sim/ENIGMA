@@ -150,9 +150,9 @@ void test_all(char *file)
 int main(int argc, char *argv[])
 {
 	msg_error_t res = MSG_OK;
-	int i, j, tasksExecuted = 0;
+	int i, j, tasksExecuted = 0, days, hours, min;
 	double q_medio = 0.0;
-	double n_medio = 0.0;
+	double n_medio = 0.0, t;
 
 	if (argc < 2)
 	{
@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-
+	t = (double)time(NULL);	
 	seed((int)time(NULL));
 	sg_host_energy_plugin_init();
 	MSG_init(&argc, argv);
@@ -183,7 +183,7 @@ int main(int argc, char *argv[])
 	res = MSG_main();
 
 
-	FILE *fp = fopen("./results.csv", "w+");
+	FILE *fp = fopen("./Resultados/results_10s_10000iot_2000t_50_50.csv", "w+");
 	char h[30];
 	msg_host_t host;
 	fprintf(fp, "Server,Tasks Executed,Energy Consumed,Average Energy Consumed,Average Time\n");
@@ -230,9 +230,28 @@ int main(int argc, char *argv[])
 
 	fprintf(fp,"\n\n\n");
 
+	double t_s = MSG_get_clock();	
+	int days_s = (int)(t_s / (24*3600));	
+	t_s -= (days_s*24*3600);
+	int hours_s = (int)(t_s/3600);		
+	t_s -= (hours_s*3600);
+	int min_s = (int)(t_s/60);
+	t_s -= (min*60);
 
 
-	fprintf(fp,"Simulation time %g\n", MSG_get_clock());
+	fprintf(fp,"Simulation time,%d days,%d hours,%d min,%d s\n\n", days_s, hours_s, min_s, (int)round(t_s));
+
+	t = (double)time(NULL) - t;	// Program time
+	days = (int)(t / (24*3600));	// Calculate days
+	t -= (days*24*3600);
+	hours = (int)(t/3600);		// Calculate hours
+	t -= (hours*3600);
+	min = (int)(t/60);		// Calculate minutes
+	t -= (min*60);
+	
+	fprintf(fp,"Execution time,%d days,%d hours,%d min,%d s\n\n", days, hours, min, (int)round(t));
+
+
 	fclose(fp);
 
 

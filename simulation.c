@@ -53,8 +53,8 @@ int iot(int argc, char *argv[])
 		{
 			req = (struct ClientRequest *)malloc(sizeof(struct ClientRequest));
 
-			t_arrival = exponential((double)arrival);
-			MSG_process_sleep(t_arrival);
+			/*t_arrival = exponential((double)arrival);
+			MSG_process_sleep(t_arrival);*/
 
 			sprintf(sprintf_buffer, "Task_%d_%d_%d", my_iot_cluster, my_device, k);
 			sprintf(req->id_task, "%s", sprintf_buffer);
@@ -106,6 +106,7 @@ int iot(int argc, char *argv[])
 				{
 					tasks_completed++;
 					//printf("%s completed on server %d-%d\n",resServer->id_task, resServer->server_cluster, resServer->server);
+					//printf("%g %g %g\n", MSG_get_clock() - resServer->t_arrival,MSG_get_clock(),resServer->t_arrival);
 					statsIoT[my_iot_cluster].avTime[my_device] += (MSG_get_clock() - resServer->t_arrival);
 				} 
 				
@@ -244,8 +245,6 @@ int datacenter(int argc, char *argv[])
 			break;
 		}
 
-		//req->t_arrival = MSG_get_clock();
-
 		// FCFS
 
 		xbt_mutex_acquire(tasksManagement[my_datacenter].mutex[my_server]);
@@ -326,9 +325,6 @@ int dispatcherDatacenter(int argc, char *argv[])
 		task = MSG_task_create("task", req->t_service, 0, NULL);
 		MSG_task_execute(task);
 
-		
-		//printf("Task done. Duration: %.2f s. Current peak speed=%.0E flop/s; Energy dissipated=%.0f J\n", MSG_host_get_name(host), MSG_get_clock() - req->t_arrival, MSG_host_get_speed(host), sg_host_get_consumed_energy(host));
-
 		MSG_host_set_pstate(host, 2);
 
 
@@ -338,10 +334,10 @@ int dispatcherDatacenter(int argc, char *argv[])
 		
 
 		c = MSG_get_clock(); // tiempo de terminacion de la tarea
-		
 		resServer = (struct ServerResponse *)malloc(sizeof(struct ServerResponse));
 		statsDatacenter[my_datacenter].avTime[my_server] += (c - (req->t_arrival));
 		statsDatacenter[my_datacenter].numTasks[my_server] += 1;
+		
 		resServer->server_cluster = my_datacenter;
 		resServer->server = my_server;
 		resServer->iot_cluster = req->iot_cluster;
