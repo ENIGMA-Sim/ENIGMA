@@ -49,6 +49,7 @@ struct ClientRequest
 	int iot_cluster;
 	int device;
 	int finish_controller;
+	int queue_status;
 };
 
 
@@ -61,8 +62,14 @@ struct ServerResponse
 	int iot_cluster;
 	int device;
 	double t_arrival;
+	int queue_length;
 };
 
+
+struct ServerLoad
+{
+	int l_length;
+};
 
 
 struct ControllerResponse

@@ -1,7 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE platform
   SYSTEM 'http://simgrid.gforge.inria.fr/simgrid/simgrid.dtd'>
+
 <platform version="4.1">
+	<config>
+		<prop id="debug/verbose-exit" value="0"/>
+		<prop id="debug/clean-atexit" value="0"/>
+	</config>
 	<AS id="AS0" routing="Full">
 		<cluster bb_bw="10Mbps" bb_lat="10ms" bw="10Mbps" core="4" id="IoT0" lat="10ms" prefix="iot-0-" radical="0-9999" router_id="IoT_cluster0" speed="4Gf,2Gf,1Gf" suffix="">
 			<prop id="wattage_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0"/>

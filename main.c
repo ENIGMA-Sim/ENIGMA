@@ -69,7 +69,7 @@ void test_all(char *file)
 
 	i = 0;
 	request_data = 1024;
-	num_tasks = 2000;
+	num_tasks = 10;
 	percentage = 0.5;
 	num_datacenters = 1;
 	arrival = 1 * MAX_SERVERS;
@@ -150,9 +150,8 @@ void test_all(char *file)
 int main(int argc, char *argv[])
 {
 	msg_error_t res = MSG_OK;
-	int i, j, tasksExecuted = 0, days, hours, min;
-	double q_medio = 0.0;
-	double n_medio = 0.0, t;
+	int i, j, tasksExecuted = 0, days, min, hours;
+	double q_medio = 0.0, n_medio = 0.0, t, t_s;
 
 	if (argc < 2)
 	{
@@ -165,8 +164,6 @@ int main(int argc, char *argv[])
 	seed((int)time(NULL));
 	sg_host_energy_plugin_init();
 	MSG_init(&argc, argv);
-
-
 
 
 	for(j = 0; j < 10; j++)
@@ -183,10 +180,11 @@ int main(int argc, char *argv[])
 	res = MSG_main();
 
 
-	FILE *fp = fopen("./Resultados/results_10s_10000iot_100t_50_50.csv", "w+");
+	FILE *fp = fopen("./results_10s_10000iot_10t_50_50.csv", "w+");
 	char h[30];
 	msg_host_t host;
 	fprintf(fp, "Server,Tasks Executed,Energy Consumed,Average Energy Consumed,Average Time\n");
+
 
 
 	i = 0;
@@ -213,10 +211,6 @@ int main(int argc, char *argv[])
 	fprintf(fp, "IoT Device,Tasks Executed,Energy Consumed,Average Energy Consumed,Average Time\n");
 
 
-	printf("B\n");
-
-
-
 
 	i = 0;
 	for(j = 0; j < 10000; j++)
@@ -230,17 +224,16 @@ int main(int argc, char *argv[])
 
 	fprintf(fp,"\n\n\n");
 
-	double t_s = MSG_get_clock();	
-	int days_s = (int)(t_s / (24*3600));	
-	t_s -= (days_s*24*3600);
-	int hours_s = (int)(t_s/3600);		
-	t_s -= (hours_s*3600);
-	int min_s = (int)(t_s/60);
-	t_s -= (min_s*60);
 
-
-	fprintf(fp,"Simulation time,%d days,%d hours,%d min,%d s\n\n", days_s, hours_s, min_s, (int)round(t_s));
-
+	t_s = MSG_get_clock();	// Program time
+	days = (int)(t_s / (24*3600));	// Calculate days
+	t_s -= (days*24*3600);
+	hours = (int)(t_s/3600);		// Calculate hours
+	t_s -= (hours*3600);
+	min = (int)(t_s/60);		// Calculate minutes
+	t_s -= (min*60);
+	fprintf(fp,"Simulation time,%d days, %d hours, %d min, %d seconds\n", days, hours, min, (int)round(t_s));
+	
 	t = (double)time(NULL) - t;	// Program time
 	days = (int)(t / (24*3600));	// Calculate days
 	t -= (days*24*3600);
@@ -248,10 +241,7 @@ int main(int argc, char *argv[])
 	t -= (hours*3600);
 	min = (int)(t/60);		// Calculate minutes
 	t -= (min*60);
-	
-	fprintf(fp,"Execution time,%d days,%d hours,%d min,%d s\n\n", days, hours, min, (int)round(t));
-
-
+	fprintf(fp," Execution time:\n %d days %d hours %d min %d s\n\n", days, hours, min, (int)round(t));
 	fclose(fp);
 
 
