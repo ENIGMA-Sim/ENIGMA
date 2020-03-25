@@ -15,13 +15,13 @@ void test_all(char *file)
 
 
 	int request_data, num_tasks, num_datacenters, output_data;
-	double arrival, percentage;
+	double arrival, percentage, flops_required;
 
 	//Datacenter 0
 
 	i = 0;
 
-	for(j = 0; j < 10; j++)
+	for(j = 0; j < 1000; j++)
 	{
 		sprintf(str, "s-%d-%d", i, j);
 		argc = 2;
@@ -43,18 +43,20 @@ void test_all(char *file)
 	//Dispatcher Datacenter 0
 
 	i = 0;
-
-	for(j = 0; j < 10; j++)
+	int vm_value = uniform_int(0,3);
+	output_data = 4 * 1024 * 1024;
+	for(j = 0; j < 1000; j++)
 	{
 		sprintf(str, "s-%d-%d", i, j);
-		argc = 3;
-		char **argvc = xbt_new(char *, 4);
+		argc = 4;
+		char **argvc = xbt_new(char *, 5);
 
-		output_data = 1024;
+		
 		argvc[0] = bprintf("%d",i);
 		argvc[1] = bprintf("%d",j);
 		argvc[2] = bprintf("%d",output_data);
-		argvc[3] = NULL;
+		argvc[3] = bprintf("%d",vm_value);
+		argvc[4] = NULL;
 
 		p = MSG_process_create_with_arguments(str, dispatcherDatacenter, NULL, MSG_get_host_by_name(str), argc, argvc);
 		if(p == NULL)
@@ -68,17 +70,18 @@ void test_all(char *file)
 	//IoT Devices from cluster 0
 
 	i = 0;
-	request_data = 1024;
-	num_tasks = 10;
-	percentage = 0.5;
+	request_data = 4*1024*1024;		//4MiB
+	num_tasks = 10000;
+	percentage = 0;
 	num_datacenters = 1;
 	arrival = 1 * MAX_SERVERS;
+	flops_required = 2E09;
 
-	for(j = 0; j < 10000; j++)
+	for(j = 0; j < 1000; j++)
 	{
 		sprintf(str, "iot-%d-%d", i, j);
-		argc = 7;
-		char **argvc = xbt_new(char *, 8);
+		argc = 8;
+		char **argvc = xbt_new(char *, 9);
 
 		argvc[0] = bprintf("%d",i);
 		argvc[1] = bprintf("%d",j);
@@ -87,7 +90,8 @@ void test_all(char *file)
 		argvc[4] = bprintf("%g",percentage);
 		argvc[5] = bprintf("%d",num_datacenters);
 		argvc[6] = bprintf("%g",arrival);
-		argvc[7] = NULL;
+		argvc[7] = bprintf("%g",flops_required);
+		argvc[8] = NULL;
 
 		p = MSG_process_create_with_arguments(str, iot, NULL, MSG_get_host_by_name(str), argc, argvc);
 		if(p == NULL)
@@ -107,7 +111,7 @@ void test_all(char *file)
 	argc = 2;
 	char **argvc0 = xbt_new(char *, 3);
 
-	nservers = 10;
+	nservers = 1000;
 	argvc0[0] = bprintf("%d",i);
 	argvc0[1] = bprintf("%d",nservers);
 	argvc0[2] = NULL;
@@ -123,7 +127,7 @@ void test_all(char *file)
 
 	//Controller
 
-	int total_devices = 10000;
+	int total_devices = 1000;
 	int total_datacenters = 1;
 
 	sprintf(str, "cont-0");
@@ -166,7 +170,7 @@ int main(int argc, char *argv[])
 	MSG_init(&argc, argv);
 
 
-	for(j = 0; j < 10; j++)
+	for(j = 0; j < 1000; j++)
 	{
 		tasksManagement[0].Nqueue[j] = 0;
 		tasksManagement[0].Nsystem[j] = 0;
@@ -180,21 +184,21 @@ int main(int argc, char *argv[])
 	res = MSG_main();
 
 
-	FILE *fp = fopen("./results_10s_10000iot_10t_50_50.csv", "w+");
+	FILE *fp = fopen("./Resultados/results_1dat_1000s_1000iot_10000t_2Gf_0_100.csv", "w+");
 	char h[30];
 	msg_host_t host;
-	fprintf(fp, "Server,Tasks Executed,Energy Consumed,Average Energy Consumed,Average Time\n");
+	fprintf(fp, "Server,Tasks Executed,Energy Consumed,Average Energy Consumed,Average Time Execution, Waiting Time\n");
 
 
 
 	i = 0;
-	for(j = 0; j < 10; j++)
+	for(j = 0; j < 1000; j++)
 	{
 		q_medio = q_medio + tasksManagement[0].Navgqueue[j];
 		n_medio = n_medio + tasksManagement[0].Navgsystem[j];
 		sprintf(h, "s-%d-%d", i, j);
 		host = MSG_host_by_name(h);
-		fprintf(fp,"%s,%d,%.6f,%g,%g\n",MSG_host_get_name(host), statsDatacenter[i].numTasks[j], statsDatacenter[i].totalEnergy[j], statsDatacenter[i].avEnergy[j], statsDatacenter[i].avTime[j]);
+		fprintf(fp,"%s,%d,%.2f,%.2f,%.2f,%.2f\n",MSG_host_get_name(host), statsDatacenter[i].numTasks[j], statsDatacenter[i].totalEnergy[j], statsDatacenter[i].avEnergy[j], statsDatacenter[i].avTime[j], statsDatacenter[i].waitingTime[j]);
 		tasksExecuted += statsDatacenter[i].numTasks[j];
 	}
 
@@ -213,17 +217,26 @@ int main(int argc, char *argv[])
 
 
 	i = 0;
-	for(j = 0; j < 10000; j++)
+	for(j = 0; j < 1000; j++)
 	{
 		sprintf(h, "iot-%d-%d", i, j);
 		host = MSG_host_by_name(h);
-		fprintf(fp,"%s,%d,%.6f,%g,%g\n",MSG_host_get_name(host), statsIoT[i].numTasks[j], statsIoT[i].totalEnergy[j], statsIoT[i].avEnergy[j], statsIoT[i].avTime[j]);
+		fprintf(fp,"%s,%d,%.2f,%.2f,%.2f\n",MSG_host_get_name(host), statsIoT[i].numTasks[j], statsIoT[i].totalEnergy[j], statsIoT[i].avEnergy[j], statsIoT[i].avTime[j]);
 	}
 
 
 
 	fprintf(fp,"\n\n\n");
+	
+	double a = 4 * 1024 * 1024;
+	a *= 1000;					//Number of devices
+	a *= 10000;					//Number of tasks
+	a *= 2;						//Roundtrip
+	double b = 710 * 1024 * 1024 * MSG_get_clock();
 
+	double result_network = (a/b)*100;
+
+	fprintf(fp, "Network Bandwidth usage:, %g %\n",result_network);
 
 	t_s = MSG_get_clock();	// Program time
 	days = (int)(t_s / (24*3600));	// Calculate days
@@ -232,7 +245,7 @@ int main(int argc, char *argv[])
 	t_s -= (hours*3600);
 	min = (int)(t_s/60);		// Calculate minutes
 	t_s -= (min*60);
-	fprintf(fp,"Simulation time,%d days, %d hours, %d min, %d seconds\n", days, hours, min, (int)round(t_s));
+	fprintf(fp,"Simulation time:, %d days, %d hours, %d min, %d seconds\n", days, hours, min, (int)round(t_s));
 	
 	t = (double)time(NULL) - t;	// Program time
 	days = (int)(t / (24*3600));	// Calculate days
@@ -241,12 +254,12 @@ int main(int argc, char *argv[])
 	t -= (hours*3600);
 	min = (int)(t/60);		// Calculate minutes
 	t -= (min*60);
-	fprintf(fp," Execution time:\n %d days %d hours %d min %d s\n\n", days, hours, min, (int)round(t));
+	fprintf(fp,"Execution time:, %d days, %d hours, %d min, %d seconds\n", days, hours, min, (int)round(t));
 	fclose(fp);
 
 
 
-	for(j = 0; j < 10; j++)
+	for(j = 0; j < 1000; j++)
 	{
 		xbt_dynar_free(&tasksManagement[0].client_requests[j]);
 	}

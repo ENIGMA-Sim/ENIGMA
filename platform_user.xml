@@ -8,22 +8,25 @@
 		<prop id="debug/clean-atexit" value="0"/>
 	</config>
 	<AS id="AS0" routing="Full">
-		<cluster bb_bw="10Mbps" bb_lat="10ms" bw="10Mbps" core="4" id="IoT0" lat="10ms" prefix="iot-0-" radical="0-9999" router_id="IoT_cluster0" speed="4Gf,2Gf,1Gf" suffix="">
-			<prop id="wattage_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0"/>
+		<cluster bw="300Mbps" core="4" id="IoT0" lat="50ms" prefix="iot-0-" radical="0-999" router_id="IoT_cluster0" speed="1.5Gf,1Gf,750Mf" suffix="">
+			<prop id="wattage_per_state" value="0.7:0.8:0.9, 0.6:0.7:0.8, 0.5:0.6:0.7"/>
 			<prop id="wattage_off" value="10"/>
+			<prop id="ram" value="4GB"/>
 		</cluster>
-		<cluster bb_bw="100Mbps" bb_lat="10ms" bw="100Mbps" core="8" id="Dispatcher0" lat="10ms" prefix="d-0-" radical="0-1" router_id="Dispatcher_cluster0" speed="4Gf,2Gf,1Gf" suffix="">
-			<prop id="wattage_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0"/>
+		<cluster bw="100Mbps" core="8" id="Dispatcher0" lat="10ms" prefix="d-0-" radical="0-2" router_id="Dispatcher_cluster0" speed="2Gf,1Gf,750Mf" suffix="">
+			<prop id="wattage_per_state" value="100.0:120.0:140.0, 80.0:100.0:120.0, 60.0:80.0:100.0"/>
 			<prop id="wattage_off" value="20"/>
+			<prop id="ram" value="4GB"/>
 		</cluster>
-		<cluster bb_bw="500Mbps" bb_lat="5ms" bw="500Mbps" core="8" id="Datacenter0" lat="5ms" prefix="s-0-" radical="0-9" router_id="Datacenter_cluster0" speed="8Gf,4Gf,2Gf" suffix="">
-			<prop id="wattage_per_state" value="100.0:120.0:200.0, 93.0:110.0:170.0, 90.0:105.0:150.0"/>
+		<cluster bw="500Mbps" core="64" id="Datacenter0" lat="5ms" prefix="s-0-" radical="0-999" router_id="Datacenter_cluster0" speed="2Gf,1Gf,750Mf" suffix="">
+			<prop id="wattage_per_state" value="100.0:120.0:140.0, 80.0:100.0:120.0, 60.0:80.0:100.0"/>
 			<prop id="wattage_off" value="40"/>
+			<prop id="ram" value="144000MB"/>
 		</cluster>
-		<cluster bb_bw="10GBps" bb_lat="10us" bw="125GBps" id="Controller" lat="0us" prefix="cont-" radical="0-1" router_id="Controller_cluster" speed="4Gf,2Gf,1Gf" suffix=""/>
-		<link bandwidth="100Mbps" id="linkIoT0Dispatcher0" latency="50ms"/>
-		<link bandwidth="200Mbps" id="linkDispatcher0Datacenter0" latency="10ms"/>
-		<link bandwidth="100Mbps" id="linkDatacenter0IoT0" latency="50ms"/>
+		<cluster bw="125GBps" id="Controller" lat="0us" prefix="cont-" radical="0-1" router_id="Controller_cluster" speed="4Gf,2Gf,1Gf" suffix=""/>
+		<link bandwidth="770Mbps" id="linkIoT0Dispatcher0" latency="770us"/>
+		<link bandwidth="770Mbps" id="linkDispatcher0Datacenter0" latency="770us"/>
+		<link bandwidth="770Mbps" id="linkDatacenter0IoT0" latency="770us"/>
 		<link bandwidth="10GBps" id="linkControllerDispatcher0" latency="50us"/>
 		<link bandwidth="10GBps" id="linkIoT0Controller" latency="50us"/>
 		<ASroute dst="Dispatcher0" gw_dst="Dispatcher_cluster0" gw_src="IoT_cluster0" src="IoT0">

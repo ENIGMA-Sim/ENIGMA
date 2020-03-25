@@ -86,6 +86,7 @@ struct StatisticsDatacenter
 	double avEnergy[MAX_SERVERS];
 	double avTime[MAX_SERVERS];
 	int numTasks[MAX_SERVERS];
+	double waitingTime[MAX_SERVERS];				// Tiempo total de espera de cada servidor
 };
 
 struct StatisticsIoT{
