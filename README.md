@@ -274,3 +274,136 @@ ENIGMA/
 ├── CLUSTER_USAGE.md         # Cluster generation guide
 └── README.md                
 ```
+
+
+## Publications
+
+### 2023
+
+<details>
+<summary>:newspaper: A Scalable Simulator for Cloud, Fog and Edge Computing platforms with Mobility Support.</summary>
+ 
+  * Authors: Elías Del-Pozo-Puñal, Félix García-Carballeira, Diego Camarmas-Alonso
+  * Journal Paper: Future Generation Computer Systems
+  * Link: [:link: Open publication](https://www.sciencedirect.com/science/article/pii/S0167739X23000511)
+  * Cite:
+  ```bash
+@article{DELPOZOPUNAL2023117,
+title = {A Scalable Simulator for Cloud, Fog and Edge Computing platforms with Mobility Support},
+journal = {Future Generation Computer Systems},
+volume = {144},
+pages = {117-130},
+year = {2023},
+issn = {0167-739X},
+doi = {https://doi.org/10.1016/j.future.2023.02.010},
+url = {https://www.sciencedirect.com/science/article/pii/S0167739X23000511}
+}
+  ```
+</details>
+
+<details>
+<summary>:newspaper: ENIGMA: A Scalable Simulator for IoT and Edge Computing.</summary>
+ 
+  * Authors: Elías Del-Pozo-Puñal, Félix García-Carballeira, Diego Camarmas-Alonso
+  * Conference Paper: Parallel, Distributed, and Network-Based Processing (PDP23) [CORE: C]
+  * Link: [:link: Open publication](https://zenodo.org/records/15476670)
+  * Cite:
+  ```bash
+@misc{del_pozo_punal_2025_15476670,
+  author       = {Del Pozo Puñal, Elías and Garcia-Carballeira, Felix and Camarmas Alonso, Diego},
+  title        = {ENIGMA: A Scalable Simulator for IoT and Edge Computing},
+  month        = may,
+  year         = 2025,
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.15476670},
+  url          = {https://doi.org/10.5281/zenodo.15476670},
+}
+  ```
+</details>
+
+### 2022
+
+<details>
+<summary>:newspaper: A Proposal of Mobility Support for the SimGrid Toolkit: Application to IoT simulations.</summary>
+ 
+  * Authors: Elías Del-Pozo-Puñal, Félix García-Carballeira, Diego Camarmas-Alonso
+  * Conference Paper: 30th Euromicro International Conference on Parallel, Distributed and Network-based Processing (PDP) [CORE: C]
+  * Link: [:link: Open publication](https://ieeexplore.ieee.org/document/9756681/)
+  * Cite:
+  ```bash
+
+
+
+  ```
+</details>
+
+<details>
+<summary>:newspaper: Una propuesta para el uso de dispositivos móviles en SimGrid: Aplicación a las simulaciones de IoT.</summary>
+ 
+  * Authors: Elías Del-Pozo-Puñal, Félix García-Carballeira, Diego Camarmas-Alonso
+  * Conference Paper: XXXII Jornadas del Paralelismo (JP21/22)
+  * Link: [:link: Open publication](https://doi.org/10.5281/zenodo.10706513)
+  * Cite:
+  ```bash
+@misc{del_pozo_punal_2022_10706513,
+  author       = {Del-Pozo-Puñal, Elías and
+                  Garcia-Carballeira, Felix and
+                  Camarmas-Alonso, Diego},
+  title        = {Una propuesta para el uso de dispositivos móviles
+                   en SimGrid: Aplicación a las simulaciones de IoT
+                  },
+  month        = jul,
+  year         = 2022,
+  publisher    = {Zenodo},
+  version      = {Version v1},
+  doi          = {10.5281/zenodo.10706513},
+  url          = {https://doi.org/10.5281/zenodo.10706513},
+}
+  ```
+</details>
+
+### 2021
+
+<details>
+<summary>:newspaper: ENIGMA: simulador de plataformas Edge y Fog Computing.</summary>
+ 
+  * Authors: Elías Del-Pozo-Puñal, Félix García-Carballeira
+  * Conference Paper: Congreso Español de Informática (CEDI 20/21)
+  * Link: [:link: Open publication](https://doi.org/10.5281/zenodo.10953027)
+  * Cite:
+  ```bash
+@misc{del_pozo_punal_2021_10953027,
+  author       = {Del Pozo Puñal, Elías and
+                  Garcia-Carballeira, Felix},
+  title        = {ENIGMA: simulador de plataformas Edge y Fog
+                   Computing
+                  },
+  month        = sep,
+  year         = 2021,
+  publisher    = {Zenodo},
+  version      = {Version 1.0},
+  doi          = {10.5281/zenodo.10953027},
+  url          = {https://doi.org/10.5281/zenodo.10953027},
+}
+  ```
+
+  <details>
+<summary>:newspaper: A generic simulator for Edge Computing platforms.</summary>
+ 
+  * Authors: Elías Del-Pozo-Puñal, Félix García-Carballeira
+  * Conference Paper: Conference on High Performance Computing and Simulation (HPCS 2020) [CORE: B]
+  * Link: [:link: Open publication](https://doi.org/10.5281/zenodo.10952891)
+  * Cite:
+  ```bash
+@misc{del_pozo_punal_2021_10952891,
+  author       = {Del-Pozo-Puñal, Elías and
+                  Garcia-Carballeira, Felix},
+  title        = {A generic simulator for Edge Computing platforms},
+  month        = mar,
+  year         = 2021,
+  publisher    = {Zenodo},
+  version      = {Version 1.0},
+  doi          = {10.5281/zenodo.10952891},
+  url          = {https://doi.org/10.5281/zenodo.10952891},
+}
+  ```
