@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!DOCTYPE platform SYSTEM "https://simgrid.org/simgrid.dtd">
+<platform version="4.1">
+  <zone id="iot_platform" routing="Full">
+    <host id="iot_gateway" speed="3Gf" core="2"/>
+    <host id="sensor_0" speed="500Mf"/>
+    <host id="sensor_1" speed="500Mf"/>
+    <host id="sensor_2" speed="500Mf"/>
+    <host id="sensor_3" speed="500Mf"/>
+    <host id="actuator_0" speed="800Mf"/>
+    <host id="actuator_1" speed="800Mf"/>
+    <link id="link_sensor_0" bandwidth="10MBps" latency="20ms"/>
+    <link id="link_sensor_1" bandwidth="10MBps" latency="20ms"/>
+    <link id="link_sensor_2" bandwidth="10MBps" latency="20ms"/>
+    <link id="link_sensor_3" bandwidth="10MBps" latency="20ms"/>
+    <link id="link_actuator_0" bandwidth="20MBps" latency="15ms"/>
+    <link id="link_actuator_1" bandwidth="20MBps" latency="15ms"/>
+    <route src="iot_gateway" dst="sensor_0">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="iot_gateway" dst="sensor_1">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="iot_gateway" dst="sensor_2">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="iot_gateway" dst="sensor_3">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="iot_gateway" dst="actuator_0">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="iot_gateway" dst="actuator_1">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="sensor_0" dst="sensor_1">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="sensor_0" dst="sensor_2">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="sensor_0" dst="sensor_3">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="sensor_0" dst="actuator_0">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="sensor_0" dst="actuator_1">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="sensor_1" dst="sensor_2">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="sensor_1" dst="sensor_3">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="sensor_1" dst="actuator_0">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="sensor_1" dst="actuator_1">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="sensor_2" dst="sensor_3">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="sensor_2" dst="actuator_0">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="sensor_2" dst="actuator_1">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="sensor_3" dst="actuator_0">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="sensor_3" dst="actuator_1">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+    <route src="actuator_0" dst="actuator_1">
+      <link_ctn id="link_sensor_0"/>
+    </route>
+  </zone>
+</platform>

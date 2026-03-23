@@ -1,0 +1,16 @@
+# ENIGMA Python – dependencies
+#
+# Core requirement: SimGrid (provides the `simgrid` Python module)
+# SimGrid must be installed from source or via the system package manager.
+# See: https://simgrid.org/doc/latest/Installing_SimGrid.html
+#
+# Python ≥ 3.10 is recommended.
+#
+# ── Install SimGrid Python bindings ─────────────────────────────────────────
+# Option A – pip (pre-built wheels, where available):
+#   pip install simgrid
+#
+# Option B – build from source:
+#   cmake -DENABLE_PYTHON=ON ..
+#   make install
+#

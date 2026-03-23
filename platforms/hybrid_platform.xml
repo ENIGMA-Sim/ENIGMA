@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE platform SYSTEM "https://simgrid.org/simgrid.dtd">
+<platform version="4.1">
+  <zone id="hybrid_platform" routing="Full">
+    <zone id="edge_cluster_0_zone" routing="Cluster">
+      <cluster id="edge_cluster_0" prefix="edge_cluster_0_node_" suffix="" radical="0-4" speed="1Gf" core="1" bw="125MBps" lat="50us" bb_bw="1GBps" bb_lat="10us" router_id="edge_cluster_0_router"/>
+    </zone>
+    <zone id="edge_cluster_1_zone" routing="Cluster">
+      <cluster id="edge_cluster_1" prefix="edge_cluster_1_node_" suffix="" radical="0-4" speed="1Gf" core="1" bw="125MBps" lat="50us" bb_bw="1GBps" bb_lat="10us" router_id="edge_cluster_1_router"/>
+    </zone>
+    <zone id="fog_cluster_0_zone" routing="Cluster">
+      <cluster id="fog_cluster_0" prefix="fog_cluster_0_node_" suffix="" radical="0-2" speed="10Gf" core="4" bw="1GBps" lat="10us" bb_bw="1GBps" bb_lat="10us" router_id="fog_cluster_0_router"/>
+    </zone>
+    <zone id="fog_cluster_1_zone" routing="Cluster">
+      <cluster id="fog_cluster_1" prefix="fog_cluster_1_node_" suffix="" radical="0-2" speed="10Gf" core="4" bw="1GBps" lat="10us" bb_bw="1GBps" bb_lat="10us" router_id="fog_cluster_1_router"/>
+    </zone>
+    <zone id="cloud_cluster_0_zone" routing="Cluster">
+      <cluster id="cloud_cluster_0" prefix="cloud_cluster_0_node_" suffix="" radical="0-9" speed="100Gf" core="16" bw="10GBps" lat="1us" bb_bw="1GBps" bb_lat="10us" router_id="cloud_cluster_0_router"/>
+    </zone>
+    <link id="link_edge_cluster_0_to_fog_cluster_0" bandwidth="500MBps" latency="10ms"/>
+    <link id="link_edge_cluster_0_to_fog_cluster_1" bandwidth="500MBps" latency="10ms"/>
+    <link id="link_edge_cluster_1_to_fog_cluster_0" bandwidth="500MBps" latency="10ms"/>
+    <link id="link_edge_cluster_1_to_fog_cluster_1" bandwidth="500MBps" latency="10ms"/>
+    <link id="link_fog_cluster_0_to_cloud_cluster_0" bandwidth="5GBps" latency="50ms"/>
+    <link id="link_fog_cluster_1_to_cloud_cluster_0" bandwidth="5GBps" latency="50ms"/>
+    <zoneRoute src="edge_cluster_0_zone" dst="fog_cluster_0_zone" gw_src="edge_cluster_0_router" gw_dst="fog_cluster_0_router">
+      <link_ctn id="link_edge_cluster_0_to_fog_cluster_0"/>
+    </zoneRoute>
+    <zoneRoute src="edge_cluster_0_zone" dst="fog_cluster_1_zone" gw_src="edge_cluster_0_router" gw_dst="fog_cluster_1_router">
+      <link_ctn id="link_edge_cluster_0_to_fog_cluster_1"/>
+    </zoneRoute>
+    <zoneRoute src="edge_cluster_1_zone" dst="fog_cluster_0_zone" gw_src="edge_cluster_1_router" gw_dst="fog_cluster_0_router">
+      <link_ctn id="link_edge_cluster_1_to_fog_cluster_0"/>
+    </zoneRoute>
+    <zoneRoute src="edge_cluster_1_zone" dst="fog_cluster_1_zone" gw_src="edge_cluster_1_router" gw_dst="fog_cluster_1_router">
+      <link_ctn id="link_edge_cluster_1_to_fog_cluster_1"/>
+    </zoneRoute>
+    <zoneRoute src="fog_cluster_0_zone" dst="cloud_cluster_0_zone" gw_src="fog_cluster_0_router" gw_dst="cloud_cluster_0_router">
+      <link_ctn id="link_fog_cluster_0_to_cloud_cluster_0"/>
+    </zoneRoute>
+    <zoneRoute src="fog_cluster_1_zone" dst="cloud_cluster_0_zone" gw_src="fog_cluster_1_router" gw_dst="cloud_cluster_0_router">
+      <link_ctn id="link_fog_cluster_1_to_cloud_cluster_0"/>
+    </zoneRoute>
+  </zone>
+</platform>

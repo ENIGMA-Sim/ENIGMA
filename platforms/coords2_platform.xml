@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<!DOCTYPE platform SYSTEM "https://simgrid.org/simgrid.dtd">
+<platform version="4.1">
+  <zone id="coords2_platform" routing="Full">
+    <prop id="mobility_dir" value="platforms/coords2/"/>
+
+    <!-- Bus clusters (IoT edge nodes, 1 Gf, 50 MBps) -->
+    <zone id="cluster_0_zone" routing="Cluster">
+      <cluster id="cluster_0" prefix="0_" suffix="" radical="0-2"
+               speed="1Gf" core="1" bw="50MBps" lat="5ms"
+               bb_bw="500MBps" bb_lat="5ms" router_id="cluster_0_router"/>
+    </zone>
+    <zone id="cluster_1_zone" routing="Cluster">
+      <cluster id="cluster_1" prefix="1_" suffix="" radical="0-2"
+               speed="1Gf" core="1" bw="50MBps" lat="5ms"
+               bb_bw="500MBps" bb_lat="5ms" router_id="cluster_1_router"/>
+    </zone>
+    <zone id="cluster_2_zone" routing="Cluster">
+      <cluster id="cluster_2" prefix="2_" suffix="" radical="0-2"
+               speed="1Gf" core="1" bw="50MBps" lat="5ms"
+               bb_bw="500MBps" bb_lat="5ms" router_id="cluster_2_router"/>
+    </zone>
+
+    <!-- Substation cluster (fog nodes, 10 Gf, 1 GBps) -->
+    <zone id="cluster_substations_zone" routing="Cluster">
+      <cluster id="cluster_substations" prefix="substation_" suffix="" radical="0-14"
+               speed="10Gf" core="4" bw="1GBps" lat="2ms"
+               bb_bw="2GBps" bb_lat="2ms" router_id="cluster_substations_router"/>
+    </zone>
+
+    <!-- Backbone links (one per cluster uplink) -->
+    <link id="link-bb-0"   bandwidth="500MBps" latency="5ms"/>
+    <link id="link-bb-1"   bandwidth="500MBps" latency="5ms"/>
+    <link id="link-bb-2"   bandwidth="500MBps" latency="5ms"/>
+    <link id="link-bb-sub" bandwidth="2GBps"   latency="2ms"/>
+
+    <!-- Inter-cluster routes (all 6 pairs) -->
+    <zoneRoute src="cluster_0_zone"          dst="cluster_1_zone"
+               gw_src="cluster_0_router"     gw_dst="cluster_1_router">
+      <link_ctn id="link-bb-0"/>
+      <link_ctn id="link-bb-1"/>
+    </zoneRoute>
+    <zoneRoute src="cluster_0_zone"          dst="cluster_2_zone"
+               gw_src="cluster_0_router"     gw_dst="cluster_2_router">
+      <link_ctn id="link-bb-0"/>
+      <link_ctn id="link-bb-2"/>
+    </zoneRoute>
+    <zoneRoute src="cluster_0_zone"          dst="cluster_substations_zone"
+               gw_src="cluster_0_router"     gw_dst="cluster_substations_router">
+      <link_ctn id="link-bb-0"/>
+      <link_ctn id="link-bb-sub"/>
+    </zoneRoute>
+    <zoneRoute src="cluster_1_zone"          dst="cluster_2_zone"
+               gw_src="cluster_1_router"     gw_dst="cluster_2_router">
+      <link_ctn id="link-bb-1"/>
+      <link_ctn id="link-bb-2"/>
+    </zoneRoute>
+    <zoneRoute src="cluster_1_zone"          dst="cluster_substations_zone"
+               gw_src="cluster_1_router"     gw_dst="cluster_substations_router">
+      <link_ctn id="link-bb-1"/>
+      <link_ctn id="link-bb-sub"/>
+    </zoneRoute>
+    <zoneRoute src="cluster_2_zone"          dst="cluster_substations_zone"
+               gw_src="cluster_2_router"     gw_dst="cluster_substations_router">
+      <link_ctn id="link-bb-2"/>
+      <link_ctn id="link-bb-sub"/>
+    </zoneRoute>
+
+  </zone>
+</platform>

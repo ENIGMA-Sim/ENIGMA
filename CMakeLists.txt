@@ -74,6 +74,14 @@ add_library(enigma_platform STATIC
 
 target_link_libraries(enigma_platform ${SimGrid_LIBRARY})
 
+# Mobility library
+add_library(enigma_mobility STATIC
+    src/mobility/MobilityTrace.cpp
+    src/mobility/MobilityManager.cpp
+)
+
+target_link_libraries(enigma_mobility ${SimGrid_LIBRARY})
+
 # MQTT library (Communication module)
 add_library(enigma_mqtt STATIC
     src/comms/mqtt/MQTTBroker.cpp
@@ -123,6 +131,12 @@ add_executable(pingpong_fit_to_g5k_app
 )
 target_link_libraries(pingpong_fit_to_g5k_app enigma_platform ${SimGrid_LIBRARY})
 
+# Mobility test application
+add_executable(mobility_test_app
+    tests/mobility_test.cpp
+)
+target_link_libraries(mobility_test_app enigma_platform enigma_mobility ${SimGrid_LIBRARY})
+
 
 # Distributed block write app for Grid'5000
 add_executable(fit_to_g5k_app
@@ -157,9 +171,9 @@ file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/platforms)
 file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/deployments)
 
 # Installation
-install(TARGETS enigma_platform enigma_mqtt platform_generator
+install(TARGETS enigma_platform enigma_mqtt enigma_mobility platform_generator
         edge_computing_app fog_analytics_app hybrid_cloud_app data_offloading_app
-        mqtt_edge_app
+        mqtt_edge_app mobility_test_app
         RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)

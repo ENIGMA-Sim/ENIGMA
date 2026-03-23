@@ -5,7 +5,6 @@ lib/
 tests_paper/
 
 # Generated platforms and deployments
-platforms/*.xml
 deployments/*.xml
 
 # CMake

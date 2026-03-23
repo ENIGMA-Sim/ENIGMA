@@ -1,0 +1,25 @@
+<?xml version='1.0'?>
+<!DOCTYPE platform SYSTEM "https://simgrid.org/simgrid.dtd">
+<!-- Platform tuned for 100 IoTs with ACK model to match Grid'5000 measurements -->
+<!-- Target: ~480 ops/s with 5000 messages per IoT -->
+<platform version="4.1">
+  <zone id="hybrid_platform" routing="Full">
+    <!-- Edge cluster with 100 IoT nodes -->
+    <zone id="edge_cluster_0_zone" routing="Cluster">
+      <!-- Edge cluster with good internal bandwidth -->
+      <cluster bw="100MBps" core="1" id="edge_cluster_0" lat="0.01ms" prefix="edge_cluster_0_node_" radical="0-99" router_id="edge_cluster_0_router" speed="1Gf" suffix=""/>
+    </zone>
+    
+    <!-- Fog cluster with 16 servers for distributed writes -->
+    <zone id="fog_cluster_0_zone" routing="Cluster">
+      <cluster bw="1GBps" core="32" id="fog_cluster_0" lat="0us" prefix="fog_cluster_0_node_" radical="0-15" router_id="fog_cluster_0_router" speed="100Gf" suffix=""/>
+    </zone>
+    
+    <!-- Link between edge and fog clusters -->
+    <!-- Bottleneck link combined with fog processing delay to match Grid'5000 behavior -->
+    <link bandwidth="35MBps" id="link_edge_cluster_0_to_fog_cluster_0" latency="0.85ms"/>
+    <zoneRoute dst="fog_cluster_0_zone" gw_dst="fog_cluster_0_router" gw_src="edge_cluster_0_router" src="edge_cluster_0_zone">
+      <link_ctn id="link_edge_cluster_0_to_fog_cluster_0"/>
+    </zoneRoute>
+  </zone>
+</platform>

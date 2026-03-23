@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!DOCTYPE platform SYSTEM "https://simgrid.org/simgrid.dtd">
+<platform version="4.1">
+  <zone id="edge_star" routing="Full">
+    <host id="edge_gateway" speed="5Gf" core="2"/>
+    <host id="edge_device_0" speed="1Gf"/>
+    <host id="edge_device_1" speed="1Gf"/>
+    <host id="edge_device_2" speed="1Gf"/>
+    <host id="edge_device_3" speed="1Gf"/>
+    <host id="edge_device_4" speed="1Gf"/>
+    <host id="edge_device_5" speed="1Gf"/>
+    <link id="link_device_0_gateway" bandwidth="100MBps" latency="10ms"/>
+    <link id="link_device_1_gateway" bandwidth="100MBps" latency="10ms"/>
+    <link id="link_device_2_gateway" bandwidth="100MBps" latency="10ms"/>
+    <link id="link_device_3_gateway" bandwidth="100MBps" latency="10ms"/>
+    <link id="link_device_4_gateway" bandwidth="100MBps" latency="10ms"/>
+    <link id="link_device_5_gateway" bandwidth="100MBps" latency="10ms"/>
+    <route src="edge_gateway" dst="edge_device_0">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_gateway" dst="edge_device_1">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_gateway" dst="edge_device_2">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_gateway" dst="edge_device_3">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_gateway" dst="edge_device_4">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_gateway" dst="edge_device_5">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_device_0" dst="edge_device_1">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_device_0" dst="edge_device_2">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_device_0" dst="edge_device_3">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_device_0" dst="edge_device_4">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_device_0" dst="edge_device_5">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_device_1" dst="edge_device_2">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_device_1" dst="edge_device_3">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_device_1" dst="edge_device_4">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_device_1" dst="edge_device_5">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_device_2" dst="edge_device_3">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_device_2" dst="edge_device_4">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_device_2" dst="edge_device_5">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_device_3" dst="edge_device_4">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_device_3" dst="edge_device_5">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+    <route src="edge_device_4" dst="edge_device_5">
+      <link_ctn id="link_device_0_gateway"/>
+    </route>
+  </zone>
+</platform>

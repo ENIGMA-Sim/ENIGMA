@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE platform SYSTEM "https://simgrid.org/simgrid.dtd">
+<platform version="4.1">
+  <zone id="fog_hierarchical" routing="Full">
+    <host id="fog_node_0" speed="10Gf" core="8"/>
+    <host id="fog_node_1" speed="10Gf" core="8"/>
+    <host id="fog_node_2" speed="10Gf" core="8"/>
+    <link id="fog_link_0_1" bandwidth="1GBps" latency="5ms"/>
+    <link id="fog_link_0_2" bandwidth="1GBps" latency="5ms"/>
+    <link id="fog_link_1_2" bandwidth="1GBps" latency="5ms"/>
+    <route src="fog_node_0" dst="fog_node_1">
+      <link_ctn id="fog_link_0_1"/>
+    </route>
+    <route src="fog_node_0" dst="fog_node_2">
+      <link_ctn id="fog_link_0_1"/>
+    </route>
+    <route src="fog_node_1" dst="fog_node_2">
+      <link_ctn id="fog_link_0_1"/>
+    </route>
+  </zone>
+</platform>
