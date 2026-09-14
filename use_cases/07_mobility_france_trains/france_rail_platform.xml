@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE platform SYSTEM "https://simgrid.org/simgrid.dtd">
+<!--
+  France high-speed-rail mobility scenario for ENIGMA.
+
+  Fixed infrastructure:
+    edge_paris   edge node at the Paris station cluster
+    edge_lyon    edge node at Lyon Part-Dieu
+    edge_lille   edge node at Lille Europe
+    fog_sncf     SNCF network-supervision fog server
+    cloud_dc     cloud data centre
+
+  Mobile devices (GPS traces in ./coords/, one CSV per host):
+    tgv_sud_est      Paris Gare de Lyon - Lyon - Marseille (LGV Sud-Est / Med)
+    tgv_atlantique   Paris Montparnasse - Tours - Bordeaux (LGV Atlantique)
+    tgv_nord         Paris Gare du Nord - Lille - Calais (LGV Nord)
+    tgv_est          Paris Gare de l'Est - Reims - Strasbourg (LGV Est)
+    tgv_rhin_rhone   Dijon - Besancon - Belfort - Mulhouse (LGV Rhin-Rhone)
+
+  mobility_dir is resolved relative to the process working directory;
+  run.sh also passes "--mobility-dir" explicitly.
+-->
+<platform version="4.1">
+  <zone id="france_rail" routing="Full">
+    <prop id="mobility_dir" value="use_cases/07_mobility_france_trains/coords/"/>
+
+    <!-- Fixed infrastructure -->
+    <host id="edge_paris" speed="4Gf"  core="8"/>
+    <host id="edge_lyon"  speed="3Gf"  core="4"/>
+    <host id="edge_lille" speed="3Gf"  core="4"/>
+    <host id="fog_sncf"   speed="25Gf" core="16"/>
+    <host id="cloud_dc"   speed="90Gf" core="48"/>
+
+    <!-- Trains -->
+    <host id="tgv_sud_est"    speed="2Gf" core="2"/>
+    <host id="tgv_atlantique" speed="2Gf" core="2"/>
+    <host id="tgv_nord"       speed="2Gf" core="2"/>
+    <host id="tgv_est"        speed="2Gf" core="2"/>
+    <host id="tgv_rhin_rhone" speed="2Gf" core="2"/>
+
+    <!-- Links -->
+    <link id="backbone"  bandwidth="40GBps" latency="300us"/>
+    <link id="fog_up"    bandwidth="8GBps"  latency="1ms"/>
+    <link id="edge_x"    bandwidth="8GBps"  latency="3ms"/>
+    <link id="gsmr_sud_est"    bandwidth="20MBps" latency="60ms"/>
+    <link id="gsmr_atlantique" bandwidth="20MBps" latency="60ms"/>
+    <link id="gsmr_nord"       bandwidth="20MBps" latency="55ms"/>
+    <link id="gsmr_est"        bandwidth="20MBps" latency="60ms"/>
+    <link id="gsmr_rhin_rhone" bandwidth="20MBps" latency="65ms"/>
+
+    <!-- Core routes -->
+    <route src="edge_paris" dst="fog_sncf"><link_ctn id="fog_up"/></route>
+    <route src="edge_lyon"  dst="fog_sncf"><link_ctn id="fog_up"/></route>
+    <route src="edge_lille" dst="fog_sncf"><link_ctn id="fog_up"/></route>
+    <route src="edge_paris" dst="edge_lyon"><link_ctn id="edge_x"/></route>
+    <route src="edge_paris" dst="edge_lille"><link_ctn id="edge_x"/></route>
+    <route src="fog_sncf"   dst="cloud_dc"><link_ctn id="backbone"/></route>
+
+    <!-- Trains to the nearest edge over GSM-R / cellular -->
+    <route src="tgv_sud_est"    dst="edge_lyon"><link_ctn id="gsmr_sud_est"/></route>
+    <route src="tgv_atlantique" dst="edge_paris"><link_ctn id="gsmr_atlantique"/></route>
+    <route src="tgv_nord"       dst="edge_lille"><link_ctn id="gsmr_nord"/></route>
+    <route src="tgv_est"        dst="edge_paris"><link_ctn id="gsmr_est"/></route>
+    <route src="tgv_rhin_rhone" dst="edge_lyon"><link_ctn id="gsmr_rhin_rhone"/></route>
+  </zone>
+</platform>

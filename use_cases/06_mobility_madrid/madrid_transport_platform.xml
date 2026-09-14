@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!DOCTYPE platform SYSTEM "https://simgrid.org/simgrid.dtd">
+<!--
+  Madrid public-transport mobility scenario for ENIGMA.
+
+  Fixed infrastructure:
+    edge_atocha              edge node at the Atocha transport hub
+    edge_nuevos_ministerios  edge node at Nuevos Ministerios
+    fog_emt_control          fleet-analytics fog server (EMT / Metro control room)
+    cloud_dc                 cloud data centre
+
+  Mobile devices (GPS traces in ./coords/, one CSV per host):
+    bus_27, bus_002, bus_046      EMT bus lines along real Madrid corridors
+    metro_l1, metro_l6            Metro lines 1 and 6 (Circular)
+    cercanias_c1                  Cercanias line C-1 (Principe Pio - Aeropuerto T4)
+    drone_retiro, drone_madrid_rio   inspection drones on patrol loops
+
+  The mobility_dir property is resolved relative to the process working
+  directory; run.sh also passes "--mobility-dir" explicitly.
+-->
+<platform version="4.1">
+  <zone id="madrid_transport" routing="Full">
+    <prop id="mobility_dir" value="use_cases/06_mobility_madrid/coords/"/>
+
+    <!-- Fixed infrastructure -->
+    <host id="edge_atocha"             speed="3Gf"  core="4"/>
+    <host id="edge_nuevos_ministerios" speed="3Gf"  core="4"/>
+    <host id="fog_emt_control"         speed="20Gf" core="16"/>
+    <host id="cloud_dc"                speed="90Gf" core="48"/>
+
+    <!-- Buses -->
+    <host id="bus_27"  speed="1Gf" core="1"/>
+    <host id="bus_002" speed="1Gf" core="1"/>
+    <host id="bus_046" speed="1Gf" core="1"/>
+
+    <!-- Trains -->
+    <host id="metro_l1"     speed="1500Mf" core="1"/>
+    <host id="metro_l6"     speed="1500Mf" core="1"/>
+    <host id="cercanias_c1" speed="1500Mf" core="1"/>
+
+    <!-- Drones -->
+    <host id="drone_retiro"     speed="800Mf" core="1"/>
+    <host id="drone_madrid_rio" speed="800Mf" core="1"/>
+
+    <!-- Links -->
+    <link id="backbone" bandwidth="20GBps" latency="400us"/>
+    <link id="fog_up"   bandwidth="4GBps"  latency="1500us"/>
+    <link id="edge_x"   bandwidth="4GBps"  latency="2ms"/>
+    <link id="lte_bus_27"  bandwidth="90MBps" latency="30ms"/>
+    <link id="lte_bus_002" bandwidth="90MBps" latency="30ms"/>
+    <link id="lte_bus_046" bandwidth="90MBps" latency="30ms"/>
+    <link id="lte_metro_l1"     bandwidth="60MBps" latency="45ms"/>
+    <link id="lte_metro_l6"     bandwidth="60MBps" latency="45ms"/>
+    <link id="lte_cercanias_c1" bandwidth="70MBps" latency="40ms"/>
+    <link id="lte_drone_retiro"     bandwidth="40MBps" latency="50ms"/>
+    <link id="lte_drone_madrid_rio" bandwidth="40MBps" latency="50ms"/>
+
+    <!-- Core routes -->
+    <route src="edge_atocha"             dst="fog_emt_control"><link_ctn id="fog_up"/></route>
+    <route src="edge_nuevos_ministerios" dst="fog_emt_control"><link_ctn id="fog_up"/></route>
+    <route src="edge_atocha" dst="edge_nuevos_ministerios"><link_ctn id="edge_x"/></route>
+    <route src="fog_emt_control" dst="cloud_dc"><link_ctn id="backbone"/></route>
+
+    <!-- Fleet to the nearest edge over cellular -->
+    <route src="bus_27"  dst="edge_atocha"><link_ctn id="lte_bus_27"/></route>
+    <route src="bus_002" dst="edge_nuevos_ministerios"><link_ctn id="lte_bus_002"/></route>
+    <route src="bus_046" dst="edge_atocha"><link_ctn id="lte_bus_046"/></route>
+    <route src="metro_l1" dst="edge_atocha"><link_ctn id="lte_metro_l1"/></route>
+    <route src="metro_l6" dst="edge_nuevos_ministerios"><link_ctn id="lte_metro_l6"/></route>
+    <route src="cercanias_c1" dst="edge_nuevos_ministerios"><link_ctn id="lte_cercanias_c1"/></route>
+    <route src="drone_retiro" dst="edge_atocha"><link_ctn id="lte_drone_retiro"/></route>
+    <route src="drone_madrid_rio" dst="edge_nuevos_ministerios"><link_ctn id="lte_drone_madrid_rio"/></route>
+  </zone>
+</platform>
