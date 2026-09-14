@@ -462,6 +462,27 @@ The `tests/` directory contains complete example applications:
 
 Python equivalents live in `src/python/tests/`.
 
+## Tutorial & Use Cases
+
+- **Slide deck:** [`docs/The_ENIGMA_Simulator_Tutorial.pptx`](docs/The_ENIGMA_Simulator_Tutorial.pptx) — *"The ENIGMA Simulator & State-of-the-Art Use Cases"* (install, configure, run, every use case). Regenerate with `python3 docs/build_pptx.py`.
+- **Runnable scenarios:** [`use_cases/`](use_cases/) — one self-contained folder per scenario, each with a `run.sh` that builds (once), generates its platform and runs the simulation:
+
+  | # | Folder | Demonstrates |
+  |---|--------|--------------|
+  | 1 | `01_edge_computing/` | Local processing + gateway aggregation |
+  | 2 | `02_fog_analytics/` | Edge → fog streaming analytics |
+  | 3 | `03_hybrid_edge_fog_cloud/` | 3-tier Edge → Fog → Cloud pipeline |
+  | 4 | `04_data_offloading/` | Run-time local / fog / cloud offloading decisions |
+  | 5 | `05_mqtt_iot/` | MQTT publish/subscribe (`enigma_mqtt`) |
+  | 6 | `06_mobility_madrid/` | **GPS mobility**: Madrid buses / trains / drones on real routes, position interpolation, snapshots + interactive map |
+  | 7 | `07_mobility_france_trains/` | **GPS mobility, step by step**: 5 TGV along real SNCF LGV corridors across France, built up in 4 stages |
+
+  ```bash
+  ./use_cases/01_edge_computing/run.sh
+  ./use_cases/06_mobility_madrid/run.sh
+  ./use_cases/07_mobility_france_trains/run.sh
+  ```
+
 ## 📁 Detailed Project Structure
 
 ```

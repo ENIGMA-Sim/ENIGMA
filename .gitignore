@@ -3,9 +3,8 @@ build/
 bin/
 lib/
 tests_paper/
+docs/
 
-# Generated platforms and deployments
-deployments/*.xml
 
 # CMake
 CMakeCache.txt
@@ -33,3 +32,4 @@ Thumbs.db
 
 # Logs
 *.log
+.gitignore
