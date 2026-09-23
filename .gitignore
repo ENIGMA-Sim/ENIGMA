@@ -5,7 +5,7 @@ lib/
 tests_paper/
 docs/
 src/python/tests/mobility_output
-platforms/
+platforms
 
 # CMake
 CMakeCache.txt
