@@ -1,5 +1,5 @@
 """
-EdgePlatform: specialized factories for edge/IoT platform topologies.
+EdgePlatform: specialized factories for Edge/IoT platform topologies.
 Mirrors C++ EdgePlatform class from src/platform/EdgePlatform.cpp.
 """
 
@@ -9,10 +9,10 @@ from .configs import HostConfig, LinkConfig, ZoneConfig
 
 
 class EdgePlatform:
-    """Factory for edge computing platform topologies."""
+    """Factory for Edge Computing platform topologies."""
 
     # ------------------------------------------------------------------ #
-    # Topology factories                                                   #
+    # Topology factories                                                 #
     # ------------------------------------------------------------------ #
 
     @staticmethod
@@ -64,7 +64,7 @@ class EdgePlatform:
         return zone
 
     # ------------------------------------------------------------------ #
-    # Individual component factories                                       #
+    # Individual component factories                                     #
     # ------------------------------------------------------------------ #
 
     @staticmethod

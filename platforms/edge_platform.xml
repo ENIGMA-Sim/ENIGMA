@@ -4,59 +4,34 @@
 <platform version="4.1">
   <zone id="edge_platform" routing="Full">
     <zone id="edge_cluster_0_zone" routing="Cluster">
-      <cluster bb_bw="1GBps" bb_lat="10us" bw="125MBps" core="1" id="edge_cluster_0" lat="50us" prefix="edge_cluster_0_node_" radical="0-19" router_id="edge_cluster_0_router" speed="1Gf" suffix=""/>
+      <cluster bb_bw="1GBps" bb_lat="10us" bw="125MBps" core="1" id="edge_cluster_0" lat="50us" prefix="edge_cluster_0_node_" radical="0-4" router_id="edge_cluster_0_router" speed="1Gf" suffix="">
+        <prop id="wattage_per_state" value="93.0:97.7:108.0"/>
+        <prop id="wattage_off" value="10"/>
+      </cluster>
     </zone>
     <zone id="edge_cluster_1_zone" routing="Cluster">
-      <cluster bb_bw="1GBps" bb_lat="10us" bw="125MBps" core="1" id="edge_cluster_1" lat="50us" prefix="edge_cluster_1_node_" radical="0-19" router_id="edge_cluster_1_router" speed="1Gf" suffix=""/>
+      <cluster bb_bw="1GBps" bb_lat="10us" bw="125MBps" core="1" id="edge_cluster_1" lat="50us" prefix="edge_cluster_1_node_" radical="0-4" router_id="edge_cluster_1_router" speed="1Gf" suffix="">
+        <prop id="wattage_per_state" value="93.0:97.7:108.0"/>
+        <prop id="wattage_off" value="10"/>
+      </cluster>
     </zone>
     <zone id="edge_cluster_2_zone" routing="Cluster">
-      <cluster bb_bw="1GBps" bb_lat="10us" bw="125MBps" core="1" id="edge_cluster_2" lat="50us" prefix="edge_cluster_2_node_" radical="0-19" router_id="edge_cluster_2_router" speed="1Gf" suffix=""/>
-    </zone>
-    <zone id="edge_cluster_3_zone" routing="Cluster">
-      <cluster bb_bw="1GBps" bb_lat="10us" bw="125MBps" core="1" id="edge_cluster_3" lat="50us" prefix="edge_cluster_3_node_" radical="0-19" router_id="edge_cluster_3_router" speed="1Gf" suffix=""/>
-    </zone>
-    <zone id="edge_cluster_4_zone" routing="Cluster">
-      <cluster bb_bw="1GBps" bb_lat="10us" bw="125MBps" core="1" id="edge_cluster_4" lat="50us" prefix="edge_cluster_4_node_" radical="0-19" router_id="edge_cluster_4_router" speed="1Gf" suffix=""/>
+      <cluster bb_bw="1GBps" bb_lat="10us" bw="125MBps" core="1" id="edge_cluster_2" lat="50us" prefix="edge_cluster_2_node_" radical="0-4" router_id="edge_cluster_2_router" speed="1Gf" suffix="">
+        <prop id="wattage_per_state" value="93.0:97.7:108.0"/>
+        <prop id="wattage_off" value="10"/>
+      </cluster>
     </zone>
     <link bandwidth="1GBps" id="link_edge_cluster_0_to_edge_cluster_1" latency="5ms"/>
     <link bandwidth="1GBps" id="link_edge_cluster_0_to_edge_cluster_2" latency="5ms"/>
-    <link bandwidth="1GBps" id="link_edge_cluster_0_to_edge_cluster_3" latency="5ms"/>
-    <link bandwidth="1GBps" id="link_edge_cluster_0_to_edge_cluster_4" latency="5ms"/>
     <link bandwidth="1GBps" id="link_edge_cluster_1_to_edge_cluster_2" latency="5ms"/>
-    <link bandwidth="1GBps" id="link_edge_cluster_1_to_edge_cluster_3" latency="5ms"/>
-    <link bandwidth="1GBps" id="link_edge_cluster_1_to_edge_cluster_4" latency="5ms"/>
-    <link bandwidth="1GBps" id="link_edge_cluster_2_to_edge_cluster_3" latency="5ms"/>
-    <link bandwidth="1GBps" id="link_edge_cluster_2_to_edge_cluster_4" latency="5ms"/>
-    <link bandwidth="1GBps" id="link_edge_cluster_3_to_edge_cluster_4" latency="5ms"/>
     <zoneRoute dst="edge_cluster_1_zone" gw_dst="edge_cluster_1_router" gw_src="edge_cluster_0_router" src="edge_cluster_0_zone">
       <link_ctn id="link_edge_cluster_0_to_edge_cluster_1"/>
     </zoneRoute>
     <zoneRoute dst="edge_cluster_2_zone" gw_dst="edge_cluster_2_router" gw_src="edge_cluster_0_router" src="edge_cluster_0_zone">
       <link_ctn id="link_edge_cluster_0_to_edge_cluster_2"/>
     </zoneRoute>
-    <zoneRoute dst="edge_cluster_3_zone" gw_dst="edge_cluster_3_router" gw_src="edge_cluster_0_router" src="edge_cluster_0_zone">
-      <link_ctn id="link_edge_cluster_0_to_edge_cluster_3"/>
-    </zoneRoute>
-    <zoneRoute dst="edge_cluster_4_zone" gw_dst="edge_cluster_4_router" gw_src="edge_cluster_0_router" src="edge_cluster_0_zone">
-      <link_ctn id="link_edge_cluster_0_to_edge_cluster_4"/>
-    </zoneRoute>
     <zoneRoute dst="edge_cluster_2_zone" gw_dst="edge_cluster_2_router" gw_src="edge_cluster_1_router" src="edge_cluster_1_zone">
       <link_ctn id="link_edge_cluster_1_to_edge_cluster_2"/>
-    </zoneRoute>
-    <zoneRoute dst="edge_cluster_3_zone" gw_dst="edge_cluster_3_router" gw_src="edge_cluster_1_router" src="edge_cluster_1_zone">
-      <link_ctn id="link_edge_cluster_1_to_edge_cluster_3"/>
-    </zoneRoute>
-    <zoneRoute dst="edge_cluster_4_zone" gw_dst="edge_cluster_4_router" gw_src="edge_cluster_1_router" src="edge_cluster_1_zone">
-      <link_ctn id="link_edge_cluster_1_to_edge_cluster_4"/>
-    </zoneRoute>
-    <zoneRoute dst="edge_cluster_3_zone" gw_dst="edge_cluster_3_router" gw_src="edge_cluster_2_router" src="edge_cluster_2_zone">
-      <link_ctn id="link_edge_cluster_2_to_edge_cluster_3"/>
-    </zoneRoute>
-    <zoneRoute dst="edge_cluster_4_zone" gw_dst="edge_cluster_4_router" gw_src="edge_cluster_2_router" src="edge_cluster_2_zone">
-      <link_ctn id="link_edge_cluster_2_to_edge_cluster_4"/>
-    </zoneRoute>
-    <zoneRoute dst="edge_cluster_4_zone" gw_dst="edge_cluster_4_router" gw_src="edge_cluster_3_router" src="edge_cluster_3_zone">
-      <link_ctn id="link_edge_cluster_3_to_edge_cluster_4"/>
     </zoneRoute>
   </zone>
 </platform>

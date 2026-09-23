@@ -2,6 +2,13 @@
  * @file mobility_test.cpp
  * @brief ENIGMA Mobility module demonstration.
  *
+ * This is the exact same generic template used by use case 6
+ * (../06_mobility_madrid/mobility_test.cpp) — both use cases build and run
+ * the same `mobility_test_app` binary (see CMakeLists.txt), only the
+ * platform XML and GPS traces passed on the command line differ. It is
+ * duplicated here so this directory is self-contained and you can read the
+ * application logic without leaving it.
+ *
  * Shows how to:
  *  - Declare the coords directory as a zone property in the XML
  *  - Load all traces via MobilityManager
@@ -19,6 +26,7 @@
  */
 
 #include <simgrid/s4u.hpp>
+#include <simgrid/plugins/energy.h>
 #include <iostream>
 
 #include "mobility/MobilityManager.hpp"
@@ -94,6 +102,12 @@ int main(int argc, char** argv) {
         }
     }
 
+    // Activate the host_energy plugin BEFORE loading the platform: it hooks
+    // into host creation to read the "wattage_per_state" / "wattage_off"
+    // properties emitted by ENIGMA's platform_generator for every host, so
+    // it also covers the mobile edge nodes (buses, trains, drones, ...).
+    sg_host_energy_plugin_init();
+
     e.load_platform(platform_file);
 
     // ------------------------------------------------------------------ //
@@ -141,6 +155,28 @@ int main(int argc, char** argv) {
     e.run();
 
     XBT_INFO("=== Simulation completed – t=%.3f s ===", sg4::Engine::get_clock());
+
+    // ------------------------------------------------------------------ //
+    // Energy report (SimGrid host_energy plugin)                          //
+    // Mobile hosts (buses/trains/drones) vs. static infrastructure (edge   //
+    // gateways, fog/cloud nodes that only receive their reports).          //
+    // ------------------------------------------------------------------ //
+    XBT_INFO("=== Energy Report ===");
+    double mobile_energy_j = 0.0, infra_energy_j = 0.0;
+    for (auto* host : hosts) {
+        double host_energy_j = sg_host_get_consumed_energy(host);
+        bool is_mobile = mob->has_trace(host->get_cname());
+        if (is_mobile) mobile_energy_j += host_energy_j;
+        else infra_energy_j += host_energy_j;
+        XBT_INFO("  [%s] %-25s %10.2f J",
+                 is_mobile ? "MOBILE" : "INFRA ", host->get_cname(), host_energy_j);
+    }
+    double total_energy_j = mobile_energy_j + infra_energy_j;
+    XBT_INFO("  ------------------------------------------------------");
+    XBT_INFO("  Mobile hosts total: %10.2f J", mobile_energy_j);
+    XBT_INFO("  Infra hosts total : %10.2f J", infra_energy_j);
+    XBT_INFO("  Total energy consumed: %.2f J (%.6f kWh)",
+             total_energy_j, total_energy_j / 3.6e6);
 
     // ------------------------------------------------------------------ //
     // Export results                                                       //

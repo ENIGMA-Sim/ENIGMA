@@ -1,6 +1,6 @@
 # Use Case 7 — France High-Speed-Rail Mobility (step-by-step)
 
-A second mobility scenario, built up **stage by stage** — the same four stages
+A second mobility scenario, built up **stage by stage** — the same stages
 the slide deck walks through.
 
 5 TGV run along real **LGV** (*Ligne à Grande Vitesse*) corridors and report to
@@ -56,10 +56,16 @@ popups. Pure standard library, safe to re-run.
 
 ## Stage 3 — the simulation
 
-`run.sh` runs `mobility_test_app` (built from
-[`tests/mobility_test.cpp`](../../tests/mobility_test.cpp)):
+`run.sh` runs `mobility_test_app`, built by `CMakeLists.txt` straight from
+this directory's own copy of the template:
+[`mobility_test.cpp`](mobility_test.cpp) (identical to use case 6's — both
+use cases build and run the same generic app, only the platform XML and
+traces passed on the command line differ):
 
 ```cpp
+sg_host_energy_plugin_init();           // activate SimGrid's energy plugin
+e.load_platform(platform_file);
+
 MobilityManager mob(e);                 // reads mobility_dir from the XML
 mob.start_periodic_actor(e, 0.5);       // snapshot every train every 0.5 sim-s
 
@@ -75,13 +81,33 @@ Each `MobileActor` calls `mob.position_at("tgv_sud_est", now)` and reads the
 interpolated `pos->latitude / longitude` and `pos->extra["pax_load"]`,
 `pos->extra["delay_s"]`.
 
-## Stage 4 — visualise
+## Stage 4 — energy report
+
+Every `<host>` in [`france_rail_platform.xml`](france_rail_platform.xml)
+carries `wattage_per_state` / `wattage_off` properties (TGVs ≈ 12–25 W
+onboard control unit, edge/fog/cloud infrastructure ≈ 95–500 W). Because the
+plugin was activated in Stage 3, after `e.run()` the app prints a report
+tagging each host `MOBILE` or `INFRA`, with mobile/infra/grand totals in
+Joules and kWh:
+
+```
+=== Energy Report ===
+  [INFRA ] cloud_dc                  1440300.00 J
+  ...
+  [MOBILE] tgv_sud_est                 86433.00 J
+  ------------------------------------------------------
+  Mobile hosts total:  432165.00 J
+  Infra hosts total : 4572952.50 J
+  Total energy consumed: 5005117.50 J (1.390310 kWh)
+```
+
+## Stage 5 — visualise
 
 ```bash
 python3 src/python/tools/mobility_viewer.py /tmp/enigma_uc7_snapshots.json --offline
 ```
 
-One polyline per corridor on OpenStreetMap, a time slider (step = recording
+One polyline per corridor on a street-map background, a time slider (step = recording
 interval) to animate the trains, and clickable dots showing speed / heading /
 passenger load / delay at that instant.
 

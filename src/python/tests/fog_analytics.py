@@ -1,7 +1,7 @@
 """
 fog_analytics.py – Edge data sources feed a Fog node for real-time analytics.
 
-Mirrors tests/fog_analytics.cpp.
+Mirrors use_cases/02_fog_analytics/fog_analytics.cpp.
 
 Usage
 -----

@@ -7,43 +7,43 @@
 namespace enigma {
 
 /**
- * @brief Generador especializado para plataformas Edge
- * 
- * Las plataformas Edge tienen:
- * - Dispositivos con recursos limitados
- * - Baja latencia entre dispositivos cercanos
- * - Alta latencia hacia servicios externos
- * - Topología estrella o malla
+ * @brief Generator for Edge Platforms
+ *
+ * Edge platforms have:
+ * - Devices with limited resources
+ * - Low latency between nearby devices
+ * - High latency to external services
+ * - Star or mesh topology
  */
 class EdgePlatform {
 public:
     /**
-     * @brief Crea una plataforma Edge con gateway central
+     * @brief Create an Edge platform with a central gateway
      */
     static ZoneConfig createStarTopology(int numDevices, 
                                           const std::string& deviceSpeed = "1Gf",
                                           const std::string& gatewaySpeed = "5Gf");
     
     /**
-     * @brief Crea una plataforma Edge con topología mesh
+     * @brief Create an Edge platform with a mesh topology
      */
     static ZoneConfig createMeshTopology(int numDevices,
                                           const std::string& deviceSpeed = "1Gf");
     
     /**
-     * @brief Crea una plataforma Edge IoT con sensores y actuadores
+     * @brief Create an Edge IoT platform with sensors and actuators
      */
     static ZoneConfig createIoTPlatform(int numSensors, int numActuators,
                                          const std::string& gatewaySpeed = "3Gf");
     
     /**
-     * @brief Configuración típica para dispositivos Edge
+     * @brief Settings for Edge Devices
      */
     static HostConfig createEdgeDevice(const std::string& id, 
                                         const std::string& deviceType = "standard");
     
     /**
-     * @brief Configuración típica para enlaces Edge
+     * @brief Settings for Edge Links
      */
     static LinkConfig createEdgeLink(const std::string& id,
                                       const std::string& linkType = "wifi");

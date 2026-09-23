@@ -286,7 +286,7 @@ Because the visualizer always uses Playwright/Chromium, both modes open as `file
 
 ## Map features
 
-- **Trajectory lines** for every device on OpenStreetMap
+- **Trajectory lines** for every device on a street map (Esri World Street Map — chosen over raw OpenStreetMap tiles, which rate-limit/block automated or repeated fetches)
 - **Time slider** — play/pause animation; step matches recording interval
 - **Click any dot** — popup with all recorded stats for that snapshot
 - **Layer toggle** and device colour legend

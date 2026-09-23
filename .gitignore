@@ -4,7 +4,7 @@ bin/
 lib/
 tests_paper/
 docs/
-
+src/python/tests/mobility_output
 
 # CMake
 CMakeCache.txt

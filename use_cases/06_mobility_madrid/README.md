@@ -31,7 +31,8 @@ reach the nearest edge over per-device cellular links.
 
 | File | Purpose |
 |------|---------|
-| [`madrid_transport_platform.xml`](madrid_transport_platform.xml) | Platform. Carries `<prop id="mobility_dir" .../>` |
+| [`madrid_transport_platform.xml`](madrid_transport_platform.xml) | Platform. Carries `<prop id="mobility_dir" .../>` and per-host `wattage_per_state` / `wattage_off` energy properties |
+| [`mobility_test.cpp`](mobility_test.cpp) | The C++ application template — built by `CMakeLists.txt` into `mobility_test_app` (shared with use case 7, which keeps an identical copy) |
 | [`generate_traces.py`](generate_traces.py) | Regenerates `coords/*.csv` from the route tables (stdlib only) |
 | `coords/*.csv` | One GPS trace per mobile host |
 
@@ -99,6 +100,18 @@ auto pos = mob.position_at("metro_l6", sg4::Engine::get_clock());
 
 mob.export_json("snapshots.json");   // after e.run()
 ```
+
+## Energy
+
+Every `<host>` in [`madrid_transport_platform.xml`](madrid_transport_platform.xml)
+carries `wattage_per_state` / `wattage_off` properties, hand-tuned per device
+class (buses/trains ≈ 8–20 W onboard units, drones ≈ 5–12 W battery-powered,
+edge/fog/cloud infrastructure ≈ 90–500 W). `mobility_test.cpp` activates
+SimGrid's `host_energy` plugin with `sg_host_energy_plugin_init()` before
+`e.load_platform()`, and after `e.run()` prints a report tagging each host
+`MOBILE` (has a GPS trace) or `INFRA` (fixed), with mobile/infra/grand totals
+in Joules and kWh — a way to compare, e.g., a drone's battery budget against
+the fixed cost of keeping the control-room fog server up for the whole run.
 
 ## Try next
 

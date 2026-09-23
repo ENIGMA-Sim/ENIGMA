@@ -8,27 +8,23 @@
 
 namespace enigma {
 
-/**
- * @brief Builder para crear plataformas de forma fluida
- */
 class PlatformBuilder {
 public:
     PlatformBuilder();
     ~PlatformBuilder() = default;
 
-    // Inicialización
+    // Initialization
     PlatformBuilder& createPlatform(const std::string& name);
     PlatformBuilder& createEdgeFogCloud(const std::string& name);
     
-    // Construcción por capas
+    // Layer-by-Layer Construction
     PlatformBuilder& addEdgeLayer(int numDevices, const std::string& speed = "1Gf", 
                                    const std::string& bandwidth = "125MBps");
     PlatformBuilder& addFogLayer(int numNodes, const std::string& speed = "10Gf", 
                                   const std::string& bandwidth = "1GBps");
     PlatformBuilder& addCloudLayer(int numServers, const std::string& speed = "100Gf", 
                                     const std::string& bandwidth = "10GBps");
-    
-    // Construcción personalizada
+
     PlatformBuilder& addZone(const std::string& id, const std::string& routing = "Full");
     PlatformBuilder& addHost(const std::string& id, const std::string& speed, int cores = 1);
     PlatformBuilder& addLink(const std::string& id, const std::string& bandwidth, 
@@ -36,12 +32,11 @@ public:
     PlatformBuilder& addRoute(const std::string& src, const std::string& dst, 
                                const std::vector<std::string>& links);
     
-    // Configuración avanzada
     PlatformBuilder& setRouting(const std::string& routing);
     PlatformBuilder& setLatency(const std::string& defaultLatency);
     PlatformBuilder& enableLoopback(bool enable = true);
     
-    // Generación
+    // Generation
     void build();
     void buildToFile(const std::string& filename);
     std::string getPlatformXML() const;

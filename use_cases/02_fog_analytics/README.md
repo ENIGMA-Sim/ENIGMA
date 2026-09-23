@@ -31,10 +31,25 @@ rest as data sources, round-robin.
 === Simulation completed ===
 ```
 
+## Application (C++)
+
+The template built and run by `run.sh` lives right here:
+[`fog_analytics.cpp`](fog_analytics.cpp). `CMakeLists.txt` compiles it
+straight from this directory into the `fog_analytics_app` binary.
+
+## Energy
+
+`platform_generator` attaches SimGrid's `host_energy` plugin properties
+(`wattage_per_state` / `wattage_off`) to every host it writes. The app
+activates the plugin with `sg_host_energy_plugin_init()` before
+`e.load_platform()`, then after `e.run()` prints a per-host and total
+consumption report (in Joules and kWh). Fog analyzers draw more than data
+sources — they stay busy running the real-time analysis on every sample plus
+the final aggregate pass.
+
 ## Try next
 
-- Increase samples per source in
-  [`tests/fog_analytics.cpp`](../../tests/fog_analytics.cpp)
+- Increase samples per source in [`fog_analytics.cpp`](fog_analytics.cpp)
   (`int samples = 5 + (i % 5);`).
-- Compare `Simulated time` with use case 1 — fog nodes are 10× faster but the
-  extra hop adds latency.
+- Compare `Simulated time` (and the energy report) with use case 1 — fog
+  nodes are 10× faster but the extra hop adds latency.

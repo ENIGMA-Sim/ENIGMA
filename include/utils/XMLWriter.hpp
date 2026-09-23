@@ -10,7 +10,7 @@
 namespace enigma {
 
 /**
- * @brief Clase para escribir archivos XML de forma estructurada
+ * @brief Class for writing XML files
  */
 class XMLWriter {
 public:

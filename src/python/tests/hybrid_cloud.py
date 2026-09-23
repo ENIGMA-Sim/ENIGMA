@@ -1,7 +1,7 @@
 """
 hybrid_cloud.py – Edge-Fog-Cloud three-tier simulation.
 
-Mirrors tests/hybrid_cloud.cpp.
+Mirrors use_cases/03_hybrid_edge_fog_cloud/hybrid_cloud.cpp.
 
 Usage
 -----

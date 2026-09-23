@@ -7,43 +7,43 @@
 namespace enigma {
 
 /**
- * @brief Generador especializado para plataformas Fog
- * 
- * Las plataformas Fog tienen:
- * - Nodos con capacidad media (más que Edge, menos que Cloud)
- * - Latencia media
- * - Conexiones a múltiples dispositivos Edge
- * - Topología jerárquica
+ * @brief Fog Platform Generator
+ *
+ * Fog platforms have:
+ * - Nodes with medium capacity (more than Edge, less than Cloud)
+ * - Medium latency
+ * - Connections to multiple Edge devices
+ * - Hierarchical topology
  */
 class FogPlatform {
 public:
     /**
-     * @brief Crea una plataforma Fog con topología jerárquica
+     * @brief Create a Fog platform with a hierarchical topology
      */
     static ZoneConfig createHierarchicalTopology(int numFogNodes,
                                                    const std::string& nodeSpeed = "10Gf");
     
     /**
-     * @brief Crea una plataforma Fog conectada a dispositivos Edge
+     * @brief Create a Fog platform connected to edge devices
      */
     static ZoneConfig createEdgeFogTopology(int numFogNodes, int edgeDevicesPerNode,
                                              const std::string& fogSpeed = "10Gf",
                                              const std::string& edgeSpeed = "1Gf");
     
     /**
-     * @brief Crea una plataforma Fog con nodos distribuidos geográficamente
+     * @brief Create a Fog platform with geographically distributed nodes
      */
     static ZoneConfig createGeographicTopology(int numRegions, int nodesPerRegion,
                                                  const std::string& nodeSpeed = "10Gf");
     
     /**
-     * @brief Configuración típica para nodos Fog
+     * @brief Configuration for Fog Nodes
      */
     static HostConfig createFogNode(const std::string& id,
                                      const std::string& nodeType = "standard");
     
     /**
-     * @brief Configuración típica para enlaces Fog
+     * @brief Fog Link Settings
      */
     static LinkConfig createFogLink(const std::string& id,
                                      const std::string& linkType = "ethernet");

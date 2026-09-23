@@ -36,7 +36,7 @@ class PlatformBuilder:
         self._generator: PlatformGenerator = PlatformGenerator()
 
     # ------------------------------------------------------------------ #
-    # Initialisation                                                       #
+    # Initialization                                                     #
     # ------------------------------------------------------------------ #
 
     def create_platform(self, name: str) -> "PlatformBuilder":
@@ -49,7 +49,7 @@ class PlatformBuilder:
         return self.create_platform(name)
 
     # ------------------------------------------------------------------ #
-    # Layer factories                                                      #
+    # Layer factories                                                    #
     # ------------------------------------------------------------------ #
 
     def add_edge_layer(
@@ -76,7 +76,7 @@ class PlatformBuilder:
         speed: str = "10Gf",
         bandwidth: str = "1GBps",
     ) -> "PlatformBuilder":
-        """Add a fog tier with *num_nodes* nodes as a cluster."""
+        """Add a Fog tier with *num_nodes* nodes as a cluster."""
         clusters = [
             ClusterConfig(
                 f"fog_cluster_{i}", 1, speed, 4, bandwidth, self._default_latency
@@ -93,7 +93,7 @@ class PlatformBuilder:
         speed: str = "100Gf",
         bandwidth: str = "10GBps",
     ) -> "PlatformBuilder":
-        """Add a cloud tier with *num_servers* servers as a cluster."""
+        """Add a Cloud tier with *num_servers* servers as a cluster."""
         clusters = [
             ClusterConfig(
                 f"cloud_cluster_{i}", 1, speed, 16, bandwidth, self._default_latency
@@ -105,7 +105,7 @@ class PlatformBuilder:
         return self
 
     # ------------------------------------------------------------------ #
-    # Custom element addition                                              #
+    # Custom element addition                                            #
     # ------------------------------------------------------------------ #
 
     def add_zone(
@@ -145,7 +145,7 @@ class PlatformBuilder:
         return self
 
     # ------------------------------------------------------------------ #
-    # Advanced configuration                                               #
+    # Advanced configuration                                             #
     # ------------------------------------------------------------------ #
 
     def set_routing(self, routing: str) -> "PlatformBuilder":
@@ -161,7 +161,7 @@ class PlatformBuilder:
         return self
 
     # ------------------------------------------------------------------ #
-    # Build / output                                                       #
+    # Build / output                                                     #
     # ------------------------------------------------------------------ #
 
     def build(self) -> None:
@@ -190,7 +190,7 @@ class PlatformBuilder:
                 os.unlink(tmp_path)
 
     # ------------------------------------------------------------------ #
-    # Internals                                                            #
+    # Internals                                                          #
     # ------------------------------------------------------------------ #
 
     def _validate(self) -> None:

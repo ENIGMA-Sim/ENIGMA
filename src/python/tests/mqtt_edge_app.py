@@ -1,7 +1,7 @@
 """
 mqtt_edge_app.py – MQTT-based Edge-Fog simulation.
 
-Mirrors tests/mqtt_edge_app.cpp.
+Mirrors use_cases/05_mqtt_iot/mqtt_edge_app.cpp.
 
 Usage
 -----

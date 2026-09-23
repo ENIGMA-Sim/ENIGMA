@@ -123,6 +123,13 @@ protected:
     void writeHost(XMLWriter& writer, const HostConfig& host);
     void writeLink(XMLWriter& writer, const LinkConfig& link);
     void writeCluster(XMLWriter& writer, const ClusterConfig& cluster);
+
+    // Energy modeling helpers (SimGrid host_energy plugin properties).
+    // Produces illustrative idle:epsilon:max Watt tuples (one per pstate found
+    // in `speedSpec`) plus an "off" wattage, so every generated host/cluster
+    // can be used directly with sg_host_energy_plugin_init().
+    static std::string computeWattagePerState(const std::string& speedSpec, int cores);
+    static std::string computeWattageOff();
     void writeClusterAsHosts(XMLWriter& writer, const ClusterConfig& cluster);
     void writeRoute(XMLWriter& writer, const std::string& src, const std::string& dst, 
                     const std::vector<std::string>& links);

@@ -12,7 +12,7 @@ import simgrid
 
 
 # --------------------------------------------------------------------------- #
-# Data structures                                                              #
+# Data structures                                                             #
 # --------------------------------------------------------------------------- #
 
 @dataclass
@@ -164,7 +164,7 @@ class MQTTBroker:
 
 
 # --------------------------------------------------------------------------- #
-# Convenience launcher                                                         #
+# Convenience launcher                                                        #
 # --------------------------------------------------------------------------- #
 
 def start_broker(host: "simgrid.Host", broker_name: str = "mqtt_broker") -> None:

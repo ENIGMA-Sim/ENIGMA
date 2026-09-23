@@ -1,5 +1,5 @@
 """
-CloudPlatform: specialized factories for cloud computing platform topologies.
+CloudPlatform: specialized factories for Cloud Computing platform topologies.
 Mirrors C++ CloudPlatform class from src/platform/CloudPlatform.cpp.
 """
 
@@ -9,10 +9,10 @@ from .configs import HostConfig, LinkConfig, ZoneConfig
 
 
 class CloudPlatform:
-    """Factory for cloud computing platform topologies."""
+    """Factory for Cloud Computing platform topologies."""
 
     # ------------------------------------------------------------------ #
-    # Topology factories                                                   #
+    # Topology factories                                                 #
     # ------------------------------------------------------------------ #
 
     @staticmethod

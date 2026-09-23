@@ -65,13 +65,18 @@ ENIGMA/
 │   ├── tests/              # Python test apps
 │   └── tools/              # Post-sim viewer (mobility_viewer.py)
 ├── platforms/coords/        # GPS trace CSV files (one per device)
-├── tests/                   # Test/Example applications
-│   ├── edge_computing.cpp  # Basic edge computing
-│   ├── fog_analytics.cpp   # Fog analytics
-│   ├── hybrid_cloud.cpp    # Multi-tier hybrid
-│   ├── data_offloading.cpp # Smart offloading decisions
-│   ├── mqtt_edge_app.cpp   # MQTT pub/sub example
-│   └── mobility_test.cpp   # Mobility module demo
+├── use_cases/                # Use-case walkthroughs
+│   ├── 01_edge_computing/edge_computing.cpp
+│   ├── 02_fog_analytics/fog_analytics.cpp
+│   ├── 03_hybrid_edge_fog_cloud/hybrid_cloud.cpp
+│   ├── 04_data_offloading/data_offloading.cpp
+│   ├── 05_mqtt_iot/mqtt_edge_app.cpp
+│   ├── 06_mobility_madrid/mobility_test.cpp
+│   └── 07_mobility_france_trains/mobility_test.cpp   # identical template, same mobility_test_app binary
+├── tests/                   # Grid'5000-scale benchmark applications (not use-case demos)
+│   ├── fit_to_g5k_app.cpp
+│   ├── fit_to_g5k_app_v6.cpp
+│   └── pingpong_fit_to_g5k_app.cpp
 ├── build/                   # Build artifacts (generated)
 ├── CMakeLists.txt           # CMake configuration
 ├── build.sh                 # Build script
@@ -451,20 +456,24 @@ The template includes:
 
 ## Examples
 
-The `tests/` directory contains complete example applications:
+Each use case under [`use_cases/`](use_cases/) ships its own complete C++
+application template, right next to its `README.md` and `run.sh`:
 
-- **edge_computing**: Edge application with distributed processing
-- **fog_analytics**: Analytics system with Fog nodes
-- **hybrid_cloud**: Hybrid Edge-Fog-Cloud architecture
-- **data_offloading**: Smart offloading with request/response cycle
-- **mqtt_edge_app**: MQTT publish/subscribe pattern for IoT/Edge
-- **mobility_test**: Mobility module demo – loads GPS traces, records snapshots, exports JSON/CSV and interactive map
+- **edge_computing** (`use_cases/01_edge_computing/`): Edge application with distributed processing
+- **fog_analytics** (`use_cases/02_fog_analytics/`): Analytics system with Fog nodes
+- **hybrid_cloud** (`use_cases/03_hybrid_edge_fog_cloud/`): Hybrid Edge-Fog-Cloud architecture
+- **data_offloading** (`use_cases/04_data_offloading/`): Smart offloading with request/response cycle
+- **mqtt_edge_app** (`use_cases/05_mqtt_iot/`): MQTT publish/subscribe pattern for IoT/Edge
+- **mobility_test** (`use_cases/06_mobility_madrid/`, `use_cases/07_mobility_france_trains/`): Mobility module demo – loads GPS traces, records snapshots, exports JSON/CSV and interactive map
 
-Python equivalents live in `src/python/tests/`.
+Every one of them activates SimGrid's `host_energy` plugin
+(`sg_host_energy_plugin_init()`) and prints a per-host energy report after
+`e.run()`; see each use case's README for the details. `tests/` now only
+holds the Grid'5000-scale benchmark apps (`fit_to_g5k_app*`,
+`pingpong_fit_to_g5k_app.cpp`). Python equivalents live in `src/python/tests/`.
 
 ## Tutorial & Use Cases
 
-- **Slide deck:** [`docs/The_ENIGMA_Simulator_Tutorial.pptx`](docs/The_ENIGMA_Simulator_Tutorial.pptx) — *"The ENIGMA Simulator & State-of-the-Art Use Cases"* (install, configure, run, every use case). Regenerate with `python3 docs/build_pptx.py`.
 - **Runnable scenarios:** [`use_cases/`](use_cases/) — one self-contained folder per scenario, each with a `run.sh` that builds (once), generates its platform and runs the simulation:
 
   | # | Folder | Demonstrates |
@@ -475,7 +484,11 @@ Python equivalents live in `src/python/tests/`.
   | 4 | `04_data_offloading/` | Run-time local / fog / cloud offloading decisions |
   | 5 | `05_mqtt_iot/` | MQTT publish/subscribe (`enigma_mqtt`) |
   | 6 | `06_mobility_madrid/` | **GPS mobility**: Madrid buses / trains / drones on real routes, position interpolation, snapshots + interactive map |
-  | 7 | `07_mobility_france_trains/` | **GPS mobility, step by step**: 5 TGV along real SNCF LGV corridors across France, built up in 4 stages |
+  | 7 | `07_mobility_france_trains/` | **GPS mobility, step by step**: 5 TGV along real SNCF LGV corridors across France, built up stage by stage |
+
+  Every use case's C++ template lives inside its own folder (see the table
+  above), and every one reports per-host **energy consumption** via
+  SimGrid's `host_energy` plugin after the run.
 
   ```bash
   ./use_cases/01_edge_computing/run.sh
@@ -539,13 +552,19 @@ ENIGMA/
 │       └── tools/
 │           └── mobility_viewer.py         # Standalone post-sim viewer
 │
-├── tests/                   # Test applications (C++)
-│   ├── edge_computing.cpp  # Edge-only processing
-│   ├── fog_analytics.cpp   # Fog layer analytics
-│   ├── hybrid_cloud.cpp    # Multi-tier application
-│   ├── data_offloading.cpp # Smart offloading with responses
-│   ├── mqtt_edge_app.cpp   # MQTT pub/sub IoT example
-│   └── mobility_test.cpp   # Mobility module demo
+├── use_cases/                # Use-case walkthroughs (README + run.sh + C++ app template)
+│   ├── 01_edge_computing/edge_computing.cpp     # Edge-only processing
+│   ├── 02_fog_analytics/fog_analytics.cpp       # Fog layer analytics
+│   ├── 03_hybrid_edge_fog_cloud/hybrid_cloud.cpp # Multi-tier application
+│   ├── 04_data_offloading/data_offloading.cpp   # Smart offloading with responses
+│   ├── 05_mqtt_iot/mqtt_edge_app.cpp            # MQTT pub/sub IoT example
+│   ├── 06_mobility_madrid/mobility_test.cpp     # Mobility module demo
+│   └── 07_mobility_france_trains/mobility_test.cpp # same demo, France scenario
+│
+├── tests/                   # Grid'5000-scale benchmark applications (C++)
+│   ├── fit_to_g5k_app.cpp
+│   ├── fit_to_g5k_app_v6.cpp
+│   └── pingpong_fit_to_g5k_app.cpp
 │
 ├── platforms/               # XML platforms
 │   └── coords/             # GPS trace CSV files (one per device)

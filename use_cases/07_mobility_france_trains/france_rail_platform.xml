@@ -24,19 +24,51 @@
   <zone id="france_rail" routing="Full">
     <prop id="mobility_dir" value="use_cases/07_mobility_france_trains/coords/"/>
 
-    <!-- Fixed infrastructure -->
-    <host id="edge_paris" speed="4Gf"  core="8"/>
-    <host id="edge_lyon"  speed="3Gf"  core="4"/>
-    <host id="edge_lille" speed="3Gf"  core="4"/>
-    <host id="fog_sncf"   speed="25Gf" core="16"/>
-    <host id="cloud_dc"   speed="90Gf" core="48"/>
+    <!-- Fixed infrastructure. Energy properties (wattage_per_state /
+         wattage_off) activate SimGrid's host_energy plugin; values are an
+         illustrative power model, not hardware-calibrated measurements. -->
+    <host id="edge_paris" speed="4Gf"  core="8">
+      <prop id="wattage_per_state" value="95.0:100.0:160.0"/>
+      <prop id="wattage_off" value="10"/>
+    </host>
+    <host id="edge_lyon"  speed="3Gf"  core="4">
+      <prop id="wattage_per_state" value="90.0:95.0:150.0"/>
+      <prop id="wattage_off" value="10"/>
+    </host>
+    <host id="edge_lille" speed="3Gf"  core="4">
+      <prop id="wattage_per_state" value="90.0:95.0:150.0"/>
+      <prop id="wattage_off" value="10"/>
+    </host>
+    <host id="fog_sncf"   speed="25Gf" core="16">
+      <prop id="wattage_per_state" value="160.0:170.0:320.0"/>
+      <prop id="wattage_off" value="10"/>
+    </host>
+    <host id="cloud_dc"   speed="90Gf" core="48">
+      <prop id="wattage_per_state" value="200.0:220.0:500.0"/>
+      <prop id="wattage_off" value="10"/>
+    </host>
 
-    <!-- Trains -->
-    <host id="tgv_sud_est"    speed="2Gf" core="2"/>
-    <host id="tgv_atlantique" speed="2Gf" core="2"/>
-    <host id="tgv_nord"       speed="2Gf" core="2"/>
-    <host id="tgv_est"        speed="2Gf" core="2"/>
-    <host id="tgv_rhin_rhone" speed="2Gf" core="2"/>
+    <!-- Trains: mains-powered onboard telematics/control unit -->
+    <host id="tgv_sud_est"    speed="2Gf" core="2">
+      <prop id="wattage_per_state" value="12.0:14.0:25.0"/>
+      <prop id="wattage_off" value="1"/>
+    </host>
+    <host id="tgv_atlantique" speed="2Gf" core="2">
+      <prop id="wattage_per_state" value="12.0:14.0:25.0"/>
+      <prop id="wattage_off" value="1"/>
+    </host>
+    <host id="tgv_nord"       speed="2Gf" core="2">
+      <prop id="wattage_per_state" value="12.0:14.0:25.0"/>
+      <prop id="wattage_off" value="1"/>
+    </host>
+    <host id="tgv_est"        speed="2Gf" core="2">
+      <prop id="wattage_per_state" value="12.0:14.0:25.0"/>
+      <prop id="wattage_off" value="1"/>
+    </host>
+    <host id="tgv_rhin_rhone" speed="2Gf" core="2">
+      <prop id="wattage_per_state" value="12.0:14.0:25.0"/>
+      <prop id="wattage_off" value="1"/>
+    </host>
 
     <!-- Links -->
     <link id="backbone"  bandwidth="40GBps" latency="300us"/>

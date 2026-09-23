@@ -1,22 +1,13 @@
 """
 mobility_visualizer.py
 ----------------------
-Interactive map visualization of device mobility using **folium** (OpenStreetMap).
+Interactive map visualization of device mobility using **folium** (Leaflet.js).
 
 Two usage modes
 ~~~~~~~~~~~~~~~
 1. **Post-simulation** – call :func:`save_interactive_map` (or
    ``MobilityVisualizer.replay_from_recorder``) after ``e.run()`` to generate
    a self-contained HTML file you can open in any browser.
-
-   The map contains:
-   - Coloured trajectory lines for every device.
-   - An animated time slider (``TimestampedGeoJson``) that moves dots along
-     their trajectories frame by frame.
-   - A **popup on every dot** showing *all* recorded stats for that snapshot
-     (whatever columns were in the CSV – no assumed schema).
-   - Start ▶ / End ■ markers with info popups.
-   - Auto-fit bounds and a colour legend.
 
 2. **Live (during simulation)** – instantiate :class:`MobilityVisualizer`,
    call ``start()``, then pass it to ``MobilityManager``.  A background
@@ -328,7 +319,12 @@ def _build_folium_map(
     m = folium.Map(
         location=[centre_lat, centre_lon],
         zoom_start=14,
-        tiles="OpenStreetMap",
+        # Not the raw tile.openstreetmap.org layer: OSMF rate-limits/blocks
+        # automated or repeated fetches (e.g. from Playwright screenshot runs
+        # or CI) with a "not following the tile usage policy" placeholder
+        # tile. Esri's free World Street Map has no API key and no such
+        # restriction for this kind of low-volume embedded use.
+        tiles="Esri.WorldStreetMap",
     )
 
     # Title overlay

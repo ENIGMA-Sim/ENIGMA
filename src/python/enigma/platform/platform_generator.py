@@ -24,7 +24,7 @@ class PlatformGenerator:
     """Generates SimGrid 4.1 platform XML files from ZoneConfig trees."""
 
     # ------------------------------------------------------------------ #
-    # Public API                                                           #
+    # Public API                                                         #
     # ------------------------------------------------------------------ #
 
     def generate_platform(self, filename: str, config: ZoneConfig) -> None:
@@ -48,7 +48,7 @@ class PlatformGenerator:
         print(f"Platform generated: {filename}")
 
     # ------------------------------------------------------------------ #
-    # Static factory helpers (mirror C++ static methods)                  #
+    # Static factory helpers (mirror C++ static methods)                 #
     # ------------------------------------------------------------------ #
 
     @staticmethod
@@ -125,8 +125,8 @@ class PlatformGenerator:
     ) -> ZoneConfig:
         """
         Flat hybrid: all clusters at the same zone level.
-        Tiered connectivity: Edge ↔ Fog ↔ Cloud.
-        Optionally adds direct Edge ↔ Cloud links.
+        Tiered connectivity: Edge - Fog - Cloud.
+        Optionally adds direct Edge - Cloud links.
         """
         root = ZoneConfig("hybrid_platform", "Full")
         root.use_native_clusters = True
@@ -160,7 +160,7 @@ class PlatformGenerator:
         return root
 
     # ------------------------------------------------------------------ #
-    # Private XML-building helpers                                         #
+    # Private XML-building helpers                                       #
     # ------------------------------------------------------------------ #
 
     def _write_zone(
@@ -329,7 +329,7 @@ class PlatformGenerator:
         )
 
     # ------------------------------------------------------------------ #
-    # Route-generation (mirrors C++ generateXxx methods)                  #
+    # Route-generation (mirrors C++ generateXxx methods)                 #
     # ------------------------------------------------------------------ #
 
     def _generate_full_routes(self, parent: ET.Element, zone: ZoneConfig) -> None:
@@ -390,8 +390,8 @@ class PlatformGenerator:
     ) -> None:
         """
         Tiered zoneRoutes for flat hybrid topology:
-        Edge → Fog and Fog → Cloud.
-        Optionally Edge → Cloud when allow_direct_edge_cloud is set.
+        Edge - Fog and Fog - Cloud.
+        Optionally Edge - Cloud when allow_direct_edge_cloud is set.
         """
         edge_c = [c for c in zone.clusters if "edge" in c.id]
         fog_c = [c for c in zone.clusters if "fog" in c.id]
@@ -457,7 +457,7 @@ class PlatformGenerator:
                     )
 
     # ------------------------------------------------------------------ #
-    # Formatting                                                           #
+    # Formatting                                                         #
     # ------------------------------------------------------------------ #
 
     @staticmethod

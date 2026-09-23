@@ -2,16 +2,16 @@
 
 ## Overview
 
-ENIGMA now includes a complete MQTT (Message Queuing Telemetry Transport) implementation for publish/subscribe communication patterns. This allows IoT sensors, edge devices, and cloud nodes to communicate asynchronously through topics.
+ENIGMA includes a complete MQTT (Message Queuing Telemetry Transport) implementation for publish/subscribe communication patterns. This allows IoT sensors, Edge devices, and Cloud nodes to communicate asynchronously through topics.
 
 ## Features
 
-- **🔌 Publish/Subscribe Pattern**: Decoupled communication between producers and consumers
-- **📡 Topic-Based Routing**: Messages are routed based on topic names (e.g., "sensors/temperature")
-- **🚀 Async Communication**: Non-blocking message delivery through SimGrid mailboxes
-- **📊 Broker Statistics**: Track messages published and delivered
-- **⚙️ Quality of Service (QoS)**: Support for QoS levels 0, 1, 2
-- **🔧 Easy Integration**: Simple API to add MQTT to existing applications
+- **Publish/Subscribe Pattern**: Decoupled communication between producers and consumers
+- **Topic-Based Routing**: Messages are routed based on topic names (e.g., "sensors/temperature")
+- **Async Communication**: Non-blocking message delivery through SimGrid mailboxes
+- **Broker Statistics**: Track messages published and delivered
+- **Quality of Service (QoS)**: Support for QoS levels 0, 1, 2
+- **Easy Integration**: API to add MQTT to existing applications
 
 ## Architecture
 
@@ -28,8 +28,8 @@ ENIGMA now includes a complete MQTT (Message Queuing Telemetry Transport) implem
                                ┌──────────────┐
                                │   Topics     │
                                │ - sensors/*  │
-                               │ - edge/data  │
-                               │ - fog/agg    │
+                               │ - Edge/data  │
+                               │ - Fog/agg    │
                                └──────────────┘
 ```
 
@@ -80,7 +80,7 @@ public:
 
 ### 4. Create Subscribers
 
-Edge gateways or fog nodes subscribe to receive data:
+Edge gateways or Fog nodes subscribe to receive data:
 
 ```cpp
 class EdgeGateway {
@@ -233,8 +233,6 @@ cloud/              # Cloud services
 - **QoS 1** (At least once): Message delivered at least once
 - **QoS 2** (Exactly once): Message delivered exactly once
 
-*Note: Current implementation provides basic QoS support for future extensions.*
-
 ## Integration with Existing Applications
 
 ### Option 1: Add MQTT to Existing App
@@ -380,7 +378,3 @@ auto msg = subscriber.receive(10.0);  // 10 second timeout
 - **Headers**: `include/mqtt/MQTT.hpp`
 
 ---
-
-**Version**: 1.0.0  
-**Status**: Production Ready ✅  
-**Last Updated**: 2025-11-20

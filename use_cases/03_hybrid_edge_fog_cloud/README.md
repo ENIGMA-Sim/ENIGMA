@@ -37,6 +37,37 @@ names.
 === Edge-Fog-Cloud pipeline completed successfully ===
 ```
 
+## Application (C++)
+
+The template built and run by `run.sh` lives right here:
+[`hybrid_cloud.cpp`](hybrid_cloud.cpp). `CMakeLists.txt` compiles it straight
+from this directory into the `hybrid_cloud_app` binary.
+
+## Energy
+
+`platform_generator` attaches SimGrid's `host_energy` plugin properties
+(`wattage_per_state` / `wattage_off`) to every host it writes. The app
+activates the plugin with `sg_host_energy_plugin_init()` before
+`e.load_platform()`, then after `e.run()` prints a report broken down **by
+tier**:
+
+```
+=== Energy Report ===
+  [EDGE ] edge_cluster_0_node_0       593.28 J
+  ...
+  [FOG  ] fog_cluster_0_node_0        655.88 J
+  ...
+  [CLOUD] cloud_cluster_0_node_0      869.57 J
+  ------------------------------------------------------
+  Edge tier total :    4746.24 J
+  Fog tier total  :    1311.77 J
+  Cloud tier total:     869.57 J
+  Total energy consumed: 6927.58 J (0.001924 kWh)
+```
+
+Useful to compare against use case 4 (offloading): pushing work up the tiers
+trades edge energy for fog/cloud energy plus network cost.
+
 ## Try next
 
 - Drop the direct Edge-Cloud links: change the trailing `1` to `0`.

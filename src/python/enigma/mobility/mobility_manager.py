@@ -88,7 +88,7 @@ class MobilityManager:
             self._load_directory(dir_path)
 
     # ------------------------------------------------------------------ #
-    # Properties                                                            #
+    # Properties                                                         #
     # ------------------------------------------------------------------ #
 
     @property
@@ -104,7 +104,7 @@ class MobilityManager:
         return list(self._traces.keys())
 
     # ------------------------------------------------------------------ #
-    # Queries                                                               #
+    # Queries                                                            #
     # ------------------------------------------------------------------ #
 
     def has_trace(self, device_name: str) -> bool:
@@ -124,7 +124,7 @@ class MobilityManager:
         return self._traces.get(device_name)
 
     # ------------------------------------------------------------------ #
-    # Recording helpers (called from within SimGrid actors)                #
+    # Recording helpers (called from within SimGrid actors)              #
     # ------------------------------------------------------------------ #
 
     def record(self, device_name: str, sim_t: float) -> Optional[MobilityPosition]:
@@ -159,7 +159,7 @@ class MobilityManager:
         return result
 
     # ------------------------------------------------------------------ #
-    # Periodic actor                                                        #
+    # Periodic actor                                                     #
     # ------------------------------------------------------------------ #
 
     def start_periodic_actor(
@@ -196,7 +196,7 @@ class MobilityManager:
         simgrid.Actor.create("mobility_recorder", host, _recorder_actor)
 
     # ------------------------------------------------------------------ #
-    # Internal                                                              #
+    # Internal                                                           #
     # ------------------------------------------------------------------ #
 
     @staticmethod
