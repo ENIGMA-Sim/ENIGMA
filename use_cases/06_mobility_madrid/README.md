@@ -6,22 +6,22 @@ recording periodic snapshots and exporting them for an interactive map.
 
 ## Scenario
 
-Vehicles moving along **real Madrid routes**, reporting to two edge nodes
-(Atocha, Nuevos Ministerios) that feed a fog control room and the cloud.
+Vehicles moving along **Madrid routes**, reporting to two Edge nodes
+(Atocha, Nuevos Ministerios) that feed a Fog control room and the cloud.
 
 | Host | Line / route | Motion |
 |------|--------------|--------|
 | `edge_atocha`, `edge_nuevos_ministerios` | edge nodes at transport hubs | fixed |
 | `fog_emt_control` | EMT / Metro control-room fog server | fixed |
 | `cloud_dc` | cloud data centre | fixed |
-| `bus_27` | EMT 27 — Pza. Castilla ↔ Embajadores (Castellana / Prado) | ping-pong |
-| `bus_002` | EMT 2 — Manuel Becerra ↔ Argüelles (Alcalá / Gran Vía) | ping-pong |
-| `bus_046` | EMT 46 — Atocha ↔ Moncloa (Prado / Gran Vía / Princesa) | ping-pong |
-| `metro_l1` | Metro L1 — Chamartín → Pacífico | ping-pong |
+| `bus_27` | EMT 27 - Pza. Castilla - Embajadores (Castellana / Prado) | ping-pong |
+| `bus_002` | EMT 2 - Manuel Becerra - Argüelles (Alcalá / Gran Vía) | ping-pong |
+| `bus_046` | EMT 46 - Atocha - Moncloa (Prado / Gran Vía / Princesa) | ping-pong |
+| `metro_l1` | Metro L1 - Chamartín - Pacífico | ping-pong |
 | `metro_l6` | Metro L6 (Circular) — full ring | loop |
-| `cercanias_c1` | Cercanías C-1 — Príncipe Pío → Aeropuerto T4 | ping-pong |
-| `drone_retiro` | inspection drone — Retiro / museum-mile loop | loop |
-| `drone_madrid_rio` | inspection drone — Manzanares / Madrid Río loop | loop |
+| `cercanias_c1` | Cercanías C-1 - Príncipe Pío - Aeropuerto T4 | ping-pong |
+| `drone_retiro` | inspection drone - Retiro / museum-mile loop | loop |
+| `drone_madrid_rio` | inspection drone - Manzanares / Madrid Río loop | loop |
 
 Coordinates trace the real streets / rail alignments of each line (see the
 waypoint tables in [`generate_traces.py`](generate_traces.py)). Mobile hosts
@@ -32,7 +32,7 @@ reach the nearest edge over per-device cellular links.
 | File | Purpose |
 |------|---------|
 | [`madrid_transport_platform.xml`](madrid_transport_platform.xml) | Platform. Carries `<prop id="mobility_dir" .../>` and per-host `wattage_per_state` / `wattage_off` energy properties |
-| [`mobility_test.cpp`](mobility_test.cpp) | The C++ application template — built by `CMakeLists.txt` into `mobility_test_app` (shared with use case 7, which keeps an identical copy) |
+| [`mobility_test.cpp`](mobility_test.cpp) | The C++ application template - built by `CMakeLists.txt` into `mobility_test_app` (shared with use case 7, which keeps an identical copy) |
 | [`generate_traces.py`](generate_traces.py) | Regenerates `coords/*.csv` from the route tables (stdlib only) |
 | `coords/*.csv` | One GPS trace per mobile host |
 
@@ -106,7 +106,7 @@ mob.export_json("snapshots.json");   // after e.run()
 Every `<host>` in [`madrid_transport_platform.xml`](madrid_transport_platform.xml)
 carries `wattage_per_state` / `wattage_off` properties, hand-tuned per device
 class (buses/trains ≈ 8–20 W onboard units, drones ≈ 5–12 W battery-powered,
-edge/fog/cloud infrastructure ≈ 90–500 W). `mobility_test.cpp` activates
+Edge/Fog/Cloud infrastructure ≈ 90–500 W). `mobility_test.cpp` activates
 SimGrid's `host_energy` plugin with `sg_host_energy_plugin_init()` before
 `e.load_platform()`, and after `e.run()` prints a report tagging each host
 `MOBILE` (has a GPS trace) or `INFRA` (fixed), with mobile/infra/grand totals

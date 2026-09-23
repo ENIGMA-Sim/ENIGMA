@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Use case 4 – Smart Data Offloading
+# Use case 4 - Smart Data Offloading
 # Every edge device decides at run time whether to process a task locally,
 # offload it to the fog, or offload it to the cloud, based on its own CPU
 # capacity vs. the task workload. Servers reply with the measured latency.

@@ -51,14 +51,14 @@ timestamp,latitude,longitude,speed,heading,pax_load,delay_s
 
 The filename stem **must** equal the SimGrid host id. Only
 `timestamp,latitude,longitude` are required; `speed`, `heading`, `pax_load`
-(% seats) and `delay_s` are extra columns — interpolated and shown in the map
+(% seats) and `delay_s` are extra columns - interpolated and shown in the map
 popups. Pure standard library, safe to re-run.
 
 ## Stage 3 — the simulation
 
 `run.sh` runs `mobility_test_app`, built by `CMakeLists.txt` straight from
 this directory's own copy of the template:
-[`mobility_test.cpp`](mobility_test.cpp) (identical to use case 6's — both
+[`mobility_test.cpp`](mobility_test.cpp) (identical to use case 6's - both
 use cases build and run the same generic app, only the platform XML and
 traces passed on the command line differ):
 
@@ -85,7 +85,7 @@ interpolated `pos->latitude / longitude` and `pos->extra["pax_load"]`,
 
 Every `<host>` in [`france_rail_platform.xml`](france_rail_platform.xml)
 carries `wattage_per_state` / `wattage_off` properties (TGVs ≈ 12–25 W
-onboard control unit, edge/fog/cloud infrastructure ≈ 95–500 W). Because the
+onboard control unit, Edge/Fog/Cloud infrastructure ≈ 95–500 W). Because the
 plugin was activated in Stage 3, after `e.run()` the app prints a report
 tagging each host `MOBILE` or `INFRA`, with mobile/infra/grand totals in
 Joules and kWh:
@@ -127,6 +127,6 @@ Override the output location with `OUT_PREFIX=/my/path ./run.sh`.
 - Add the LGV Interconnexion Est or a Thalys/Eurostar leg: append a waypoint
   table + `ROUTES` entry and a matching `<host>`.
 - Add an actor that hands a train off from `edge_paris` to `edge_lyon` when it
-  passes Mâcon, and logs the accumulated `delay_s` to the fog.
+  passes Mâcon, and logs the accumulated `delay_s` to the Fog.
 - Replace the synthetic traces with real GTFS-RT / SNCF open-data feeds
   (one CSV per train number).

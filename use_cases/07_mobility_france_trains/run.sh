@@ -26,11 +26,11 @@ run_enigma mobility_test_app \
     "$OUT_PREFIX" \
     --mobility-dir "$HERE/coords/"
 
-# --- Stage 4: how to visualise ---------------------------------------
+# --- Stage 4: how to visualize ---------------------------------------
 cat <<EOF
 
 ------------------------------------------------------------------
-Stage 4 - visualise the run:
+Stage 4 - visualize the run:
 
   python3 src/python/tools/mobility_viewer.py ${OUT_PREFIX}_snapshots.json --offline
 

@@ -12,7 +12,7 @@ Edge **data sources** generate 5–10 samples each and stream them to a
 
 ## Platform
 
-`platform_generator fog-cluster 4 3` → 4 fog clusters × 3 nodes (12 hosts,
+`platform_generator fog-cluster 4 3` - 4 fog clusters × 3 nodes (12 hosts,
 10 Gf / 1 GBps, 4 cores). The app uses ~1/3 of the hosts as analyzers and the
 rest as data sources, round-robin.
 

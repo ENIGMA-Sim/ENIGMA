@@ -37,7 +37,7 @@ namespace sg4 = simgrid::s4u;
 using namespace enigma::mobility;
 
 // -------------------------------------------------------------------------- //
-// Actor: periodically logs its own position to the SimGrid log              //
+// Actor: periodically logs its own position to the SimGrid log               //
 // -------------------------------------------------------------------------- //
 
 class MobileActor {
@@ -110,7 +110,7 @@ int main(int argc, char** argv) {
     e.load_platform(platform_file);
 
     // ------------------------------------------------------------------ //
-    // Create MobilityManager (reads mobility_dir from XML prop or arg)    //
+    // Create MobilityManager (reads mobility_dir from XML prop or arg)   //
     // ------------------------------------------------------------------ //
     std::unique_ptr<MobilityManager> mob;
     if (!mobility_dir.empty()) {
@@ -125,12 +125,12 @@ int main(int argc, char** argv) {
     XBT_INFO("Output prefix : %s", output_prefix.c_str());
 
     // ------------------------------------------------------------------ //
-    // Start periodic snapshot actor (records positions every 0.5 sim s)   //
+    // Start periodic snapshot actor (records positions every 0.5 sim s)  //
     // ------------------------------------------------------------------ //
     mob->start_periodic_actor(e, 0.5);
 
     // ------------------------------------------------------------------ //
-    // Deploy a MobileActor on every host that has a trace                 //
+    // Deploy a MobileActor on every host that has a trace                //
     // ------------------------------------------------------------------ //
     auto hosts = e.get_all_hosts();
     int deployed = 0;
@@ -149,17 +149,17 @@ int main(int argc, char** argv) {
     }
 
     // ------------------------------------------------------------------ //
-    // Run simulation                                                       //
+    // Run simulation                                                     //
     // ------------------------------------------------------------------ //
     e.run();
 
     XBT_INFO("=== Simulation completed – t=%.3f s ===", sg4::Engine::get_clock());
 
-    // ------------------------------------------------------------------ //
+    // ------------------------------------------------------------------  //
     // Energy report (SimGrid host_energy plugin)                          //
-    // Mobile hosts (buses/trains/drones) vs. static infrastructure (edge   //
-    // gateways, fog/cloud nodes that only receive their reports).          //
-    // ------------------------------------------------------------------ //
+    // Mobile hosts (buses/trains/drones) vs. static infrastructure (edge  //
+    // gateways, Fog/Cloud nodes that only receive their reports).         //
+    // ------------------------------------------------------------------  //
     XBT_INFO("=== Energy Report ===");
     double mobile_energy_j = 0.0, infra_energy_j = 0.0;
     for (auto* host : hosts) {
@@ -178,7 +178,7 @@ int main(int argc, char** argv) {
              total_energy_j, total_energy_j / 3.6e6);
 
     // ------------------------------------------------------------------ //
-    // Export results                                                       //
+    // Export results                                                     //
     // ------------------------------------------------------------------ //
     const std::string json_out = output_prefix + "_snapshots.json";
     const std::string csv_out  = output_prefix + "_snapshots.csv";

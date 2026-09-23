@@ -193,7 +193,7 @@ int main(int argc, char** argv) {
     XBT_INFO("  Snapshots JSON : %s  (%zu records)", json_out.c_str(), mob->snapshots().size());
     XBT_INFO("  Snapshots CSV  : %s", csv_out.c_str());
     XBT_INFO("  Raw traces JSON: %s", raw_json.c_str());
-    XBT_INFO("Visualise with:");
+    XBT_INFO("Visualize with:");
     XBT_INFO("  python3 src/python/tools/mobility_viewer.py %s", json_out.c_str());
 
     return 0;

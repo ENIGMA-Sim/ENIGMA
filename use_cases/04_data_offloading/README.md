@@ -2,7 +2,7 @@
 
 ## Scenario
 
-Each **smart edge device** generates several tasks. For every task it compares
+Each **edge device** generates several tasks. For every task it compares
 its own CPU capacity with the task workload and decides where to run it:
 
 | Condition | Decision |
@@ -11,7 +11,7 @@ its own CPU capacity with the task workload and decides where to run it:
 | `0.5 × capacity ≤ workload < 2 × capacity` | **offload to Fog**, wait for the result |
 | `workload ≥ 2 × capacity` | **offload to Cloud**, wait for the result |
 
-Fog and cloud servers are request/response: they execute the workload and send
+Fog and Cloud servers are request/response: they execute the workload and send
 back the measured latency. Servers self-terminate on a 10 s idle timeout.
 
 Devices are created with an increasing workload (`1e9 × (0.5 + i·0.5)`), so the
@@ -51,7 +51,7 @@ straight from this directory into the `data_offloading_app` binary.
 (`wattage_per_state` / `wattage_off`) to every host it writes. The app
 activates the plugin with `sg_host_energy_plugin_init()` before
 `e.load_platform()`, then after `e.run()` prints a per-tier energy report
-(Edge / Fog / Cloud) plus the grand total in Joules and kWh — a direct way to
+(Edge / Fog / Cloud) plus the grand total in Joules and kWh - a direct way to
 see the energy cost of each offloading decision: devices that keep work
 local spend less on the network but more on their own (slower) CPU, while
 offloaded tasks shift the energy bill to the fog/cloud tier.

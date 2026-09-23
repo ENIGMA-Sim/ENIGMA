@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-generate_traces.py - synthesise GPS traces for the Madrid public-transport
+generate_traces.py - synthesize GPS traces for the Madrid public-transport
 mobility use case.
 
 Each device follows a polyline of **real Madrid coordinates** (bus corridors,
@@ -38,7 +38,7 @@ def _m_per_deg_lon(lat_deg: float) -> float:
 
 
 # --------------------------------------------------------------------------- #
-# Real Madrid routes  (lat, lon) waypoints, roughly following the streets /
+# Madrid routes  (lat, lon) waypoints, roughly following the streets /
 # rail alignments of the named line.
 # --------------------------------------------------------------------------- #
 BUS_27 = [  # EMT 27: Plaza de Castilla <-> Embajadores  (Castellana / Prado axis)
