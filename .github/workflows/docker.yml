@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE: enigma-sim/enigma
+  IMAGE: enigmasim/enigma
 
 jobs:
   build-and-push:
