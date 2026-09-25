@@ -1,8 +1,8 @@
-# ENIGMA – Python Port
+# ENIGMA – Python version
 
 Python rewrite of the ENIGMA Edge-Fog-Cloud simulation framework using
 **SimGrid Python bindings**.  The Python port mirrors every major component of
-the original C++ implementation and targets Python ≥ 3.10.
+the C++ implementation and targets Python ≥ 3.10.
 
 ---
 
@@ -178,11 +178,11 @@ e.run()
 | `include/comms/mqtt/MQTTPublisher.hpp` | `enigma/comms/mqtt/mqtt_publisher.py` |
 | `include/comms/mqtt/MQTTSubscriber.hpp` | `enigma/comms/mqtt/mqtt_subscriber.py` |
 | `src/tools/platform_generator_main.cpp` | `tools/platform_generator_main.py` |
-| `tests/hybrid_cloud.cpp` | `tests/hybrid_cloud.py` |
-| `tests/mqtt_edge_app.cpp` | `tests/mqtt_edge_app.py` |
-| `tests/edge_computing.cpp` | `tests/edge_computing.py` |
-| `tests/fog_analytics.cpp` | `tests/fog_analytics.py` |
-| `tests/data_offloading.cpp` | `tests/data_offloading.py` |
+| `use_cases/03_hybrid_edge_fog_cloud/hybrid_cloud.cpp` | `tests/hybrid_cloud.py` |
+| `use_cases/05_mqtt_iot/mqtt_edge_app.cpp` | `tests/mqtt_edge_app.py` |
+| `use_cases/01_edge_computing/edge_computing.cpp` | `tests/edge_computing.py` |
+| `use_cases/02_fog_analytics/fog_analytics.cpp` | `tests/fog_analytics.py` |
+| `use_cases/04_data_offloading/data_offloading.cpp` | `tests/data_offloading.py` |
 
 ---
 

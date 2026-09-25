@@ -22,25 +22,63 @@
   <zone id="madrid_transport" routing="Full">
     <prop id="mobility_dir" value="use_cases/06_mobility_madrid/coords/"/>
 
-    <!-- Fixed infrastructure -->
-    <host id="edge_atocha"             speed="3Gf"  core="4"/>
-    <host id="edge_nuevos_ministerios" speed="3Gf"  core="4"/>
-    <host id="fog_emt_control"         speed="20Gf" core="16"/>
-    <host id="cloud_dc"                speed="90Gf" core="48"/>
+    <!-- Fixed infrastructure. Energy properties (wattage_per_state /
+         wattage_off) activate SimGrid's host_energy plugin; values are an
+         illustrative power model, not hardware-calibrated measurements. -->
+    <host id="edge_atocha"             speed="3Gf"  core="4">
+      <prop id="wattage_per_state" value="90.0:95.0:150.0"/>
+      <prop id="wattage_off" value="10"/>
+    </host>
+    <host id="edge_nuevos_ministerios" speed="3Gf"  core="4">
+      <prop id="wattage_per_state" value="90.0:95.0:150.0"/>
+      <prop id="wattage_off" value="10"/>
+    </host>
+    <host id="fog_emt_control"         speed="20Gf" core="16">
+      <prop id="wattage_per_state" value="150.0:160.0:300.0"/>
+      <prop id="wattage_off" value="10"/>
+    </host>
+    <host id="cloud_dc"                speed="90Gf" core="48">
+      <prop id="wattage_per_state" value="200.0:220.0:500.0"/>
+      <prop id="wattage_off" value="10"/>
+    </host>
 
-    <!-- Buses -->
-    <host id="bus_27"  speed="1Gf" core="1"/>
-    <host id="bus_002" speed="1Gf" core="1"/>
-    <host id="bus_046" speed="1Gf" core="1"/>
+    <!-- Buses: battery/alternator-powered onboard telematics unit -->
+    <host id="bus_27"  speed="1Gf" core="1">
+      <prop id="wattage_per_state" value="8.0:9.0:15.0"/>
+      <prop id="wattage_off" value="1"/>
+    </host>
+    <host id="bus_002" speed="1Gf" core="1">
+      <prop id="wattage_per_state" value="8.0:9.0:15.0"/>
+      <prop id="wattage_off" value="1"/>
+    </host>
+    <host id="bus_046" speed="1Gf" core="1">
+      <prop id="wattage_per_state" value="8.0:9.0:15.0"/>
+      <prop id="wattage_off" value="1"/>
+    </host>
 
-    <!-- Trains -->
-    <host id="metro_l1"     speed="1500Mf" core="1"/>
-    <host id="metro_l6"     speed="1500Mf" core="1"/>
-    <host id="cercanias_c1" speed="1500Mf" core="1"/>
+    <!-- Trains: mains-powered onboard unit -->
+    <host id="metro_l1"     speed="1500Mf" core="1">
+      <prop id="wattage_per_state" value="10.0:11.0:20.0"/>
+      <prop id="wattage_off" value="1"/>
+    </host>
+    <host id="metro_l6"     speed="1500Mf" core="1">
+      <prop id="wattage_per_state" value="10.0:11.0:20.0"/>
+      <prop id="wattage_off" value="1"/>
+    </host>
+    <host id="cercanias_c1" speed="1500Mf" core="1">
+      <prop id="wattage_per_state" value="10.0:11.0:20.0"/>
+      <prop id="wattage_off" value="1"/>
+    </host>
 
-    <!-- Drones -->
-    <host id="drone_retiro"     speed="800Mf" core="1"/>
-    <host id="drone_madrid_rio" speed="800Mf" core="1"/>
+    <!-- Drones: battery-powered, the most power-constrained devices here -->
+    <host id="drone_retiro"     speed="800Mf" core="1">
+      <prop id="wattage_per_state" value="5.0:6.0:12.0"/>
+      <prop id="wattage_off" value="0.5"/>
+    </host>
+    <host id="drone_madrid_rio" speed="800Mf" core="1">
+      <prop id="wattage_per_state" value="5.0:6.0:12.0"/>
+      <prop id="wattage_off" value="0.5"/>
+    </host>
 
     <!-- Links -->
     <link id="backbone" bandwidth="20GBps" latency="400us"/>

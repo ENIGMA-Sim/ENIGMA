@@ -1,0 +1,80 @@
+name: Docker image
+
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+env:
+  IMAGE: edelpozop/enigma
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Check Docker Hub secrets
+        env:
+          DH_USER: ${{ secrets.DOCKERHUB_USERNAME }}
+          DH_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        run: |
+          missing=0
+          if [ -n "$DH_USER" ]; then
+            echo "DOCKERHUB_USERNAME: set (${#DH_USER} chars)"
+          else
+            echo "::error::DOCKERHUB_USERNAME is empty or not visible to this workflow"
+            missing=1
+          fi
+          if [ -n "$DH_TOKEN" ]; then
+            echo "DOCKERHUB_TOKEN: set (${#DH_TOKEN} chars)"
+          else
+            echo "::error::DOCKERHUB_TOKEN is empty or not visible to this workflow"
+            missing=1
+          fi
+          exit "$missing"
+
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=match,pattern=v(.*),group=1
+            type=raw,value=latest
+          flavor: |
+            latest=false
+
+      # Build once and load it locally so it can be tested before publishing.
+      - name: Build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: enigma:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test (use case 1 + Python bindings)
+        run: |
+          docker run --rm enigma:ci python3 -c "import simgrid"
+          docker run --rm enigma:ci ./use_cases/01_edge_computing/run.sh 2>&1 | tee uc1.log
+          grep -q "Total energy consumed" uc1.log
+
+      # Reuses the cached layers from the Build step, so this is quick.
+      - name: Push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha

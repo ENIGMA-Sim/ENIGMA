@@ -8,10 +8,10 @@ its own platform, then runs a simulation and prints the results.
 |---|--------|----------------------|--------|
 | 1 | [`01_edge_computing/`](01_edge_computing/) | Local processing on edge devices + gateway aggregation | `edge_computing_app` |
 | 2 | [`02_fog_analytics/`](02_fog_analytics/) | Streaming samples from edge to fog, real-time + aggregate analytics | `fog_analytics_app` |
-| 3 | [`03_hybrid_edge_fog_cloud/`](03_hybrid_edge_fog_cloud/) | Three-tier Edge → Fog → Cloud data pipeline | `hybrid_cloud_app` |
+| 3 | [`03_hybrid_edge_fog_cloud/`](03_hybrid_edge_fog_cloud/) | Three-tier Edge - Fog - Cloud data pipeline | `hybrid_cloud_app` |
 | 4 | [`04_data_offloading/`](04_data_offloading/) | Run-time offloading decisions (local / fog / cloud) | `data_offloading_app` |
 | 5 | [`05_mqtt_iot/`](05_mqtt_iot/) | MQTT publish/subscribe with the `enigma_mqtt` module | `mqtt_edge_app` |
-| 6 | [`06_mobility_madrid/`](06_mobility_madrid/) | **GPS mobility**: Madrid buses / Metro / Cercanías trains + drones on real routes, position interpolation, snapshots + interactive map | `mobility_test_app` |
+| 6 | [`06_mobility_madrid/`](06_mobility_madrid/) | **GPS mobility**: Madrid buses / Metro / Cercanias trains + drones on real routes, position interpolation, snapshots + interactive map | `mobility_test_app` |
 | 7 | [`07_mobility_france_trains/`](07_mobility_france_trains/) | **GPS mobility, step by step**: 5 TGV along real SNCF LGV corridors across France — built up in 4 stages | `mobility_test_app` |
 
 ## Requirements

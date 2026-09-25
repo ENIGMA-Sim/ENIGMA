@@ -1,5 +1,5 @@
 """
-FogPlatform: specialized factories for fog computing platform topologies.
+FogPlatform: specialized factories for Fog Computing platform topologies.
 Mirrors C++ FogPlatform class from src/platform/FogPlatform.cpp.
 """
 
@@ -9,10 +9,10 @@ from .configs import HostConfig, LinkConfig, ZoneConfig
 
 
 class FogPlatform:
-    """Factory for fog computing platform topologies."""
+    """Factory for Fog Computing platform topologies."""
 
     # ------------------------------------------------------------------ #
-    # Topology factories                                                   #
+    # Topology factories                                                 #
     # ------------------------------------------------------------------ #
 
     @staticmethod
@@ -20,7 +20,7 @@ class FogPlatform:
         num_fog_nodes: int,
         node_speed: str = "10Gf",
     ) -> ZoneConfig:
-        """Flat hierarchy of interconnected fog nodes."""
+        """Flat hierarchy of interconnected Fog nodes."""
         zone = ZoneConfig("fog_hierarchical", "Full")
         for i in range(num_fog_nodes):
             zone.hosts.append(HostConfig(f"fog_node_{i}", node_speed, 8))
@@ -37,7 +37,7 @@ class FogPlatform:
         edge_speed: str = "1Gf",
     ) -> ZoneConfig:
         """
-        Hierarchical edge-fog topology:
+        Hierarchical Edge-Fog topology:
         each fog node owns a sub-zone of edge devices.
         """
         zone = ZoneConfig("edge_fog_topology", "Full")
@@ -57,7 +57,7 @@ class FogPlatform:
         nodes_per_region: int,
         node_speed: str = "10Gf",
     ) -> ZoneConfig:
-        """Geographic regions, each with their own set of fog nodes."""
+        """Geographic regions, each with their own set of Fog nodes."""
         zone = ZoneConfig("fog_geographic", "Full")
         for r in range(num_regions):
             region = ZoneConfig(f"region_{r}", "Full")
@@ -69,7 +69,7 @@ class FogPlatform:
         return zone
 
     # ------------------------------------------------------------------ #
-    # Individual component factories                                       #
+    # Individual component factories                                     #
     # ------------------------------------------------------------------ #
 
     @staticmethod

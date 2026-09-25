@@ -1,0 +1,10 @@
+.git
+.gitignore
+.vscode
+build/
+tests_paper/
+**/__pycache__/
+**/*.pyc
+Dockerfile
+.dockerignore
+dockerhub.txt

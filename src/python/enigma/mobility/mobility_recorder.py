@@ -36,7 +36,7 @@ class MobilityRecorder:
         self._records: List[Tuple[str, MobilityPosition]] = []
 
     # ------------------------------------------------------------------ #
-    # Recording                                                             #
+    # Recording                                                          #
     # ------------------------------------------------------------------ #
 
     def add(self, device_name: str, position: MobilityPosition) -> None:
@@ -47,7 +47,7 @@ class MobilityRecorder:
         self._records.clear()
 
     # ------------------------------------------------------------------ #
-    # Introspection                                                          #
+    # Introspection                                                      #
     # ------------------------------------------------------------------ #
 
     @property
@@ -96,7 +96,7 @@ class MobilityRecorder:
         return 1.0
 
     # ------------------------------------------------------------------ #
-    # Export: CSV                                                           #
+    # Export: CSV                                                        #
     # ------------------------------------------------------------------ #
 
     def export_csv(self, filepath: str) -> None:
@@ -126,7 +126,7 @@ class MobilityRecorder:
         print(f"[MobilityRecorder] Exported {len(self._records)} snapshots → {filepath}")
 
     # ------------------------------------------------------------------ #
-    # Export: JSON                                                          #
+    # Export: JSON                                                       #
     # ------------------------------------------------------------------ #
 
     def export_json(self, filepath: str, indent: int = 2) -> None:
@@ -138,7 +138,7 @@ class MobilityRecorder:
         print(f"[MobilityRecorder] Exported {len(self._records)} snapshots → {filepath}")
 
     # ------------------------------------------------------------------ #
-    # Export: GeoJSON                                                       #
+    # Export: GeoJSON                                                    #
     # ------------------------------------------------------------------ #
 
     def export_geojson(self, filepath: str) -> None:

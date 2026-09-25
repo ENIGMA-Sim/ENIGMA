@@ -47,12 +47,12 @@ class ClusterConfig:
     """Configuration for a SimGrid cluster (maps to <cluster> tag)."""
     id: str
     num_nodes: int
-    node_speed: str         # CPU speed per node, e.g. "1Gf"
+    node_speed: str                 # CPU speed per node, e.g. "1Gf"
     cores_per_node: int = 1
-    bandwidth: str = "125MBps"   # Internal cluster bandwidth
-    latency: str = "50us"        # Internal cluster latency
-    backbone_bw: str = "1GBps"   # Backbone/uplink bandwidth
-    backbone_lat: str = "10us"   # Backbone/uplink latency
+    bandwidth: str = "125MBps"      # Internal cluster bandwidth
+    latency: str = "50us"           # Internal cluster latency
+    backbone_bw: str = "1GBps"      # Backbone/uplink bandwidth
+    backbone_lat: str = "10us"      # Backbone/uplink latency
 
 
 @dataclass
@@ -62,7 +62,7 @@ class RouteConfig:
     dst: str
     link_ids: List[str] = field(default_factory=list)
     symmetrical: bool = True
-    is_zoneRoute: bool = False  # True → <zoneRoute>, False → <route>
+    is_zoneRoute: bool = False  # True: <zoneRoute>, False: <route>
     gw_src: str = ""            # Required for zoneRoute
     gw_dst: str = ""            # Required for zoneRoute
 

@@ -2,7 +2,7 @@
 edge_computing.py – Simulates edge devices that process data locally and
 forward results to a central gateway.
 
-Mirrors tests/edge_computing.cpp.
+Mirrors use_cases/01_edge_computing/edge_computing.cpp.
 
 Usage
 -----

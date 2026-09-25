@@ -281,9 +281,12 @@ make iot_app_app
 
 ## Next Steps
 
-- Review existing examples in `tests/`: `edge_computing.cpp`, `fog_analytics.cpp`, `hybrid_cloud.cpp`
+- Review existing examples under `use_cases/`: `01_edge_computing/edge_computing.cpp`,
+  `02_fog_analytics/fog_analytics.cpp`, `03_hybrid_edge_fog_cloud/hybrid_cloud.cpp`
 - Check SimGrid documentation: https://simgrid.org/doc/latest/
-- Explore MQTT integration with `mqtt_edge_app.cpp` example
+- Explore MQTT integration with `use_cases/05_mqtt_iot/mqtt_edge_app.cpp`
+- Add energy reporting with `sg_host_energy_plugin_init()` +
+  `sg_host_get_consumed_energy()` — see any file above for a worked example
 - Experiment with different platform configurations using `platform_generator`
 
 ---

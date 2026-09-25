@@ -1,7 +1,7 @@
 """
 data_offloading.py – Adaptive offloading: Edge, Fog, or Cloud based on load.
 
-Mirrors tests/data_offloading.cpp.
+Mirrors use_cases/04_data_offloading/data_offloading.cpp.
 
 Usage
 -----

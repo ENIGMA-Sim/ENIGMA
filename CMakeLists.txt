@@ -98,30 +98,32 @@ add_executable(platform_generator
 
 target_link_libraries(platform_generator enigma_platform ${SimGrid_LIBRARY})
 
-# Test applications (formerly example applications)
+# Use case applications: each one's C++ template lives next to its
+# use_cases/<NN>_*/README.md and run.sh, so the source is visible right where
+# it is built and run from (see use_cases/*/README.md for a walkthrough).
 add_executable(edge_computing_app
-    tests/edge_computing.cpp
+    use_cases/01_edge_computing/edge_computing.cpp
 )
 target_link_libraries(edge_computing_app enigma_platform enigma_mqtt ${SimGrid_LIBRARY})
 
 add_executable(fog_analytics_app
-    tests/fog_analytics.cpp
+    use_cases/02_fog_analytics/fog_analytics.cpp
 )
 target_link_libraries(fog_analytics_app enigma_platform enigma_mqtt ${SimGrid_LIBRARY})
 
 add_executable(hybrid_cloud_app
-    tests/hybrid_cloud.cpp
+    use_cases/03_hybrid_edge_fog_cloud/hybrid_cloud.cpp
 )
 target_link_libraries(hybrid_cloud_app enigma_platform enigma_mqtt ${SimGrid_LIBRARY})
 
 add_executable(data_offloading_app
-    tests/data_offloading.cpp
+    use_cases/04_data_offloading/data_offloading.cpp
 )
 target_link_libraries(data_offloading_app enigma_platform enigma_mqtt ${SimGrid_LIBRARY})
 
 # MQTT Test Application
 add_executable(mqtt_edge_app
-    tests/mqtt_edge_app.cpp
+    use_cases/05_mqtt_iot/mqtt_edge_app.cpp
 )
 target_link_libraries(mqtt_edge_app enigma_platform enigma_mqtt ${SimGrid_LIBRARY})
 
@@ -131,9 +133,10 @@ add_executable(pingpong_fit_to_g5k_app
 )
 target_link_libraries(pingpong_fit_to_g5k_app enigma_platform ${SimGrid_LIBRARY})
 
-# Mobility test application
+# Mobility test application - shared by use cases 6 and 7 (identical source
+# kept in both directories; CMake builds from the use case 6 copy).
 add_executable(mobility_test_app
-    tests/mobility_test.cpp
+    use_cases/06_mobility_madrid/mobility_test.cpp
 )
 target_link_libraries(mobility_test_app enigma_platform enigma_mobility ${SimGrid_LIBRARY})
 

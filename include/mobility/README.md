@@ -1,7 +1,7 @@
 # ENIGMA Mobility Module — C++
 
-Attaches real GPS traces to SimGrid hosts, interpolates positions during the
-simulation, and exports results for post-simulation visualisation.
+Attaches GPS traces to SimGrid hosts, interpolates positions during the
+simulation, and exports results for post-simulation visualization.
 
 ## Files
 
@@ -38,8 +38,7 @@ timestamp,latitude,longitude,speed,heading
 Only `timestamp`, `latitude` / `lat`, and `longitude` / `lon` / `lng` are
 required.  Any extra columns (whatever names, however many) are loaded
 automatically, linearly interpolated between waypoints, and included in the
-JSON/CSV exports.  Non-numeric extra columns (e.g. `stop_name`) are silently
-skipped per row — they do not cause the trace to fail loading.
+JSON/CSV exports.
 
 ### 2 — Declare the coords directory in the platform XML
 
@@ -112,7 +111,7 @@ cd build && make my_app -j$(nproc)
 ./my_app ../platforms/my_platform.xml
 ```
 
-### 5 — Visualise output
+### 5 — Visualize output
 
 The JSON and CSV files produced by the C++ binary can be fed directly to the
 Python viewer (no re-simulation needed):
@@ -121,7 +120,7 @@ Python viewer (no re-simulation needed):
 # Online mode (Playwright opens as file:// directly — no HTTP server needed)
 python3 src/python/tools/mobility_viewer.py snapshots.json
 
-# Offline mode (CDN embedded inline, ~6.5 MB)
+# Offline mode
 python3 src/python/tools/mobility_viewer.py snapshots.json --offline --save map.html
 ```
 

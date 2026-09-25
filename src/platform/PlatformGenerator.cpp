@@ -1,8 +1,41 @@
 #include "platform/PlatformGenerator.hpp"
 #include <iostream>
 #include <sstream>
+#include <algorithm>
+#include <iomanip>
+#include <cctype>
 
 namespace enigma {
+
+namespace {
+
+// Parses a SimGrid speed literal such as "1Gf", "500Mf" or "20.0Mf" into flops.
+double parseFlops(const std::string& spec) {
+    std::string t = spec;
+    while (!t.empty() && std::isspace(static_cast<unsigned char>(t.back()))) t.pop_back();
+    size_t start = 0;
+    while (start < t.size() && std::isspace(static_cast<unsigned char>(t[start]))) ++start;
+    t = t.substr(start);
+
+    if (!t.empty() && (t.back() == 'f' || t.back() == 'F')) t.pop_back();
+
+    double mult = 1.0;
+    if (!t.empty()) {
+        char unit = t.back();
+        if (unit == 'k' || unit == 'K') { mult = 1e3; t.pop_back(); }
+        else if (unit == 'M') { mult = 1e6; t.pop_back(); }
+        else if (unit == 'G') { mult = 1e9; t.pop_back(); }
+        else if (unit == 'T') { mult = 1e12; t.pop_back(); }
+    }
+
+    try {
+        return std::stod(t) * mult;
+    } catch (...) {
+        return 1e9; // sane fallback: 1 Gf
+    }
+}
+
+} // namespace
 
 PlatformGenerator::PlatformGenerator() {
 }
@@ -85,11 +118,11 @@ void PlatformGenerator::writeZone(XMLWriter& writer, const ZoneConfig& zone, boo
         }
     }
     
-    // Generate routes if necessary (must be AFTER links)
+    // Generate routes if necessary
     if (zone.auto_interconnect) {
         if (zone.use_native_clusters && !zone.clusters.empty()) {
             // Native clusters: generate inter-cluster routes
-            // Check if this is a flat hybrid (clusters directly in root with edge/fog/cloud naming)
+            // Check if this is a flat hybrid (clusters directly in root with Edge/Fog/Cloud naming)
             bool hasEdge = false, hasFog = false, hasCloud = false;
             for (const auto& cluster : zone.clusters) {
                 if (cluster.id.find("edge") != std::string::npos) hasEdge = true;
@@ -121,20 +154,66 @@ void PlatformGenerator::writeZone(XMLWriter& writer, const ZoneConfig& zone, boo
     writer.endElement("zone");
 }
 
+std::string PlatformGenerator::computeWattagePerState(const std::string& speedSpec, int cores) {
+    // Split the speed spec, e.g. "1Gf" or "100Mf,50Mf,20Mf".
+    std::vector<std::string> pstates;
+    std::stringstream ss(speedSpec);
+    std::string item;
+    while (std::getline(ss, item, ',')) {
+        pstates.push_back(item);
+    }
+    if (pstates.empty()) pstates.push_back(speedSpec);
+
+    std::vector<double> flops;
+    flops.reserve(pstates.size());
+    for (const auto& p : pstates) flops.push_back(parseFlops(p));
+    double maxFlops = *std::max_element(flops.begin(), flops.end());
+
+    // Illustrative (not hardware-calibrated) linear power model: a chassis
+    // baseline plus a per-core budget that scales with each pstate's relative
+    // speed, so faster pstates draw more power at full load.
+    const double baseIdleW = 90.0;
+    const double perCoreIdleW = 3.0;
+    const double perCoreLoadW = 15.0;
+
+    std::ostringstream out;
+    out << std::fixed << std::setprecision(1);
+    for (size_t i = 0; i < flops.size(); ++i) {
+        double ratio = maxFlops > 0.0 ? flops[i] / maxFlops : 1.0;
+        double idleW = baseIdleW + perCoreIdleW * cores * ratio;
+        double epsilonW = idleW * 1.05;
+        double maxW = idleW + perCoreLoadW * cores * ratio;
+
+        if (i > 0) out << ", ";
+        out << idleW << ":" << epsilonW << ":" << maxW;
+    }
+    return out.str();
+}
+
+std::string PlatformGenerator::computeWattageOff() {
+    return "10";
+}
+
 void PlatformGenerator::writeHost(XMLWriter& writer, const HostConfig& host) {
     std::map<std::string, std::string> attrs;
     attrs["id"] = host.id;
     attrs["speed"] = host.speed;
-    
+
     if (host.core_count > 1) {
         attrs["core"] = std::to_string(host.core_count);
     }
-    
+
     if (!host.coordinates.empty()) {
         attrs["coordinates"] = host.coordinates;
     }
-    
-    writer.writeEmptyElement("host", attrs);
+
+    // Attach SimGrid host_energy plugin properties so every generated host
+    // can report its consumed energy via sg_host_get_consumed_energy().
+    writer.startElement("host", attrs);
+    writer.writeEmptyElement("prop", {{"id", "wattage_per_state"},
+                                       {"value", computeWattagePerState(host.speed, host.core_count)}});
+    writer.writeEmptyElement("prop", {{"id", "wattage_off"}, {"value", computeWattageOff()}});
+    writer.endElement("host");
 }
 
 void PlatformGenerator::writeLink(XMLWriter& writer, const LinkConfig& link) {
@@ -392,14 +471,20 @@ void PlatformGenerator::writeCluster(XMLWriter& writer, const ClusterConfig& clu
     attrs["bb_bw"] = cluster.backbone_bw;
     attrs["bb_lat"] = cluster.backbone_lat;
     attrs["router_id"] = cluster.id + "_router";
-    
+
     // Wrap cluster in its own zone for proper routing
     std::map<std::string, std::string> zone_attrs;
     zone_attrs["id"] = cluster.id + "_zone";
     zone_attrs["routing"] = "Cluster";
-    
+
     writer.startElement("zone", zone_attrs);
-    writer.writeEmptyElement("cluster", attrs);
+    // Attach SimGrid host_energy plugin properties to every node of the
+    // cluster (applies uniformly to all hosts expanded from this <cluster>).
+    writer.startElement("cluster", attrs);
+    writer.writeEmptyElement("prop", {{"id", "wattage_per_state"},
+                                       {"value", computeWattagePerState(cluster.node_speed, cluster.cores_per_node)}});
+    writer.writeEmptyElement("prop", {{"id", "wattage_off"}, {"value", computeWattageOff()}});
+    writer.endElement("cluster");
     writer.endElement("zone");
 }
 
@@ -445,7 +530,6 @@ void PlatformGenerator::generateInterZoneRoutes(XMLWriter& writer, const ZoneCon
     // Generate routes between subzones (e.g., edge_zone -> fog_zone -> cloud_zone)
     // Each subzone should have at least one cluster to use its router as gateway
     
-    // Mapeo de nombres de zonas a índices
     std::map<std::string, int> zone_indices;
     for (size_t i = 0; i < zone.subzones.size(); i++) {
         zone_indices[zone.subzones[i].id] = i;

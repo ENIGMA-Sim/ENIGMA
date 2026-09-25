@@ -39,7 +39,7 @@ class MQTTSubscriber:
         self._subscribed_topics: List[str] = []
 
     # ------------------------------------------------------------------ #
-    # Subscription management                                             #
+    # Subscription management                                            #
     # ------------------------------------------------------------------ #
 
     def subscribe(self, topic: str) -> None:

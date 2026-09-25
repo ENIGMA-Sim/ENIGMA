@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-generate_traces.py - synthesise GPS traces for the France high-speed-rail
+generate_traces.py - synthesize GPS traces for the France high-speed-rail
 mobility use case.
 
 Each train follows a polyline of **real SNCF station coordinates** along one of

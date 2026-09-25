@@ -8,7 +8,7 @@ CSV format (header row mandatory):
 
 Only ``timestamp``, ``latitude`` (aliases: ``lat``) and ``longitude``
 (aliases: ``lon``, ``lng``) are required.  **All other columns – whatever
-their name – are stored transparently in** ``MobilityPosition.extra`` and
+their name – are stored in** ``MobilityPosition.extra`` and
 are interpolated / exported automatically.  There is no assumed schema
 beyond the three required fields.
 
@@ -37,7 +37,7 @@ _LON_ALIASES = {"longitude", "lon",  "lng",  "lon_deg", "long"}
 
 
 # --------------------------------------------------------------------------- #
-# MobilityPosition                                                             #
+# MobilityPosition                                                            #
 # --------------------------------------------------------------------------- #
 
 @dataclass
@@ -58,7 +58,7 @@ class MobilityPosition:
     _R = 6_371_000.0
 
     def distance_to(self, other: "MobilityPosition") -> float:
-        """Haversine distance to *other* in metres."""
+        """Conversion of latitude and longitude coordinates to metres."""
         phi1 = math.radians(self.latitude)
         phi2 = math.radians(other.latitude)
         dphi = math.radians(other.latitude  - self.latitude)
@@ -78,7 +78,7 @@ class MobilityPosition:
 
 
 # --------------------------------------------------------------------------- #
-# MobilityTrace                                                                #
+# MobilityTrace                                                               #
 # --------------------------------------------------------------------------- #
 
 class MobilityTrace:
@@ -98,7 +98,7 @@ class MobilityTrace:
         self._load(csv_path)
 
     # ------------------------------------------------------------------ #
-    # Properties                                                            #
+    # Properties                                                         #
     # ------------------------------------------------------------------ #
 
     @property
@@ -126,7 +126,7 @@ class MobilityTrace:
         return self._waypoints[-1].timestamp if self._waypoints else 0.0
 
     # ------------------------------------------------------------------ #
-    # Interpolation                                                         #
+    # Interpolation                                                      #
     # ------------------------------------------------------------------ #
 
     def position_at(self, sim_t: float) -> MobilityPosition:
@@ -161,7 +161,7 @@ class MobilityTrace:
         return self._lerp(a, b, sim_t, frac)
 
     # ------------------------------------------------------------------ #
-    # Internal                                                              #
+    # Internal                                                           #
     # ------------------------------------------------------------------ #
 
     def _load(self, csv_path: str) -> None:
@@ -171,7 +171,7 @@ class MobilityTrace:
                 raise ValueError(f"Empty CSV file: {csv_path}")
 
             # Map each raw header to its canonical role: "timestamp", "latitude",
-            # "longitude", or its own lower-cased name (→ extra).
+            # "longitude", or its own lower-cased name.
             ts_col  = lat_col = lon_col = None
             extra_cols: List[str] = []  # raw header names that become extras
 
@@ -196,7 +196,7 @@ class MobilityTrace:
                     f"Got: {list(reader.fieldnames)}"
                 )
 
-            # Canonicalise extra column names (lower-case, stripped) for the extra dict
+            # Canonicalize extra column names (lower-case, stripped) for the extra dict
             canonical_extras = [c.strip().lower() for c in extra_cols]
 
             for raw in reader:

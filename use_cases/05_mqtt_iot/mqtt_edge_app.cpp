@@ -1,4 +1,5 @@
 #include <simgrid/s4u.hpp>
+#include <simgrid/plugins/energy.h>
 #include "comms/mqtt/MQTT.hpp"
 #include <iostream>
 #include <string>
@@ -172,10 +173,15 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
+    // Activate the host_energy plugin BEFORE loading the platform: it hooks
+    // into host creation to read the "wattage_per_state" / "wattage_off"
+    // properties emitted by ENIGMA's platform_generator for every host.
+    sg_host_energy_plugin_init();
+
     e.load_platform(argv[1]);
-    
+
     std::vector<sg4::Host*> hosts = e.get_all_hosts();
-    
+
     if (hosts.size() < 3) {
         XBT_CRITICAL("At least 3 hosts required (Broker, Sensor, Gateway)");
         return 1;
@@ -274,9 +280,22 @@ int main(int argc, char* argv[]) {
     
     // Run simulation
     e.run();
-    
+
     XBT_INFO("=== Simulation completed ===");
     XBT_INFO("Simulated time: %.2f seconds", sg4::Engine::get_clock());
-    
+
+    // --- Energy report (SimGrid host_energy plugin) -----------------------
+    XBT_INFO("=== Energy Report ===");
+    double total_energy_j = 0.0;
+    for (auto* host : hosts) {
+        double host_energy_j = sg_host_get_consumed_energy(host);
+        total_energy_j += host_energy_j;
+        const char* role = (host == broker_host) ? "BROKER" : "DEVICE";
+        XBT_INFO("  [%s] %-25s %10.2f J", role, host->get_cname(), host_energy_j);
+    }
+    XBT_INFO("  ------------------------------------------------------");
+    XBT_INFO("  Total energy consumed: %.2f J (%.6f kWh)",
+             total_energy_j, total_energy_j / 3.6e6);
+
     return 0;
 }

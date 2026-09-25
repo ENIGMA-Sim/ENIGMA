@@ -36,8 +36,35 @@ Simulated time: ~9.8 seconds
 `Simulated time` is SimGrid's model time, not wall-clock — it reflects the
 compute + network latencies declared in the platform.
 
+## Application (C++)
+
+The template built and run by `run.sh` lives right here:
+[`edge_computing.cpp`](edge_computing.cpp). `CMakeLists.txt` compiles it
+straight from this directory into the `edge_computing_app` binary — edit it,
+re-run `run.sh`, and it recompiles automatically.
+
+## Energy
+
+`platform_generator` attaches SimGrid's `host_energy` plugin properties
+(`wattage_per_state` / `wattage_off`) to every host it writes. The app
+activates the plugin with `sg_host_energy_plugin_init()` **before**
+`e.load_platform()`, then after `e.run()` prints a per-host and total
+consumption report:
+
+```
+=== Energy Report ===
+  edge_cluster_0_node_0             1015.22 J
+  edge_cluster_0_node_1              925.22 J
+  ...
+  ------------------------------------------------------
+  Total energy consumed: 13968.28 J (0.003880 kWh)
+```
+
+The gateway draws more because it stays busier (it aggregates every message);
+idle devices still consume their idle wattage for the full simulated time.
+
 ## Try next
 
 - `edge-cluster 5 10` for a bigger fleet.
-- Edit [`tests/edge_computing.cpp`](../../tests/edge_computing.cpp) —
-  `comp_size` / `data_size` in `main()` — then re-run (the script recompiles).
+- Edit [`edge_computing.cpp`](edge_computing.cpp) — `comp_size` / `data_size`
+  in `main()` — then re-run (the script recompiles).

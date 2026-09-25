@@ -36,8 +36,9 @@ Map modes
 
 * **offline** (``--offline``): downloads and embeds all CDN JS/CSS inline
   (~1.5–2 MB extra per file).  The HTML then works as file:// or HTTP.
-  Map tiles (the OpenStreetMap background) are still fetched live at view
-  time, so an internet connection is still needed to see the map background.
+  Map tiles (the street-map background, served by Esri) are still fetched
+  live at view time, so an internet connection is still needed to see the
+  map background.
 """
 from __future__ import annotations
 

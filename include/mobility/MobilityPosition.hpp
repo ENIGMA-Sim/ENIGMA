@@ -8,8 +8,7 @@
  * Only ``timestamp``, ``latitude`` and ``longitude`` are required (and are
  * first-class struct members).  **All other CSV columns – whatever their
  * name – are stored in** ``extra`` as a ``std::map<std::string, double>``
- * and are serialised/interpolated automatically.  There is no assumed schema
- * beyond the three mandatory fields.
+ * and are serialized/interpolated automatically.  
  */
 
 #include <cmath>
