@@ -16,6 +16,82 @@ A C++ project that enables creation of XML platforms for Edge, Fog, and Cloud in
 - `folium` (`pip install folium`) – interactive map generation
 - `playwright` (`pip install playwright && playwright install chromium`) – live browser visualization
 
+## Docker
+
+A ready-to-use image with SimGrid 4.1 (C++ library + Python bindings), ENIGMA
+already compiled, `folium` for the mobility maps and the full toolchain to
+recompile is published on Docker Hub as
+[`edelpozop/enigma`](https://hub.docker.com/r/edelpozop/enigma). Nothing else
+needs to be installed on the host.
+
+### Run a use case
+
+```bash
+docker pull edelpozop/enigma:latest
+
+# Mount a host folder on /out to get the results (logs, snapshots, maps) back
+mkdir -p out
+docker run --rm -it -v "$PWD/out:/out" edelpozop/enigma \
+    bash -c "OUT_PREFIX=/out/uc7 ./use_cases/07_mobility_france_trains/run.sh"
+
+# Generate the interactive map inside the container, open it on the host
+docker run --rm -v "$PWD/out:/out" edelpozop/enigma \
+    python3 src/python/tools/mobility_viewer.py /out/uc7_snapshots.json \
+    --offline --no-browser --save /out/uc7_map.html
+xdg-open out/uc7_map.html        # macOS: open out/uc7_map.html
+```
+
+Use cases 1–5 print their results (including the energy report) to the
+terminal, so they need no volume:
+
+```bash
+docker run --rm edelpozop/enigma ./use_cases/01_edge_computing/run.sh
+```
+
+### Interactive shell / edit and recompile
+
+```bash
+docker run --rm -it -v "$PWD/out:/out" edelpozop/enigma    # opens bash in /enigma
+```
+
+Inside the container the repository lives in `/enigma` and SimGrid in
+`/opt/simgrid-4.1`; `LD_LIBRARY_PATH` and `PYTHONPATH` are already set, so
+`python3 -c "import simgrid"` and every `run.sh` work as-is. After editing a
+template (e.g. `use_cases/01_edge_computing/edge_computing.cpp`) rebuild with:
+
+```bash
+cmake --build build -j"$(nproc)" && ./use_cases/01_edge_computing/run.sh
+```
+
+To keep your changes on the host, run the container from your clone and mount
+only its `use_cases/` folder, then rebuild inside:
+
+```bash
+docker run --rm -it -v "$PWD/use_cases:/enigma/use_cases" edelpozop/enigma \
+    bash -c 'cmake --build build -j"$(nproc)" && ./use_cases/01_edge_computing/run.sh'
+```
+
+(Avoid mounting the whole repository over `/enigma`: a host `build/` folder
+would shadow the binaries compiled for the container.)
+
+> Files written to `/out` belong to `root`. Reclaim them on the host with
+> `sudo chown -R "$USER" out/`.
+
+### Build the image yourself
+
+```bash
+git clone https://github.com/edelpozop/ENIGMA.git && cd ENIGMA
+docker build -t enigma .                       # compiles SimGrid 4.1 + ENIGMA (several minutes)
+docker run --rm -it enigma
+```
+
+The [`Dockerfile`](Dockerfile) has two stages: the first downloads SimGrid 4.1
+from its official `v4.1` tag and compiles it (Python bindings on, SMPI and the
+model checker off); the second copies only the installed SimGrid, installs the
+Python dependencies and builds ENIGMA. `SIMGRID_VERSION` and `UBUNTU_VERSION`
+can be overridden with `--build-arg`.
+
+
 ## SimGrid Installation
 
 ### Ubuntu/Debian
@@ -73,7 +149,7 @@ ENIGMA/
 │   ├── 05_mqtt_iot/mqtt_edge_app.cpp
 │   ├── 06_mobility_madrid/mobility_test.cpp
 │   └── 07_mobility_france_trains/mobility_test.cpp   # identical template, same mobility_test_app binary
-├── tests/                   # Grid'5000-scale benchmark applications (not use-case demos)
+├── tests/                                            # Grid'5000-scale benchmark applications (not use-case demos)
 │   ├── fit_to_g5k_app.cpp
 │   ├── fit_to_g5k_app_v6.cpp
 │   └── pingpong_fit_to_g5k_app.cpp
