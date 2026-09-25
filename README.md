@@ -21,21 +21,21 @@ A C++ project that enables creation of XML platforms for Edge, Fog, and Cloud in
 A ready-to-use image with SimGrid 4.1 (C++ library + Python bindings), ENIGMA
 already compiled, `folium` for the mobility maps and the full toolchain to
 recompile is published on Docker Hub as
-[`edelpozop/enigma`](https://hub.docker.com/r/edelpozop/enigma). Nothing else
+[`enigmasim/enigma`](https://hub.docker.com/r/enigmasim/enigma). Nothing else
 needs to be installed on the host.
 
 ### Run a use case
 
 ```bash
-docker pull edelpozop/enigma:latest
+docker pull enigmasim/enigma:latest
 
 # Mount a host folder on /out to get the results (logs, snapshots, maps) back
 mkdir -p out
-docker run --rm -it -v "$PWD/out:/out" edelpozop/enigma \
+docker run --rm -it -v "$PWD/out:/out" enigmasim/enigma \
     bash -c "OUT_PREFIX=/out/uc7 ./use_cases/07_mobility_france_trains/run.sh"
 
 # Generate the interactive map inside the container, open it on the host
-docker run --rm -v "$PWD/out:/out" edelpozop/enigma \
+docker run --rm -v "$PWD/out:/out" enigmasim/enigma \
     python3 src/python/tools/mobility_viewer.py /out/uc7_snapshots.json \
     --offline --no-browser --save /out/uc7_map.html
 xdg-open out/uc7_map.html        # macOS: open out/uc7_map.html
@@ -45,13 +45,13 @@ Use cases 1–5 print their results (including the energy report) to the
 terminal, so they need no volume:
 
 ```bash
-docker run --rm edelpozop/enigma ./use_cases/01_edge_computing/run.sh
+docker run --rm enigmasim/enigma ./use_cases/01_edge_computing/run.sh
 ```
 
 ### Interactive shell / edit and recompile
 
 ```bash
-docker run --rm -it -v "$PWD/out:/out" edelpozop/enigma    # opens bash in /enigma
+docker run --rm -it -v "$PWD/out:/out" enigmasim/enigma    # opens bash in /enigma
 ```
 
 Inside the container the repository lives in `/enigma` and SimGrid in
@@ -67,7 +67,7 @@ To keep your changes on the host, run the container from your clone and mount
 only its `use_cases/` folder, then rebuild inside:
 
 ```bash
-docker run --rm -it -v "$PWD/use_cases:/enigma/use_cases" edelpozop/enigma \
+docker run --rm -it -v "$PWD/use_cases:/enigma/use_cases" enigmasim/enigma \
     bash -c 'cmake --build build -j"$(nproc)" && ./use_cases/01_edge_computing/run.sh'
 ```
 
@@ -80,7 +80,7 @@ would shadow the binaries compiled for the container.)
 ### Build the image yourself
 
 ```bash
-git clone https://github.com/edelpozop/ENIGMA.git && cd ENIGMA
+git clone https://github.com/enigma-sim/ENIGMA.git && cd ENIGMA
 docker build -t enigma .                       # compiles SimGrid 4.1 + ENIGMA (several minutes)
 docker run --rm -it enigma
 ```

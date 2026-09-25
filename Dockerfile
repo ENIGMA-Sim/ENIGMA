@@ -52,7 +52,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 LABEL org.opencontainers.image.title="ENIGMA" \
       org.opencontainers.image.description="gENeric Iot edGe siMulAtor — Edge/Fog/Cloud simulation on SimGrid ${SIMGRID_VERSION}, with MQTT, mobility and energy modules" \
-      org.opencontainers.image.source="https://github.com/edelpozop/ENIGMA" \
+      org.opencontainers.image.source="https://github.com/enigma-sim/ENIGMA" \
       org.opencontainers.image.licenses="GPL-3.0"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
