@@ -35,3 +35,9 @@ Thumbs.db
 *.log
 .gitignore
 dockerhub.txt
+# Mobility outputs written by use_cases/*/run.sh
+use_cases/*/mobility_output/
+
+# Python bytecode caches
+__pycache__/
+*.py[cod]

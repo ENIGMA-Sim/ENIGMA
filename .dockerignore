@@ -8,3 +8,4 @@ tests_paper/
 Dockerfile
 .dockerignore
 dockerhub.txt
+use_cases/*/mobility_output/

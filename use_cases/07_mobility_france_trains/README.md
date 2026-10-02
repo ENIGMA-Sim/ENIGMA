@@ -104,7 +104,9 @@ Joules and kWh:
 ## Stage 5 — visualise
 
 ```bash
-python3 src/python/tools/mobility_viewer.py /tmp/enigma_uc7_snapshots.json --offline
+python3 src/python/tools/mobility_viewer.py \
+    use_cases/07_mobility_france_trains/mobility_output/france_trains_snapshots.json --offline
+# -> mobility_output/france_trains_snapshots_map.html (next to the snapshots)
 ```
 
 One polyline per corridor on a street-map background, a time slider (step = recording
@@ -117,10 +119,13 @@ passenger load / delay at that instant.
 
 ```bash
 ./use_cases/07_mobility_france_trains/run.sh
-#   -> /tmp/enigma_uc7_snapshots.{json,csv} + _raw_traces.json  (~72 000 snapshots)
+#   -> mobility_output/france_trains_snapshots.{json,csv} + _raw_traces.json
+#      (~72 000 snapshots, in this folder, git-ignored)
 ```
 
-Override the output location with `OUT_PREFIX=/my/path ./run.sh`.
+Override the output location with `OUT_PREFIX=/my/path/name ./run.sh`
+(→ `/my/path/name_snapshots.json`, …). The Python pipeline suggested at the end
+of `run.sh` writes to `mobility_output/python/`.
 
 ## Try next
 

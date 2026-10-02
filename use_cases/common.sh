@@ -9,6 +9,8 @@
 #   ensure_built <target> [<target> ...]   configure + compile if missing
 #   gen_platform <platform_generator args...>
 #   run_enigma   <binary> [args...]        run a built binary from $ENIGMA_ROOT
+#   rel_path / abs_path <path>             path relative to / absolute from
+#                                          the directory run.sh was launched in
 # SimGrid is auto-detected and added to LD_LIBRARY_PATH.
 # ---------------------------------------------------------------------------
 set -euo pipefail
@@ -58,6 +60,22 @@ ensure_built() {
 gen_platform() {
     ensure_built platform_generator
     ( cd "$ENIGMA_ROOT" && "$BUILD_DIR/platform_generator" "$@" )
+}
+
+# Print <path> relative to the directory run.sh was launched from, so the
+# hints printed after a run can be copy-pasted as-is (python3 instead of
+# `realpath --relative-to`, which macOS lacks).
+rel_path() {
+    python3 -c 'import os, sys; print(os.path.relpath(sys.argv[1]))' "$1"
+}
+
+# Make <path> absolute against the launch directory (run_enigma cd's into
+# $ENIGMA_ROOT, so relative paths passed to the binaries would break).
+abs_path() {
+    case "$1" in
+        /*) printf '%s\n' "$1" ;;
+        *)  printf '%s\n' "$PWD/$1" ;;
+    esac
 }
 
 run_enigma() {

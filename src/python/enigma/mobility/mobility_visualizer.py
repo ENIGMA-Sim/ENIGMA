@@ -50,11 +50,12 @@ from .mobility_recorder import MobilityRecorder
 # Colour palette
 # ─────────────────────────────────────────────────────────────────────────── #
 
+# Saturated, mid/dark tones only: every colour must stand out on the muted
+# light-grey base map (no yellow / pastel / white entries).
 _COLOURS = [
-    "#e6194b", "#3cb44b", "#4363d8", "#f58231", "#911eb4",
-    "#42d4f4", "#f032e6", "#bfef45", "#469990", "#ffe119",
-    "#dcbeff", "#9a6324", "#800000", "#aaffc3", "#000075",
-    "#ffd8b1", "#808000", "#fabed4", "#a9a9a9", "#ffffff",
+    "#d62728", "#1f77b4", "#2ca02c", "#ff7f0e", "#9467bd",
+    "#e377c2", "#17becf", "#8c564b", "#000075", "#808000",
+    "#800000", "#469990", "#f032e6", "#4363d8", "#3cb44b",
 ]
 
 # Epoch used to convert simulation seconds → ISO datetime for the time slider
@@ -319,13 +320,27 @@ def _build_folium_map(
     m = folium.Map(
         location=[centre_lat, centre_lon],
         zoom_start=14,
-        # Not the raw tile.openstreetmap.org layer: OSMF rate-limits/blocks
-        # automated or repeated fetches (e.g. from Playwright screenshot runs
-        # or CI) with a "not following the tile usage policy" placeholder
-        # tile. Esri's free World Street Map has no API key and no such
-        # restriction for this kind of low-volume embedded use.
-        tiles="Esri.WorldStreetMap",
+        tiles=None,
     )
+    # Base maps, all key-free; the first one is shown by default and the rest
+    # are selectable in the layer control. Raw tile.openstreetmap.org is
+    # avoided: OSMF blocks automated/repeated fetches (Playwright, CI) with a
+    # "not following the tile usage policy" tile. Esri's World Street Map was
+    # dropped too — a legacy raster style that looks a decade old.
+    # The default is OSM France greyed out with a CSS filter: current map data,
+    # but quiet enough that the coloured trajectories stay readable.
+    for i, (provider, label, css_class) in enumerate([
+        ("OpenStreetMap.France", "Light street map (default)", "enigma-muted-tiles"),
+        ("OpenStreetMap.France", "Street map (full colour)", None),
+        ("Esri.WorldImagery", "Satellite (Esri)", None),
+        ("OpenTopoMap", "Topographic (OpenTopoMap)", None),
+    ]):
+        extra = {"class_name": css_class} if css_class else {}
+        folium.TileLayer(provider, name=label, show=(i == 0), **extra).add_to(m)
+    m.get_root().header.add_child(folium.Element(
+        "<style>.enigma-muted-tiles{filter:grayscale(1) brightness(1.08) contrast(.8);"
+        "opacity:.75}</style>"
+    ))
 
     # Title overlay
     title_html = (
@@ -340,11 +355,15 @@ def _build_folium_map(
     for device, positions in by_device.items():
         col = _colour(device, colour_map)
         coords = [[p.latitude, p.longitude] for p in positions]
+        # White casing under the coloured line separates overlapping routes
+        # and lifts them off the base map.
+        folium.PolyLine(locations=coords, color="#ffffff", weight=8,
+                        opacity=0.9).add_to(traj_group)
         folium.PolyLine(
             locations=coords,
             color=col,
-            weight=3,
-            opacity=0.7,
+            weight=4,
+            opacity=0.95,
             tooltip=device,
         ).add_to(traj_group)
     traj_group.add_to(m)
@@ -406,10 +425,11 @@ def _build_folium_map(
         TimestampedGeoJson(
             data={"type": "FeatureCollection", "features": features},
             period=period_str,
+            transition_time=50,   # ms per frame -> plays at 20 fps by default
             add_last_point=True,
             auto_play=False,
             loop=False,
-            max_speed=5,
+            max_speed=60,         # speed slider goes up to 60 fps
             loop_button=True,
             date_options="HH:mm:ss",
             time_slider_drag_update=True,

@@ -17,7 +17,8 @@ Usage
 
     Options:
       --coords-dir <dir>   Override the mobility_dir XML property
-      --output <prefix>    Output file prefix (default: mobility_output/)
+      --output <dir>       Output directory (default: mobility_output/ next to
+                           <platform.xml>, i.e. inside the use-case folder)
       --interval <secs>    Snapshot interval in sim-seconds (default: 0.5)
       --no-live            Disable live window (record + replay only)
       --fps <n>            Replay animation fps (default: 15)
@@ -110,8 +111,10 @@ def main() -> None:
 
     platform_xml  = sys.argv[1]
     coords_dir    = None
-    # Default output next to this script, not the working directory
-    output_dir    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "mobility_output")
+    # Default output next to the platform XML (i.e. inside the use-case folder),
+    # not next to this script nor in the working directory
+    output_dir    = os.path.join(os.path.dirname(os.path.abspath(platform_xml)),
+                                 "mobility_output")
     interval_s    = 0.5
     live_viz      = True
     fps           = 15.0

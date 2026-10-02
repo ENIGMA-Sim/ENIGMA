@@ -53,21 +53,25 @@ automatically interpolated and shown in the map popups.
 ./use_cases/06_mobility_madrid/run.sh
 ```
 
-Regenerates the traces, runs `mobility_test_app`, and writes:
+Regenerates the traces, runs `mobility_test_app`, and writes everything into
+this folder's `mobility_output/` (git-ignored):
 
 ```
-/tmp/enigma_uc6_snapshots.json   recorded positions (+ interpolated extras)
-/tmp/enigma_uc6_snapshots.csv    same data as CSV
-/tmp/enigma_uc6_raw_traces.json  the full input waypoints per device
+mobility_output/madrid_snapshots.json   recorded positions (+ interpolated extras)
+mobility_output/madrid_snapshots.csv    same data as CSV
+mobility_output/madrid_raw_traces.json  the full input waypoints per device
 ```
 
-Override the location with `OUT_PREFIX=/my/path ./run.sh`.
+Override the location with `OUT_PREFIX=/my/path/name ./run.sh`
+(→ `/my/path/name_snapshots.json`, …).
 
 ## Visualise
 
 ```bash
-# needs: pip install folium playwright && playwright install chromium
-python3 src/python/tools/mobility_viewer.py /tmp/enigma_uc6_snapshots.json --offline
+# needs: pip install folium
+python3 src/python/tools/mobility_viewer.py \
+    use_cases/06_mobility_madrid/mobility_output/madrid_snapshots.json --offline
+# -> mobility_output/madrid_snapshots_map.html (next to the snapshots)
 ```
 
 The map has one trajectory line per line/route, a **time slider** (step =
@@ -80,12 +84,14 @@ timestamp.
 ```bash
 python3 src/python/tests/mobility_test.py \
     use_cases/06_mobility_madrid/madrid_transport_platform.xml \
-    --coords-dir use_cases/06_mobility_madrid/coords/
+    --coords-dir use_cases/06_mobility_madrid/coords/ \
+    --output use_cases/06_mobility_madrid/mobility_output/python
 
 # headless (no browser), just export files + static map:
 python3 src/python/tests/mobility_test.py \
     use_cases/06_mobility_madrid/madrid_transport_platform.xml \
     --coords-dir use_cases/06_mobility_madrid/coords/ \
+    --output use_cases/06_mobility_madrid/mobility_output/python \
     --no-live --no-replay --offline
 ```
 

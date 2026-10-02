@@ -421,7 +421,7 @@ python3 src/python/tests/mobility_test.py <platform.xml> [options]
 | Flag | Default | Description |
 |------|---------|-------------|
 | `--coords-dir <dir>` | from XML | Override the `mobility_dir` property in the platform XML |
-| `--output <dir>` | `tests/mobility_output/` | Directory where all output files are written |
+| `--output <dir>` | `mobility_output/` next to `<platform.xml>` | Directory where all output files are written (for use cases 6 and 7, inside the use-case folder) |
 | `--interval <s>` | `0.5` | Snapshot recording interval in simulation seconds |
 | `--no-live` | off | Disable the live Playwright browser; only record data and generate files |
 | `--no-replay` | off | Skip loading the final map into the browser after the simulation ends |
